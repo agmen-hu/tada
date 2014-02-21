@@ -33,5 +33,6 @@ program
   .parse(process.argv);
 
 if (!program.args.length) {
-  program.help();
+  new Tada.Server.Supervisor({ env: 'prod' })
+    .spawnServer();
 }

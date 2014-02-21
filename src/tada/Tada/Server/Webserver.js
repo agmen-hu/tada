@@ -21,6 +21,22 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
       this.container.addSharedObject('tada_config', this.tadaConfig);
       this.config.server.port = this.tadaConfig.get('server/port');
       this.config.resourceLoader.resourceDirectories.unshift(this.tadaConfig.get('tadaRoot'));
+    },
+
+    __flushBootLogs: function()
+    {
+      if (this.env == "prod") {
+        this.__loggingInProductionEnvironment();
+      }
+      this.__base();
+    },
+
+    __loggingInProductionEnvironment: function()
+    {
+      var minilogDefinition = this.container.getDefinition("minilog");
+      minilogDefinition.options.console = false;
+      minilogDefinition.options.path = "/tmp/tada-" + Math.random().toString(36).substring(7) + ".log";
+      this.container.addDefinition("minilog", minilogDefinition);
     }
   }
 );
