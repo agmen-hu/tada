@@ -1,0 +1,5 @@
+include: server.parameters
+log:
+  server:
+    levelName: debug
+    bufferSendInterval: 1000

@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+Error.stackTraceLimit = 1000;
+
+var program = require('commander');
+program
+  .option('-g, --grep [pattern]', 'Only execute tests in files matching [pattern].', null)
+  .option('-R, --reporter [string]', 'Reporter style: dot, spec, list, nyan, tap, progress', 'list')
+  .option('-w, --watch', 'Watch file and run test when changed', null)
+  .option('-d, --debug', 'execute with node debug mode', null)
+  .option('-b, --bail', 'stop on the first failure', null)
+  .option('--growl', 'growl notifications', null)
+  .option('--ignore-leaks', 'ignore global variable alerts', null)
+  .parse(process.argv);
+
+require('consoloid-framework/Consoloid/Test/Runner')
+  .setOptions(program)
+  .run('{/src/,/**/consoloid-*/}');

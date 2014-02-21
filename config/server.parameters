@@ -1,0 +1,8 @@
+include: ../node_modules/consoloid-server/server.parameters
+server:
+  cookie: tada
+  logFormat: ~
+router:
+  port: 3500
+  defaultTopics:
+    - tada

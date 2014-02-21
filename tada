@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+require('./src/tada/Tada/Server/Supervisor');
+
+var program = require('commander');
+program
+  .option('-v, --verbose', 'Verbose logging', null);
+
+program
+  .command('server [env]')
+  .description('start tada server for this project')
+  .action(function(env) {
+    new Tada.Server.Supervisor({ env: env || 'prod' })
+      .spawnServer();
+  });
+
+program
+  .command('server-foreground [env]')
+  .description('start tada server for this project')
+  .action(function(env) {
+    new Tada.Server.Supervisor({ env: env || 'prod' })
+      .startServer();
+  });
+
+program
+  .command('*')
+  .description('any other sentence given will be forwarded to the tada server')
+  .action(function(expression){
+    console.log('Executing "%s"', expression);
+  });
+
+program
+  .parse(process.argv);
+
+if (!program.args.length) {
+  program.help();
+}

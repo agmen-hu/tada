@@ -1,0 +1,5 @@
+include: ../node_modules/consoloid-framework/framework.parameters
+log:
+  client:
+    levelName: debug
+    bufferSendInterval: 500

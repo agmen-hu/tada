@@ -1,0 +1,6 @@
+
+<script id="Tada-Dialog-ShowConfig" type="text/x-jqote-template">
+<![CDATA[
+  <div style="white-space: pre"><%= this.config %></div>
+]]>
+</script>

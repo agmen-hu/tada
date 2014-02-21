@@ -1,0 +1,18 @@
+definitions:
+  tada:
+    cls: Tada.Application
+    shared: true
+    options:
+      css: '%tada.css%'
+  welcomeMessage:
+    cls: Tada.Git.Dialog.WelcomeMessage
+  showConfigSentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: showConfig
+      patterns:
+        - Show tada config
+  showConfig:
+    cls: Tada.Dialog.ShowConfig
+

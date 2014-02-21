@@ -1,0 +1,5 @@
+definitions:
+  tada.config.getter:
+    cls: Tada.Server.ConfigGetter
+    remoting:
+      mode: any

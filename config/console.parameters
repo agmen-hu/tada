@@ -1,0 +1,7 @@
+include: ../node_modules/consoloid-console/console.parameters
+console:
+  welcomeMessage: ''
+translator_repository:
+  lang: hu
+translator:
+  lang: hu

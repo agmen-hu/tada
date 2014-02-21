@@ -1,0 +1,455 @@
+definitions:
+
+  git.project:
+    tags: [ console-bootstrap ]
+    cls: Tada.Git.Entity.Project
+    shared: true
+
+  git.argument.validator:
+    cls: Tada.Git.BranchSentenceArgumentValidator
+    shared: true
+
+  git.context.forgetter:
+    cls: Tada.Git.ContextForgetter
+    shared: true
+
+  repository.command.queues:
+    cls: Tada.Git.RepositoryCommandQueues
+    shared: true
+
+  git.show.version.control.summary.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.show.version.control.summary
+      patterns:
+        - Show version control summary
+  git.show.version.control.summary:
+    cls: Tada.Git.Dialog.ShowVersionControlSummary
+    shared: false
+
+  git.show.change.summary.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.show.change.summary
+      patterns:
+        - Show change summary
+        - Show change summary for <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: for repository <value>
+          required: false
+  git.show.change.summary:
+    cls: Tada.Git.Dialog.DataFromModel
+    shared: false
+    options:
+      repositoryTemplateId: Tada-Git-Dialog-ShowChangeRepo
+
+  git.update.version.control.info.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.update.version.control.info
+      patterns:
+        - Update version control info
+        - Refresh version control info
+  git.update.version.control.info:
+    cls: Tada.Git.Dialog.UpdateVersionControlInfo
+    shared: false
+
+  git.push.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.push.branch
+      patterns:
+        - Push branch <branch>
+        - Push branch <branch> of <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: repository <value>
+          required: false
+        branch:
+          type: Tada.Git.Context.LocalBranch
+          pattern: branch <value>
+          required: true
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoAndLocalBranch
+  git.push.current.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.push.branch
+      patterns:
+        - Push current branch
+        - Push current branch of <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: repository <value>
+          required: false
+  git.push.branch:
+    cls: Tada.Git.Dialog.PushBranch
+    shared: false
+
+  git.create.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.create.branch
+      patterns:
+        - Create branch <branch>
+        - Create branch <branch> in <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in <value>
+          required: false
+        branch:
+          type: string
+          pattern: branch <value>
+          required: true
+  git.create.branch:
+    cls: Tada.Git.Dialog.Branch.Create
+    shared: false
+
+  git.fetch.patches.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.fetch.patches
+      patterns:
+        - Fetch patches
+        - Fetch patches for <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: for <value>
+          required: false
+        prune:
+          type: boolean
+          pattern: also prune unavailable remote branches
+          required: false
+  git.fetch.patches:
+    cls: Tada.Git.Dialog.Fetch
+    shared: false
+
+  git.filechanges.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.filechanges
+      patterns:
+        - Show changes in tracked files in <repo>
+        - Show changes in tracked files in <repo> of <file>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: name <value>
+          required: true
+        file:
+          type: string
+          pattern: file <value>
+          required: false
+  git.filechanges:
+    cls: Tada.Git.Dialog.DataFromServer
+    shared: false
+    options:
+      remoteService: git.command.diff
+      remoteMethod: getDiff
+      responseTemplateId: Tada-Git-Dialog-FileChanges
+      repositoryTemplateId: Tada-Git-Dialog-File-ChangesRepo
+
+  git.gui.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.gui
+      patterns:
+        - Run git gui from <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: repo <value>
+          required: true
+  git.gui:
+    cls: Tada.Git.Dialog.ExternalCommand
+    shared: false
+    options:
+      commandName: gitGui
+      refreshIsNeeded: true
+      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+
+  git.gitk.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.gitk
+      patterns:
+        - Run gitk from <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: repo <value>
+          required: true
+  git.gitk:
+    cls: Tada.Git.Dialog.ExternalCommand
+    shared: false
+    options:
+      commandName: gitk
+      refreshIsNeeded: false
+      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+
+  branch.list.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: branch.list.dialog
+      patterns:
+        - List branches
+        - List branches from <repo>
+        - List branches with matching <name>
+        -
+          pattern: List remote branches
+          fixedArguments:
+            remote: true
+        -
+          pattern: List local branches
+          fixedArguments:
+            local: true
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: repo <value>
+          required: false
+        name:
+          type: string
+          pattern: name <value>
+          required: false
+        local:
+          type: boolean
+          pattern: local only
+          required: false
+        remote:
+          type: boolean
+          pattern: remote only
+          required: false
+  branch.list.dialog:
+    cls: Tada.Git.Dialog.Branch.List
+    shared: false
+    options:
+      name: Branch list
+      list: '@branch.list'
+      responseTemplateId: Tada-Git-Dialog-BranchList
+
+  branch.list:
+    cls: Tada.Git.Dialog.Branch.ListWidget
+    options:
+      dataSourceClass: Tada.Git.Dialog.Branch.DataSource
+      dataSourceOptions: {}
+      factoryClass: Consoloid.Ui.List.Factory.Collapsing
+      factoryOptions:
+        collapsedTemplateId: Tada-Git-Dialog-Branch-ItemCollapsed
+        extendedTemplateId: Tada-Git-Dialog-Branch-ItemOpened
+      listViewClass: Consoloid.Ui.List.View.BoundaryShowing
+      listViewOptions:
+        radius: 2
+        numPerPage: 10
+      scrollbarClass: Consoloid.Ui.List.Scrollbar.Base
+      scrollbarOptions: {}
+      filterWidgetClass: Consoloid.Ui.List.BaseFilterWidget
+      filterTokenizerClass: Consoloid.Ui.List.BaseFilterTokenizer
+      filterTokenizerOptions:
+        keys:
+          - repo
+          - name
+          - local
+          - remote
+
+  git.switch.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.switch.branch
+      patterns:
+        - Switch to branch <branch>
+        - Switch to branch <branch> in <repo>
+      arguments:
+        branch:
+          type: Tada.Git.Context.SwitchTargetBranch
+          pattern: branch <value>
+          required: true
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: false
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoAndBranch
+  git.switch.branch:
+    cls: Tada.Git.Dialog.Branch.Switch
+    shared: false
+
+  git.create.and.switch.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.create.and.switch.branch
+      patterns:
+        - Create and switch branch <branch>
+        - Create and switch branch <branch> in <repo>
+      arguments:
+        branch:
+          type: string
+          pattern: branch <value>
+          required: true
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: false
+  git.create.and.switch.branch:
+    cls: Tada.Git.Dialog.Branch.CreateAndSwitch
+    shared: false
+
+  git.delete.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.delete.branch
+      patterns:
+        - Delete branch <branch>
+        - Delete branch <branch> from <repo>
+        - Remove branch <branch>
+        - Remove branch <branch> from <repo>
+      arguments:
+        branch:
+          type: Tada.Git.Context.LocalBranch
+          pattern: branch <value>
+          required: true
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: from repo <value>
+          required: false
+        unmerged:
+          type: boolean
+          pattern: even if unmerged
+          required: false
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoAndLocalBranch
+  git.delete.branch:
+    cls: Tada.Git.Dialog.Branch.Delete
+    shared: false
+
+  git.delete.remote.branch.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.delete.remote.branch
+      patterns:
+        - Delete remote branch <branch>
+        - Delete remote branch <branch> from <repo>
+        - Remove remote branch <branch>
+        - Remove remote branch <branch> from <repo>
+      arguments:
+        branch:
+          type: Tada.Git.Context.RemoteBranch
+          pattern: branch <value>
+          required: true
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: from repo <value>
+          required: false
+        deleteLocal:
+          type: boolean
+          pattern: also delete local branch
+          required: false
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoAndRemoteBranch
+  git.delete.remote.branch:
+    cls: Tada.Git.Dialog.Branch.DeleteRemote
+    shared: false
+
+  git.rebase.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.rebase
+      patterns:
+        - Rebase current branch to <branch>
+        - Rebase current branch to <branch> in <repo>
+      arguments:
+        branch:
+          type: Tada.Git.Context.Branch
+          pattern: branch <value>
+          required: true
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: false
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoAndLocalOrRemoteBranch
+  git.rebase.to.upstream.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.rebase
+      method: startWithUpstream
+      patterns:
+        - Rebase current branch to its own upstream
+        - Rebase current branch to its own upstream in <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: false
+      validateArguments:
+        service: git.argument.validator
+        method: validateRepoCurrentBranchHasUpstream
+  git.rebase:
+    cls: Tada.Git.Dialog.Rebase
+    shared: false
+    
+  git.stash.changes.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.stash.changes
+      patterns:
+        - Stash changes
+        - Stash changes in <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: false
+  git.stash.changes:
+    cls: Tada.Git.Dialog.StashChanges
+    shared: false
+    
+  git.restore.stash.sentence:
+    tags: [ sentence ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: git.restore.stash
+      patterns:
+        - Restore changes from stash in repository <repo>
+        - Restore and drop stash in repository <repo>
+      arguments:
+        repo:
+          type: Tada.Git.Context.Repository
+          pattern: in repo <value>
+          required: true
+        drop:
+          type: boolean
+          pattern: and drop stash
+          required: false
+  git.restore.stash:
+    cls: Tada.Git.Dialog.RestoreStash
+    shared: false

@@ -1,0 +1,6 @@
+tada:
+  css: public-css-tada
+git:
+  guiCommand:
+    command: git
+    arguments: [ gui ]

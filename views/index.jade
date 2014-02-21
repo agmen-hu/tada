@@ -1,0 +1,31 @@
+doctype 5
+html
+  head
+    title= 'Consoloid'
+    meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
+  body
+    div#console-1.consoloid(style="opacity:0; display:none")
+    != defaultTemplates
+    script(type='text/javascript').
+      (function() {
+        var scriptTag = document.createElement('script');
+        scriptTag.setAttribute('type', 'text/javascript');
+        scriptTag.setAttribute('src', '/b');
+        scriptTag.onload = function () {
+          (window.app = new Consoloid.Application.Application({
+            server: {
+              url: "#{baseUrl}",
+              environment: "#{environment}"
+            },
+            dom: {
+              baseNode: $("#console-1")
+            }
+          }))
+            .loadTopics(['framework', 'console'])
+            .get('console')
+              .loadTopics('#{defaultTopics}'.split(','))
+              .startWithDialog('welcomeMessage');
+        }
+
+        document.body.appendChild(scriptTag);
+      })();

@@ -1,0 +1,78 @@
+definitions:
+  git.command.info:
+    cls: Tada.Git.Command.Info
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.initial_info:
+    cls: Tada.Git.Command.InitialInfo
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.push:
+    cls: Tada.Git.Command.Push
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.fetch:
+    cls: Tada.Git.Command.Fetch
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.create.branch:
+    cls: Tada.Git.Command.CreateBranch
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.checkout:
+    cls: Tada.Git.Command.Checkout
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.rebase:
+    cls: Tada.Git.Command.Rebase
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.delete.remote.branch:
+    cls: Tada.Git.Command.DeleteRemoteBranch
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.delete.branch:
+    cls: Tada.Git.Command.DeleteBranch
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.diff:
+    cls: Tada.Git.Command.Diff
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.stash:
+    cls: Tada.Git.Command.Stash
+    shared: true
+    remoting:
+      defaults:
+        responseMode: responsePassing
+  git.command.external:
+    cls: Tada.Git.Command.ProcessFactory
+    options:
+      commands:
+        gitGui: '%git.guiCommand%'
+        gitk:
+          command: gitk
+          arguments: [ --all ]
+    remoting:
+      defaults:
+        responseMode: responsePassing
