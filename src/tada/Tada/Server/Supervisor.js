@@ -7,7 +7,8 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
         tadaConfig: undefined,
         env: 'prod',
         netModule: require('net'),
-        childProcessModule: require('child_process')
+        childProcessModule: require('child_process'),
+        httpModule: require('http'),
       }, options));
 
       if (this.tadaConfig === undefined) {
@@ -86,6 +87,45 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
           console.log("Server already started on port " + this.tadaConfig.get('server/port'));
         }
       }.bind(this));
+    },
+
+    stopServer: function()
+    {
+      this.isServerRunning(function(err, result) {
+        if (err) {
+          throw Error(err);
+        }
+
+        if (!result) {
+          console.log("Server was not running on port " + this.tadaConfig.get('server/port'));
+        } else {
+          this.__getPidOfRunningServer(this.__killPid.bind(this));
+        }
+      }.bind(this));
+    },
+
+    __getPidOfRunningServer: function(callback)
+    {
+      options = "http://localhost:" + this.tadaConfig.get('server/port') + "/pid";
+      var req = this.httpModule.request(options, function(res) {
+        res.on('data', function (data) {
+          callback(data.toString());
+        });
+      });
+
+      req.end();
+    },
+
+    __killPid: function(pid)
+    {
+      var exec = this.childProcessModule.exec;
+      exec("kill " + pid, function (error, stdout, stderr) {
+        if (error || stderr) {
+          throw Error(error || stderr);
+        }
+
+        console.log("Tada stopped");
+      });
     }
   }
 );

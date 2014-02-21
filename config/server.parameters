@@ -3,6 +3,7 @@ server:
   cookie: tada
   logFormat: ~
 router:
+  cls: Tada.Server.Router
   port: 3500
   defaultTopics:
     - tada
