@@ -1,10 +1,15 @@
 <script id="Tada-Git-Dialog-AbstractDialog" type="text/x-jqote-template">
 <![CDATA[
+  <div class="two column stackable ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
-    <div class="git-repo" data-repo-name="<%= this.requestedRepositories[i] %>">
-    Repository with name <%= this.requestedRepositories[i] %> is processing...
+    <div class="column">
+      <div class="ui raised blue segment" data-repo-name="<%= this.requestedRepositories[i] %>">
+      <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
+      </div>
     </div>
   <% } %>
+  </div>
+
 ]]>
 </script>
 

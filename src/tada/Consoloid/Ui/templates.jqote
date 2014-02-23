@@ -1,0 +1,21 @@
+<script id="Consoloid-Ui-Prompt" type="text/x-jqote-template">
+<![CDATA[
+  <div class="dialog">
+    <div class="request">
+      <div class="prompt">
+      <i class="small comment icon"></i>
+      <div class="ui input">
+      <input type="text" class="human-text" name="requested-words" value="" />
+      </div>
+      </div>
+      <div class="actions">
+        <ul>
+          <li><a id="prompt-mic" href="#"><i class="small unmute icon" alt="speech recognization"></i></a></li>
+          <li><a class="search" href="#"><i class="small vertically flipped reply mail icon" alt="send"></i></a></li>
+        </ul>
+      </div>
+      <div class="clear-both"></div>
+    </div>
+  </div>
+]]>
+</script>

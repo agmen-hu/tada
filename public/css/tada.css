@@ -61,3 +61,77 @@ ul.git-command-toolbox li {
 .git-hidden {
 	display: none !important;
 }
+
+
+body,
+.dialogs-container {
+  background-color: #002b36 !important;
+  color: #839496;
+  border-color: #839496;
+}
+
+.dialog .response {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+#prompt i {
+  float: left;
+  display: block;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#prompt,
+.request
+{
+  background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%) !important;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
+}
+
+#prompt,
+#prompt .dialog,
+.request,
+.actions a {
+  color: #073642;
+  text-decoration: none;
+}
+
+.actions li {
+  margin-top: -0.2em !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.actions a:hover {
+  color: #268bd2;
+}
+
+#prompt .request {
+  padding-bottom: 0.1em;
+}
+
+input.human-text {
+  padding: 0.2em !important;
+  min-width: 400px !important;
+}
+
+
+.ui-autocomplete {
+  background-color: rgba(7, 54, 66, 0.8) !important;
+  border-color: #93a1a1;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
+}
+
+#conv-0 .request {
+  display: none;
+}
+
+.repos .segment {
+  background-color: rgba(7, 54, 66, 0.8) !important;
+  margin-bottom: 2em !important;
+}
+
+.repos i {
+  float: left;
+}
