@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-StashChanges",
+        repositoryTemplateId: "Tada-Git-Dialog-StashChanges"
       }, options));
     },
 
@@ -35,6 +35,6 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
       var repo = this.get("git.project").getRepository(repoName);
       repo.getFileStatus().setStaged([]);
       repo.getFileStatus().setNotStaged([]);
-    },
+    }
   }
 );

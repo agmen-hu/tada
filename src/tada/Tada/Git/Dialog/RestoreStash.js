@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.RestoreStash', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-RestoreStash",
+        repositoryTemplateId: "Tada-Git-Dialog-RestoreStash"
       }, options));
     },
 

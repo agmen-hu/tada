@@ -9,6 +9,12 @@ defineClass('Tada.Git.Dialog.Branch.DataSource', 'Consoloid.Ui.List.DataSource.A
       this.buildData();
     },
 
+    buildData: function()
+    {
+      this.__fillData();
+      this._clearFilters();
+    },
+
     __fillData: function(repoName)
     {
       this.namedBranchList = {};
@@ -29,16 +35,10 @@ defineClass('Tada.Git.Dialog.Branch.DataSource', 'Consoloid.Ui.List.DataSource.A
       this.__sortBranches();
     },
 
-    buildData: function()
-    {
-      this.__fillData();
-      this._clearFilters();
-    },
-
     __addBranchToNamedBranchList: function(branch, repo)
     {
       if (!this.namedBranchList[branch.getName()]) {
-        this.namedBranchList[branch.getName()] = []
+        this.namedBranchList[branch.getName()] = [];
       }
 
       this.namedBranchList[branch.getName()].push({ repo: repo, branch:branch});

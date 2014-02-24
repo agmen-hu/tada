@@ -1,9 +1,9 @@
 defineClass('Tada.Git.Entity.Project', 'Consoloid.Base.Object',
   {
-     __constructor: function(options)
+    __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryRepository: this.create('Tada.Git.Entity.RepositoryRepository', { entityCls: 'Tada.Git.Entity.Repository', container: options.container }),
+        repositoryRepository: this.create('Tada.Git.Entity.RepositoryRepository', { entityCls: 'Tada.Git.Entity.Repository', container: options.container })
       }, options));
 
       this.__createEmptyRepositories();
@@ -33,12 +33,12 @@ defineClass('Tada.Git.Entity.Project', 'Consoloid.Base.Object',
       return this.repositoryRepository.hasEntity(repoName);
     },
 
-     getRepositories: function()
+    getRepositories: function()
     {
       var repositories = [];
       this.repositoryRepository.forEach(function(repository) {
         repositories.push(repository);
-      })
+      });
       return repositories;
     },
 
