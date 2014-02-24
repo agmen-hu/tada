@@ -9,8 +9,9 @@ defineClass('Tada.Git.Dialog.UpdateVersionControlInfo', 'Tada.Git.Dialog.ShowVer
 
     _processRepository: function(name)
     {
+      var base = this.__base;
       this.get('git.repository.command.queues').getQueue(name).refresh((function() {
-        this._renderRepository(name, this.get("git.project").getRepository(name));
+        base.apply(this, [name]);
       }).bind(this), name);
     },
   }

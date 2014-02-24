@@ -1,6 +1,6 @@
 <script id="Tada-Git-Dialog-AbstractDialog" type="text/x-jqote-template">
 <![CDATA[
-  <div class="two column stackable ui grid repos">
+  <div class="three column doubling ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
     <div class="column">
       <div class="ui raised blue segment" data-repo-name="<%= this.requestedRepositories[i] %>">
@@ -26,10 +26,50 @@
 ]]>
 </script>
 
+<script id="Tada-Git-Dialog-RepoInfo" type="text/x-jqote-template">
+<![CDATA[
+  <h3 class="ui top attached label">
+    <%= this.repo.name %>
+    <% (this.titleLinks || []).forEach(function(link) { %>
+      <%= __ref(link.startText, link.linkText, link.autoExecute) %>
+    <% }); %>
+  </h3>
+  <% if (this.message) { %>
+    <div class="ui segment">
+      <% if (this.message.error) { %>
+        <a class="ui right red corner label">
+          <i class="warning icon"></i>
+        </a>
+      <% } else { %>
+        <a class="ui right green corner label">
+          <i class="info icon"></i>
+        </a>
+      <% } %>
+      <% if (this.message.error && this.message.error.fromGit) { %>
+        <div class="ui top attached small"><%= __('This message arrived from git CLI:') %></p>
+      <% } %>
+      <%= __('this.message.text') %>
+    </div>
+  <% } %>
+  <div class="ui vertical buttons repo-expression-links">
+  <% (this.links || []).forEach(function(link) { %>
+    <%= __ref(link.startText, link.linkText, link.autoExecute) %>
+  <% }); %>
+  </div>
+  <% if (this.branch) { %>
+    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.repo.name }) %>
+  <% } %>
+  <% if (this.otherInfo) { %>
+    <%= $(this.otherInfo.templateId).jqote(this.otherInfo.data) %>
+  <% } %>
+]]>
+</script>
+
 <script id="Tada-Git-Dialog-ShowVersionControlSummaryRepo" type="text/x-jqote-template">
 <![CDATA[
   <h3>
-    Repo: <%= this.name %> <a style="font-weight: normal; font-size: 14px" href="#" class="expression-reference" data-text="Run gitk from  <%= this.name %>" data-exec="1">Run gitk</a>
+    Repo: <%= this.name %>
+    <%= __ref("Run gitk from " + this.name, "Run gitk", true) %>
   </h3>
   <% if (this.getFileStatus().isDirty()) { %>
     <p>
@@ -38,13 +78,14 @@
       <a href="#" class="expression-reference" data-text="Run git gui from <%= this.name %>" data-exec="1">Run git gui</a>
     </p>
   <% } %>
-  <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.getCurrentBranch(), repo: this}) %>
+  <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.repo.getCurrentBranch(), repo: this }) %>
 ]]>
 </script>
 
 <script id="Tada-Git-Dialog-BranchStatus" type="text/x-jqote-template">
 <![CDATA[
-    <div>Branch: <b><%= this.branch.getName() %></b></div>
+  <div class="ui segment branch-status">
+    <h4 class="ui top attached label"><i class="ui icon small fork code"></i> <b><%= this.branch.getName() %></b></h4>
     <div>
       <% if (this.branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
         <% if (this.branch.getUpstream()) { %>
@@ -54,19 +95,20 @@
           <% } else {
             if (this.branch.getAheadFromUpstream()) { %>
               ahead by <%= this.branch.getAheadFromUpstream() %> commits
-              <a href="#" class="expression-reference" data-text="Push branch <%= this.branch.getName() %> of <%= this.repo.getName() %>" data-exec="1">push</a>
+              <a href="#" class="expression-reference" data-text="Push branch <%= this.branch.getName() %> of <%= this.name %>" data-exec="1">push</a>
             <% } else if (this.branch.getBehindFromUpstream()) { %>
               behind by <%= this.branch.getBehindFromUpstream() %> commits
             <% } else { %>
               <%= __('sync is needed!') %>
             <% } %>
-            <a href="#" class="expression-reference" data-text="Rebase current branch to <%= this.branch.getUpstream().getName() %> in <%= this.repo.getName() %>" data-exec="1">Rebase</a>
+            <a href="#" class="expression-reference" data-text="Rebase current branch to <%= this.branch.getUpstream().getName() %> in <%= this.name %>" data-exec="1">Rebase</a>
       <% }}} %>
     </div>
 
     <h4>Last patch</h4>
 
     <%= $('#Tada-Git-Dialog-CommitStatus').jqote(this.branch.getLatestCommit()) %>
+  </div>
 ]]>
 </script>
 

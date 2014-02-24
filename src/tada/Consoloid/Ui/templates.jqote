@@ -19,3 +19,28 @@
   </div>
 ]]>
 </script>
+
+<script id="Consoloid-Ui-Expression" type="text/x-jqote-template">
+<![CDATA[
+  <div class="prompt"><i class="small comment icon"></i></div>
+  <div class="expression"><%= this._encodeTagBoundaries(this.text) %></div>
+  <div class="actions">
+    <ul>
+      <li><a class="remove" href="#"><i class="small trash icon"></i></li>
+      <% if (this.referenceText !== undefined) { %>
+        <li class="reference-text"><%= this._encodeTagBoundaries(this.referenceText) %></li>
+      <% } %>
+    </ul>
+  </div>
+  <div class="clear-both"></div>
+]]>
+</script>
+
+<script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
+<![CDATA[
+  <a href="#" class="expression-reference ui basic mini down button <%= this.otherClasses %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+    <i class="comment icon"></i>
+    <%= this.linkText %>
+  </a>
+]]>
+</script>
