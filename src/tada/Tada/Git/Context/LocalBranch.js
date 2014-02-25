@@ -6,10 +6,11 @@ defineClass('Tada.Git.Context.LocalBranch', 'Tada.Git.Context.Branch',
         cls = getClass(cls);
       }
 
-      if (cls === getClass('Tada.Git.Context.Branch') || cls === getClass('Tada.Git.Context.LocalBranch')) {
+      if (this.__base(cls)) {
         return true;
+      }
 
-      } else if (cls == getClass('Tada.Git.Context.SwitchTargetBranch')) {
+      if (cls == getClass('Tada.Git.Context.SwitchTargetBranch')) {
         return this.container.get('git.project').callMethodOnReposUntilTrue('hasLocalBranch', this.toString());
       }
 
