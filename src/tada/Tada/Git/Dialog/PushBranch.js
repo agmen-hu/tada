@@ -19,7 +19,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
           return;
         }
         var repo = this.get("git.project").getRepository(repoName);
-        this.__updateModelAndContextAfterPush(rerepoNamepo);
+        this.__updateModelAndContextAfterPush(repoName);
         this._renderRepository(repoName, {
           message: {
             text: "Push was successful"
