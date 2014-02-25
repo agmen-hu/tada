@@ -37,6 +37,8 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
       minilogDefinition.options.console = false;
       minilogDefinition.options.path = "/tmp/tada-" + Math.random().toString(36).substring(7) + ".log";
       this.container.addDefinition("minilog", minilogDefinition);
+
+      console.log('Log file: ' + minilogDefinition.options.path);
     }
   }
 );
