@@ -74,6 +74,22 @@ a:hover {
   border-color: #268bd2 !important;
 }
 
+.ui.red.segment {
+  border-color: #dc322f !important;
+}
+
+i.ui.inverted.red.icon {
+  background-color: #dc322f !important;
+}
+
+.ui.green.segment {
+  border-color: #859900 !important;
+}
+
+i.ui.inverted.green.icon {
+  background-color: #859900 !important;
+}
+
 body,
 .dialogs-container {
   background-color: #002b36 !important;

@@ -30,7 +30,7 @@
 <![CDATA[
 <div class="ui raised <%= this.message ? (this.message.error ? "red" : "green") : "blue" %> segment" >
   <h3 class="ui top attached label">
-    <%= this.repo.name %>
+    <%= this.name %>
     <% (this.titleLinks || []).forEach(function(link) { %>
       <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
     <% }); %>
@@ -38,7 +38,7 @@
   <% if (this.message) { %>
     <div class="ui list"><div class="item">
       <% if (this.message.error) { %>
-          <i class="ui big circular inverted red warning icon"></i>
+          <i class="ui circular inverted red warning icon"></i>
       <% } else { %>
           <i class="ui circular inverted green info letter icon"></i>
       <% } %>
