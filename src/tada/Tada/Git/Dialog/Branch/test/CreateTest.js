@@ -80,14 +80,14 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
       dialog._processRepository("tada");
 
       create.calledOnce.should.not.be.ok;
-      dialog._renderRepository.args[0][1].alreadyExists.should.be.ok;
       dialog._renderRepository.args[0][1].branch.foo.should.equal("bar");
-      dialog._renderRepository.args[0][1].alreadyExists.should.ok;
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
     });
 
     it('should offer to set upstream if it is avilable on a remote', function() {
       repo.getRemoteBranches().data.push({
-        getLocalName: sinon.stub().returns("fooBranch")
+        getLocalName: sinon.stub().returns("fooBranch"),
+        getName: sinon.stub().returns("origin/fooBranch")
       });
 
       dialog._processRepository("tada");
