@@ -62,6 +62,13 @@ ul.git-command-toolbox li {
 	display: none !important;
 }
 
+a {
+  color: #839496 !important;
+}
+
+a:hover {
+  color: #268bd2 !important;
+}
 
 .ui.blue.segment {
   border-color: #268bd2 !important;
@@ -98,7 +105,8 @@ body,
 
 #prompt,
 .request,
-.ui.mini.basic.button
+.ui.mini.basic.button,
+.ui.mini.basic.button > .icon
 {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%);
@@ -195,6 +203,14 @@ input.human-text {
 
 .repos h4.top.attached.label i.icon {
   padding-right: 1em;
+}
+
+.repos .list .item > .icon {
+  color: #657b83;
+}
+
+.repos .branch-status.list >.item > .content {
+  font-size: 1.2em !important;
 }
 
 .branch-status {

@@ -3,28 +3,57 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-PushRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
-    _processRepository: function(repo)
+    _processRepository: function(repoName)
     {
-      if (!this.__pushIsNeeded(repo)) {
-        this._renderRepository(repo, { error: "Push is not necessary." });
+      if (!this.__pushIsNeeded(repoName)) {
+        this._renderRepository(repoName, { message: { text: "Push is not necessary.", error: true } });
         return;
       }
-      this.get('git.repository.command.queues').getQueue(repo).push((function(err) {
+      this.get('git.repository.command.queues').getQueue(repoName).push((function(err) {
         if (err) {
-          this._renderRepository(repo, { error: err });
+          this._renderRepository(repoName, { message: { text: "Push is not necessary.", error: { fromGit: true } } });
           return;
         }
-
-        this.__updateModelAndContextAfterPush(repo);
-        this._renderRepository(repo, {
-          message: "Push was successful",
-          repo: this.get("git.project").getRepository(repo)
+        var repo = this.get("git.project").getRepository(repoName);
+        this.__updateModelAndContextAfterPush(rerepoNamepo);
+        this._renderRepository(repoName, {
+          message: {
+            text: "Push was successful"
+          }
+          repo: repo,
+          titleLinks: [{
+            sentence: "Run gitk",
+            arguments: { "from repo <value>": name },
+            referenceText: "Run gitk",
+            autoExecute: true
+          }],
+          links: repo.getFileStatus().isDirty() ? [
+            {
+              sentence: "Show change summary",
+              arguments: { "for repository <value>": name },
+              referenceText: "Show change summary",
+              autoExecute: true
+            },
+            {
+              sentence: "Stash changes",
+              arguments: { "in repo <value>": name },
+              referenceText: "Stash changes",
+              autoExecute: true
+            },
+            {
+              sentence: "Run git gui",
+              arguments: { "from repo <value>": name },
+              referenceText: "Run git gui",
+              autoExecute: true
+            }
+          ] : [],
+          branch: repo.getCurrentBranch()
         });
-      }).bind(this), repo, this.__getTargetRemote(repo), this.__getTargetBranch(repo));
+      }).bind(this), repoName, this.__getTargetRemote(repoName), this.__getTargetBranch(repoName));
     },
 
     __pushIsNeeded: function(repoName)

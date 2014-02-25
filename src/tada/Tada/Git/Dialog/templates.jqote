@@ -2,9 +2,9 @@
 <![CDATA[
   <div class="three column doubling ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
-    <div class="column">
-      <div class="ui raised blue segment" data-repo-name="<%= this.requestedRepositories[i] %>">
-      <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
+    <div class="column" data-repo-name="<%= this.requestedRepositories[i] %>">
+      <div class="ui raised blue segment" >
+        <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
       </div>
     </div>
   <% } %>
@@ -28,6 +28,7 @@
 
 <script id="Tada-Git-Dialog-RepoInfo" type="text/x-jqote-template">
 <![CDATA[
+<div class="ui raised <%= this.message ? (this.message.error ? "red" : "green") : "blue" %> segment" >
   <h3 class="ui top attached label">
     <%= this.repo.name %>
     <% (this.titleLinks || []).forEach(function(link) { %>
@@ -35,33 +36,34 @@
     <% }); %>
   </h3>
   <% if (this.message) { %>
-    <div class="ui segment">
+    <div class="ui list"><div class="item">
       <% if (this.message.error) { %>
-        <a class="ui right red corner label">
-          <i class="warning icon"></i>
-        </a>
+          <i class="ui big circular inverted red warning icon"></i>
       <% } else { %>
-        <a class="ui right green corner label">
-          <i class="info icon"></i>
-        </a>
+          <i class="ui circular inverted green info letter icon"></i>
       <% } %>
-      <% if (this.message.error && this.message.error.fromGit) { %>
-        <div class="ui top attached small"><%= __('This message arrived from git CLI:') %></p>
-      <% } %>
-      <%= __('this.message.text') %>
-    </div>
+      <div class="content">
+        <% if (this.message.error && this.message.error.fromGit) { %>
+          <div class="header"><%= __('This message arrived from git CLI:') %></div>
+        <% } %>
+        <%= __(this.message.text) %>
+      </div>
+    </div> </div>
   <% } %>
-  <div class="ui vertical buttons repo-expression-links">
-  <% (this.links || []).forEach(function(link) { %>
-    <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
-  <% }); %>
-  </div>
   <% if (this.branch) { %>
     <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.repo.name }) %>
   <% } %>
   <% if (this.otherInfo) { %>
     <%= $(this.otherInfo.templateId).jqote(this.otherInfo.data) %>
   <% } %>
+  <% if (this.links && this.links.length != 0) { %>
+    <div class="ui vertical buttons repo-expression-links">
+      <% this.links.forEach(function(link) { %>
+        <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
+      <% }); %>
+    </div>
+  <% } %>
+</div>
 ]]>
 </script>
 
@@ -85,85 +87,101 @@
 <script id="Tada-Git-Dialog-BranchStatus" type="text/x-jqote-template">
 <![CDATA[
   <div class="ui segment branch-status">
-    <h4 class="ui top attached label"><i class="ui icon small fork code"></i> <b><%= this.branch.getName() %></b></h4>
-    <div>
-      <% if (this.branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
-        <% if (this.branch.getUpstream()) { %>
-          Upstream: <b><%= this.branch.getUpstream() ? this.branch.getUpstream().getName() : '' %></b>
-          <% if (this.branch.isSyncedWithUpstream()) { %>
-            <%= __('up to date') %>
-          <% } else {
-            if (this.branch.getAheadFromUpstream()) { %>
-              ahead by <%= this.branch.getAheadFromUpstream() %> commits
-              <%= __s("Push branch", { "branch <value>": this.branch.getName() }, "Push", true) %>
-            <% } else if (this.branch.getBehindFromUpstream()) { %>
-              behind by <%= this.branch.getBehindFromUpstream() %> commits
-            <% } else { %>
-              <%= __('sync is needed!') %>
+    <h4 class="ui top attached label"><i class="ui icon large fork code"></i> <b><%= this.branch.getName() %></b></h4>
+    <div class="ui list">
+      <div class="item">
+        <% if (this.branch instanceof getClass('Tada.Git.Entity.LocalBranch') && this.branch.getUpstream()) { %>
+          <i class="ui external url icon"></i>
+          <div class="content">
+            <div class="header"><%= this.branch.getUpstream().getName() %></div>
+            <% if (this.branch.isSyncedWithUpstream()) { %>
+              <%= __('Up to date') %>
+            <% } else {
+              if (this.branch.getAheadFromUpstream()) { %>
+                <%= __("Ahead by <value> commits", { "value": this.branch.getAheadFromUpstream() }) %><br />
+                <%= __s("Push branch", { "branch <value>": this.branch.getName() }, "Push", true) %>
+              <% } else if (this.branch.getBehindFromUpstream()) { %>
+                <%= __("Behind by <value> commits", { "value": this.branch.getBehindFromUpstream() }) %>
+              <% } else { %>
+                <%= __('Need sync') %>
+              <% } %>
+              <br />
+              <%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %>
             <% } %>
-            <%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %>
-      <% }}} %>
-    </div>
+          </div>
+        <% } %>
+      </div>
 
-    <h4>Last patch</h4>
+      <div class="item">
+        <div class="content>
+          <div class="header">Last patch</div>
 
-    <%= $('#Tada-Git-Dialog-CommitStatus').jqote(this.branch.getLatestCommit()) %>
+          <%= $('#Tada-Git-Dialog-CommitStatus').jqote(this.branch.getLatestCommit()) %>
+        </div>
+      </div>
   </div>
 ]]>
 </script>
 
 <script id="Tada-Git-Dialog-ShowChangeRepo" type="text/x-jqote-template">
 <![CDATA[
-<h3>Repo: <%= this.name %></h3>
-  <% var repoIsClean = (!this.getFileStatus().getUntracked().length && !this.getFileStatus().getNotStaged().length && !this.getFileStatus().getStaged().length); %>
-
-  <% if (!repoIsClean) { %>
-    <a href="#" class="expression-reference" data-text="Show changes in tracked files in <%= this.name %>" data-exec="1">Show changes in tracked files</a>
-  <% } else { %>
-    <div>Repository is clean.</div>
-  <% } %>
   <% if (this.getFileStatus().getStaged().length) { %>
-  <div class="git-staged">Staged:</div>
-  <ul>
+  <div class="ui green label ribbon">Staged:</div>
+  <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getStaged().length; i<len; i++) { %>
-      <li class="git-staged"><%= this.getFileStatus().getStaged()[i].file %>: <%= this.getFileStatus().getStaged()[i].status %></li>
+      <div class="item">
+        <i class="ui <%= this.getFileStatus().getStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.getFileStatus().getStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.getFileStatus().getStaged()[i].file %>">
+          <%= ((this.getFileStatus().getStaged()[i].file.length > 20) ? "…" : "") + this.getFileStatus().getStaged()[i].file.slice(-20) %>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
 
   <% if (this.getFileStatus().getNotStaged().length) { %>
-  <div class="git-unstaged">Unstaged:</div>
-  <ul>
+  <div class="ui red label ribbon">Unstaged:</div>
+  <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getNotStaged().length; i<len; i++) { %>
-      <li class="git-unstaged">
-      <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.name %> of <%= this.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
-        <%= this.getFileStatus().getNotStaged()[i].file %></a>:
-      <%= this.getFileStatus().getNotStaged()[i].status %>
-      </li>
+      <div class="item">
+        <i class="ui <%= this.getFileStatus().getNotStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.getFileStatus().getNotStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.getFileStatus().getNotStaged()[i].file %>">
+          <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.name %> of <%= this.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
+            <%= ((this.getFileStatus().getNotStaged()[i].file.length > 20) ? "…" : "") + this.getFileStatus().getNotStaged()[i].file.slice(-20) %>
+          </a>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
 
   <% if (this.getFileStatus().getUntracked().length) { %>
-  <div>Untracked:</div>
-  <ul>
+  <div class="ui white label ribbon">Untracked:</div>
+  <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getUntracked().length; i<len; i++) { %>
-      <li><%= this.getFileStatus().getUntracked()[i] %></li>
+      <div class="ui item">
+        <i class="ui add icon" title="<%= __("new") %>"></i>
+        <div class="content"title="<%= this.getFileStatus().getUntracked()[i].file %>">
+          <%= ((this.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.getFileStatus().getUntracked()[i].slice(-20) %>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
-
-
 ]]>
 </script>
 
 <script id="Tada-Git-Dialog-CommitStatus" type="text/x-jqote-template">
 <![CDATA[
-  <div>Date: <b><%= this.getCreated().toLocaleString() %></b></div>
-  <div>Hash: <b><%= this.getHash() %></b></div>
-  <div>Committer: <b><%= this.getAuthor().getName() %> <%= this.getAuthor().getEmail() %></b></div>
-  <div>Message: <b><%= this.getMessageSubject() %></b></div>
-  <div><%= this.getMessageBody() %></div>
+  <div class="list">
+    <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.getCreated().toLocaleString() %></div></div>
+    <div class="item"><i class="ui barcode icon"></i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
+    <div class="item"><i class="ui user icon"></i> <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></div>
+    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= this.getMessageSubject() %></div></div>
+    <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
+      <div class="item"><div class="content"><%= this.getMessageBody() %></div></div>
+    <% } %>
+  </div>
 ]]>
 </script>
 

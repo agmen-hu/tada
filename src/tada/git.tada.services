@@ -42,10 +42,8 @@ definitions:
           pattern: for repository <value>
           required: false
   git.show.change.summary:
-    cls: Tada.Git.Dialog.DataFromModel
+    cls: Tada.Git.Dialog.ShowChanges
     shared: false
-    options:
-      repositoryTemplateId: Tada-Git-Dialog-ShowChangeRepo
 
   git.update.version.control.info.sentence:
     tags: [ sentence ]
@@ -145,12 +143,13 @@ definitions:
     options:
       service: git.filechanges
       patterns:
+        - Show changes in tracked files
         - Show changes in tracked files in <repo>
         - Show changes in tracked files in <repo> of <file>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: name <value>
+          pattern: in repo <value>
           required: true
         file:
           type: string
