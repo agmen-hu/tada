@@ -111,7 +111,7 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
       dialog._renderRepository.args[0][1].error.should.be.ok;
     });
 
-    it("should atempt to push to origin if no there was no upstream", function() {
+    it("should attempt to push to origin if no there was no upstream", function() {
       repo.getLocalBranches().getEntity().getUpstream.returns(null);
 
       dialog._processRepository("tada");

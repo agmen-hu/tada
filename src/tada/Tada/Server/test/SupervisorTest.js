@@ -122,7 +122,7 @@ describeUnitTest('Tada.Server.Supervisor', function() {
 
     });
 
-    it("should not atempt to connect to a server, if it wasn't running", function() {
+    it("should not attempt to connect to a server, if it wasn't running", function() {
       supervisor.isServerRunning.args[0][0](null, false);
       httpModule.request.called.should.not.be.ok;
     });

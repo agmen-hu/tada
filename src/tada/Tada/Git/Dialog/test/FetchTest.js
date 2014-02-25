@@ -117,7 +117,7 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
       fetch.args[0][2].should.be.ok;
     });
 
-    it("should not atempt fetch if there are no remotes in model", function() {
+    it("should not attempt fetch if there are no remotes in model", function() {
       repo.getRemotes().getEntityCount.returns(0);
       dialog._processRepository("tada");
 

@@ -53,7 +53,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.args[0][2].tasks[0].should.equal("a task");
     });
 
-    it("should atempt to get the initial info and refresh the model", function() {
+    it("should attempt to get the initial info and refresh the model", function() {
       commandQueue.refresh(callback, "tada");
       queue.add.args[0][1](
         queue.add.args[0][0],
@@ -111,7 +111,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.args[0][2].remote.should.equal("origin");
     });
 
-    it("should atempt to push a branch", function() {
+    it("should attempt to push a branch", function() {
       commandQueue.push(callback, "tada", "origin", "master");
       queue.add.args[0][1](
         queue.add.args[0][0],
@@ -164,7 +164,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       (!queue.add.args[0][2].prune).should.be.ok;
     });
 
-    it("should atempt to fetch a branch", function() {
+    it("should attempt to fetch a branch", function() {
       commandQueue.fetch(callback, "tada");
       queue.add.args[0][1](
         queue.add.args[0][0],
@@ -221,7 +221,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.args[0][2].branch.should.equal("foobranch");
     });
 
-    it("should atempt to create a branch", function() {
+    it("should attempt to create a branch", function() {
       queue.add.args[0][1](
         queue.add.args[0][0],
         queue.add.args[0][2]
@@ -272,7 +272,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.args[0][2].branch.should.equal("foobranch");
     });
 
-    it("should atempt to remove remote a branch", function() {
+    it("should attempt to remove remote a branch", function() {
       queue.add.args[0][1](
         queue.add.args[0][0],
         queue.add.args[0][2]
@@ -323,7 +323,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.args[0][2].option.should.equal("foooption");
     });
 
-    it("should atempt to do the stash", function() {
+    it("should attempt to do the stash", function() {
       queue.add.args[0][1](
         queue.add.args[0][0],
         queue.add.args[0][2]

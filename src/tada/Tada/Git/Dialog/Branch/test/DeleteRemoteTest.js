@@ -1,8 +1,10 @@
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require("consoloid-framework/Consoloid/Widget/Widget");
 require('consoloid-console/Consoloid/Ui/Dialog');
+require('consoloid-console/Consoloid/Entity/Mentionable');
 require('consoloid-console/Consoloid/Entity/Repository');
 require('../../../Entity/Repository');
+require('../../../Entity/Branch');
 require('../../../Entity/RemoteBranch');
 require('../../../Entity/LocalBranch');
 require('../../AbstractDialog');
@@ -105,7 +107,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
       contextForgetter.remoteBranch.calledWith("origin/foobranch").should.be.ok;
     });
 
-    it("should not atempt to delete local branch if it does not exist", function() {
+    it("should not attempt to delete local branch if it does not exist", function() {
       repo.hasLocalBranch.returns(false);
       dialog._processRepository("tada");
       remove.args[0][0]();
@@ -116,7 +118,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
       dialog._renderRepository.args[0][1].localDidNotExist.should.be.ok;
     });
 
-    it("should not atempt to delete local branch if the argument was not set", function() {
+    it("should not attempt to delete local branch if the argument was not set", function() {
       dialog.arguments.deleteLocal = false;
       dialog._processRepository("tada");
       remove.args[0][0]();
