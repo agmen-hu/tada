@@ -33,7 +33,7 @@ describeUnitTest('Tada.Git.Command.DeleteRemoteBranch', function() {
       (callback.args[0][0] == undefined).should.be.ok;
     });
 
-    it("should callback with error if no repo, branch or remote was added", function() {
+    it("should callback with error if repo, branch or remote request argument is missing", function() {
       command.delete(callback, { branch: "foobranch", remote: "origin" });
       repo.push.called.should.not.be.ok;
       callback.calledOnce.should.be.ok;
