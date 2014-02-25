@@ -49,7 +49,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
           this._updateModel(repo, branch);
         }
 
-        this._renderRepository(repoName, {error: err, repo: repo, isShowPush: this.__decidePushActionVisibility(err, repo, branch) });
+        this._renderRepository(repoName, {error: err, repo: repo, shouldShowPushAction: this.__decidePushActionVisibility(err, repo, branch) });
       }.bind(this), repoName, branch.getName());
     },
 

@@ -259,7 +259,7 @@ $.each(diffLines, function(index, value) { %><p class="
   <% if (this.error ) { %>
     <h3>Repo: <%= this.name %></h3>
     <div class="pre-whitespace"><%= this.error %></div>
-    <% if (this.isShowPush) { %>
+    <% if (this.shouldShowPushAction) { %>
       <a href="#" class="expression-reference" data-text="Push current branch of <%= this.repo.getName() %>" data-exec="1">Push current branch</a>
     <% } %>
   <% } else { %>

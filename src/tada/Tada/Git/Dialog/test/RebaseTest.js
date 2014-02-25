@@ -82,7 +82,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
       rebaseResponse.err = 'BU';
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: rebaseResponse, repo:repo, isShowPush: false }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { error: rebaseResponse, repo:repo, shouldShowPushAction: false }).should.be.true;
       repo.getRemoteBranches().getEntity.alwaysCalledWith('foo').should.be.true;
       branch.setCommits.called.should.be.false;
     });
@@ -93,7 +93,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, isShowPush: false }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, shouldShowPushAction: false }).should.be.true;
       repo.getLocalBranches().getEntity.alwaysCalledWith('foo').should.be.true;
       branch.setCommits.called.should.be.true;
     });
@@ -128,7 +128,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
         repo.getCurrentBranch().getUpstream.returns(branch);
         dialog._processRepository('tada');
 
-        dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, isShowPush: false }).should.be.true;
+        dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, shouldShowPushAction: false }).should.be.true;
         branch.setCommits.called.should.be.true;
       });
     });
