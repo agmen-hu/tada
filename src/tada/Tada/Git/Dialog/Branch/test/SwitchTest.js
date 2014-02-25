@@ -9,6 +9,8 @@ require('../../../Entity/Project');
 require('../../../Entity/Repository');
 require('../../../Entity/Branch');
 require('../../../Entity/RemoteBranch');
+require('../../../Entity/RepositoryFileStatus');
+
 
 require('../Switch');
 
@@ -20,6 +22,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
     checkoutResponse;
 
   beforeEach(function() {
+    global.__ = function(string) { return string; }
     dialog = env.create('Tada.Git.Dialog.Branch.Switch', { arguments: {} });
     dialog.arguments.branch = { value: 'foo' };
     dialog._renderRepository = sinon.stub();
@@ -29,6 +32,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
     repo.getName.returns('tada');
     repo.getLocalBranches.returns(env.mock('Consoloid.Entity.Repository'));
     repo.getCurrentBranch.returns(env.mock('Tada.Git.Entity.Branch'));
+    repo.getFileStatus.returns(env.mock('Tada.Git.Entity.RepositoryFileStatus'));
 
     var project = env.mock('Tada.Git.Entity.Project');
     project.getRepository.returns(repo);
@@ -51,7 +55,8 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Already on foo' }).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -60,7 +65,9 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       repo.getLocalBranches().getEntity.alwaysCalledWith('foo').should.be.true;
       repo.setCurrentBranch.alwaysCalledWith(branch).should.be.true;
-      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, branch:branch, repo: repo, forcedToMaster: false}).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].branch.should.be.ok;
+      (dialog._renderRepository.args[0][1].message.error == undefined).should.be.ok;
     });
 
     it('should not switch to the requested branch when error occurd', function(){
@@ -70,7 +77,8 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       repo.setCurrentBranch.called.should.be.false;
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'error!', branch:undefined, repo: repo, forcedToMaster: false}).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
     });
 
     it('should switch to master the master when branch does not exists', function(){
@@ -78,7 +86,8 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, branch:branch, repo: repo, forcedToMaster: true}).should.be.true;
+      dialog._renderRepository.args[0][1].branch.should.be.ok;
+      (dialog._renderRepository.args[0][1].message.error == undefined).should.be.ok;
       repo.getLocalBranches().getEntity.alwaysCalledWith('master').should.be.true;
     });
 
@@ -100,5 +109,9 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       repo.setCurrentBranch.calledOnce.should.be.true;
     });
+  });
+
+  afterEach(function() {
+    delete global.__;
   });
 });

@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-Branch-SwitchRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, {error: 'Already on ' + branchName});
+        this._renderRepository(repoName, { message: { error: true, text: __('Already on <value>', { "<value>": branchName }) } });
         return;
       }
 
@@ -27,8 +27,21 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
       this.get('git.repository.command.queues').getQueue(repoName).checkout(function(data){
         if (!data.err) {
           var branch = this._updateModel(repo, branchName);
+          repo = this.get('git.project').getRepository(repoName);
         }
-        this._renderRepository(repo.getName(), {error: data.err, branch: branch, repo: repo, forcedToMaster: forcedToMaster});
+        this._renderRepository(repo.getName(), {
+          message: {
+            error: data.err ? { fromGit: true } : null,
+            text: data.err ? JSON.stringify(data.err) : (forcedToMaster ? "Branch does not exists. Switched to master." : "Switched branch.")
+          },
+          titleLinks: (!data.err && repo.getFileStatus().isDirty()) ? [{
+            sentence: "Run git gui",
+            arguments: { "from repo <value>": repoName },
+            referenceText: "git gui",
+            autoExeceute: true
+          }] : null,
+          branch: branch,
+        });
       }.bind(this), repoName, branchName);
     },
 
