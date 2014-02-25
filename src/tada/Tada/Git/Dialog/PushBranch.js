@@ -27,7 +27,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
           repo: repo,
           titleLinks: [{
             sentence: "Run gitk",
-            arguments: { "from repo <value>": name },
+            arguments: { "from repo <value>": repoName },
             referenceText: "Run gitk",
             autoExecute: true
           }],

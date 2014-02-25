@@ -21,13 +21,13 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
       queue
         .fetch(function(err){
           if(err) {
-            this._renderRepository(repoName, { message: { text: err, error: { fromGit: true } } });
+            this._renderRepository(repo, { message: { text: err, error: { fromGit: true } } });
             return queue.killQueue();
           }
         }.bind(this), repo, this.arguments.prune ? this.arguments.prune.value : false)
         .refresh(function(err){
           if(err) {
-            this._renderRepository(repoName, { message: { text: err, error: { fromGit: true } } });
+            this._renderRepository(repo, { message: { text: err, error: { fromGit: true } } });
             return queue.killQueue();
           }
           var changes = this.__getChanges(oldBrances, this.get("git.project").getRepository(repo));

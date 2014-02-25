@@ -103,10 +103,10 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
       refresh.args[0][0]();
 
       dialog._renderRepository.calledWith("tada").should.be.ok;
-      dialog._renderRepository.args[0][1].removedBranches[0].should.equal("barName");
-      dialog._renderRepository.args[0][1].updatedBranches[0].should.equal("fooName");
-      dialog._renderRepository.args[0][1].newBranches[0].should.equal("foobarName");
-      dialog._renderRepository.args[0][1].repo.should.equal(repo);
+      dialog._renderRepository.args[0][1].otherInfo.data.removedBranches[0].should.equal("barName");
+      dialog._renderRepository.args[0][1].otherInfo.data.updatedBranches[0].should.equal("fooName");
+      dialog._renderRepository.args[0][1].otherInfo.data.newBranches[0].should.equal("foobarName");
+      dialog._renderRepository.args[0][1].otherInfo.data.repo.should.equal(repo);
     });
 
     it("should send prune argument", function() {
@@ -123,7 +123,7 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
 
       fetch.called.should.not.be.ok;
 
-      dialog._renderRepository.args[0][1].error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
       (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
     });
 
@@ -168,12 +168,12 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
       dialog._processRepository("tada");
       fetch.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
       (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
 
       fetch.args[0][0]();
       refresh.args[0][0]("OMG another one");
-      dialog._renderRepository.args[1][1].error.should.be.ok;
+      dialog._renderRepository.args[1][1].message.error.should.be.ok;
       (dialog._renderRepository.args[1][1].repo == undefined).should.be.ok;
     });
   });
