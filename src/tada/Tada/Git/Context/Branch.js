@@ -1,5 +1,20 @@
 defineClass('Tada.Git.Context.Branch', 'Consoloid.Context.Object',
   {
+    isCastable: function(cls)
+    {
+      if (typeof cls == 'string') {
+        cls = getClass(cls);
+      }
+
+      if (cls === getClass('Tada.Git.Context.LocalBranch')) {
+        return this.container.get('git.project').callMethodOnReposUntilTrue('hasLocalBranch', this.toString());
+
+      } else if (cls === getClass('Tada.Git.Context.RemoteBranch')) {
+        return this.container.get('git.project').callMethodOnReposUntilTrue('hasRemoteBranch', this.toString());
+      }
+
+      return false;
+    }
   },
   {
     fromString: function(str, container)
