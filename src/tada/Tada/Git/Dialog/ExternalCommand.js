@@ -16,22 +16,22 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
       queue
         .runExternalCommand(function(err){
           if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-            this._renderRepository(repoName, { error: err });
+            this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
             return queue.killQueue();
           }
 
           if (!this.refreshIsNeeded) {
-            this._renderRepository(repoName, {});
+            this._renderRepository(repoName, { message: { text: "Requested external command finished." } });
             return queue.killQueue();
           }
         }.bind(this), repoName, this.commandName)
         .refresh(function(err){
           if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-            this._renderRepository(repoName, { error: err });
+            this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
             return queue.killQueue();
           }
 
-          this._renderRepository(repoName, { repo: repo});
+          this._renderRepository(repoName, { repo: repo,  branch: repo.getCurrentBranch() });
         }.bind(this), repoName/*, ['status', 'localRefList', 'remoteRefList']*/);
     }
   }

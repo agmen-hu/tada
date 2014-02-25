@@ -183,7 +183,7 @@ definitions:
     options:
       commandName: gitGui
       refreshIsNeeded: true
-      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+      repositoryTemplateId: Tada-Git-Dialog-RepoInfo
 
   git.gitk.sentence:
     tags: [ sentence ]
@@ -204,7 +204,7 @@ definitions:
     options:
       commandName: gitk
       refreshIsNeeded: false
-      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+      repositoryTemplateId: Tada-Git-Dialog-RepoInfo
 
   branch.list.sentence:
     tags: [ "sentence" ]
