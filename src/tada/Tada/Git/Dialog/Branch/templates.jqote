@@ -128,7 +128,7 @@
       <p>There wasn't any local branch named like this.</a></p>
     <% }; %>
     <% if (this.localDoesExist) { %>
-      <p><a href="#" class="expression-reference" data-text="Delete branch <%= this.branchName.split("/")[1] %> from <%= this.name %>" data-exec="1">Delete local branch <%= this.branchName.split("/")[1] %> from <%= this.name %></a></p>
+      <p><a href="#" class="expression-reference" data-text="Delete branch <%= this.remoteBranch.getLocalName() %> from <%= this.name %>" data-exec="1">Delete local branch <%= this.remoteBranch.getLocalName() %> from <%= this.name %></a></p>
     <% }; %>
   <% } %>
 ]]>

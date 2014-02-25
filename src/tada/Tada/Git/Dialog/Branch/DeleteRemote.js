@@ -7,89 +7,97 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       }, options));
     },
 
-    _processRepository: function(repo)
+    _processRepository: function(repoName)
     {
-      var splittedBranchName = this.arguments.branch.value.split("/");
-      if (!this.__deleteIsPossible(repo)) {
-        this._renderRepository(repo, {
+      this.repo = this.get("git.project").getRepository(repoName),
+      this.remoteBranch = this.__getBranch();
+
+      if (!this.remoteBranch) {
+        this._renderRepository(repoName, {
           error: "Remote branch: " + this.arguments.branch.value + " does not exist.",
-          repo: this.get("git.project").getRepository(repo)
+          repo: this.repo
         });
         return;
       }
-      this.get('git.repository.command.queues').getQueue(repo).deleteRemoteBranch(
+
+      this.hasLocalBranch = this.repo.hasLocalBranch(this.remoteBranch.getLocalName());
+
+      this.get('git.repository.command.queues').getQueue(repoName).deleteRemoteBranch(
         (function(err) {
           if (err) {
-            this._renderRepository(repo, { error: err });
+            this._renderRepository(repoName, { error: err });
             return;
           }
-          if (this.arguments.deleteLocal && this.__hasLocalBranch(repo)) {
-            this.__deleteLocalAfterRemoval(repo, splittedBranchName[1]);
+          if (this.arguments.deleteLocal && this.hasLocalBranch) {
+            this.__deleteLocalAfterRemoval();
             return;
           }
-          this.__appendAfterRemoval(repo);
+          this.__appendAfterRemoval();
         }).bind(this),
-        repo,
-        splittedBranchName[0],
-        splittedBranchName[1]
+        this.repo.getName(),
+        this.remoteBranch.getRemoteName(),
+        this.remoteBranch.getLocalName()
       );
     },
 
-    __hasLocalBranch: function(repoName)
+    __getBranch: function(repo, branchName)
     {
-      var localBranchName = this.arguments.branch.value.split("/")[1];
-      return this.get("git.project").getRepository(repoName).getLocalBranches().hasEntity(localBranchName);
+      var branchName = this.arguments.branch.value;
+      if (this.repo.hasRemoteBranch(branchName)) {
+        return this.repo.getRemoteBranches().getEntity(branchName);
+      }
     },
 
-    __deleteLocalAfterRemoval: function(repo, branchname)
+    __deleteLocalAfterRemoval: function()
     {
-      this.get('git.repository.command.queues').getQueue(repo).deleteLocalBranch(
-        (function(err) {
-          if (err) {
-            this._renderRepository(repo, { error: err });
-            return;
-          }
-          this.__appendAfterRemoval(repo)
-        }).bind(this),
-        repo,
-        branchname
-      );
-    },
-
-    __appendAfterRemoval: function(repo) {
-      var response = {
-        message: "Remove was successful",
-        repo: this.get("git.project").getRepository(repo),
-        branchName: this.arguments.branch.value
+      if (this.repo.getLocalBranches().getEntity(this.remoteBranch.getLocalName()) == this.repo.getCurrentBranch()) {
+        this._renderRepository(repoName, {
+          error: 'Cannot delete local ' + this.remoteBranch.getLocalName() + ' branch because you are currently on it',
+          repo: this.repo
+        });
+        return;
       }
 
-      if (this.arguments.deleteLocal && !this.__hasLocalBranch(repo)) {
+      this.get('git.repository.command.queues').getQueue(this.repo.getName()).deleteLocalBranch(
+        (function(err) {
+          if (err) {
+            this._renderRepository(this.repo.getName(), { error: err });
+            return;
+          }
+          this.__appendAfterRemoval()
+        }).bind(this),
+        this.repo.getName(),
+        this.remoteBranch.getLocalName()
+      );
+    },
+
+    __appendAfterRemoval: function() {
+      var response = {
+        message: "Remove was successful",
+        repo: this.repo,
+        remoteBranch: this.remoteBranch
+      }
+
+      if (this.arguments.deleteLocal && !this.hasLocalBranch) {
         response.localDidNotExist = true;
       }
 
-      if (!this.arguments.deleteLocal && this.__hasLocalBranch(repo)) {
+      if (!this.arguments.deleteLocal && this.hasLocalBranch) {
         response.localDoesExist = true;
       }
 
-      this.__updateModelAndContextAfterRemove(repo);
-      this._renderRepository(repo, response);
+      this.__updateModelAndContextAfterRemove();
+      this._renderRepository(this.repo.getName(), response);
     },
 
-    __deleteIsPossible: function(repoName)
+    __updateModelAndContextAfterRemove: function()
     {
-      var repo = this.get("git.project").getRepository(repoName);
-      return repo.getRemoteBranches().hasEntity(this.arguments.branch.value);
-    },
+      this.repo.getRemoteBranches().removeEntity(this.remoteBranch.getName());
+      this.get("git.context.forgetter").remoteBranch(this.remoteBranch.getName());
 
-    __updateModelAndContextAfterRemove: function(repoName)
-    {
-      var repo = this.get("git.project").getRepository(repoName);
-      repo.getRemoteBranches().removeEntity(this.arguments.branch.value);
-      this.get("git.context.forgetter").remoteBranch(this.arguments.branch.value);
-
-      var localBranchName = this.arguments.branch.value.split("/")[1];
-      if (this.arguments.deleteLocal && this.__hasLocalBranch(repoName)) {
-        repo.getLocalBranches().removeEntity(localBranchName);
+      var localBranchName = this.remoteBranch.getLocalName();
+      if (this.arguments.deleteLocal && this.hasLocalBranch) {
+        this.repo.getLocalBranches().removeEntity(localBranchName);
         this.get("git.context.forgetter").localBranch(localBranchName);
       }
     }

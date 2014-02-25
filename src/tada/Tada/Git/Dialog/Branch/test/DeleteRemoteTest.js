@@ -1,6 +1,10 @@
 require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require("consoloid-framework/Consoloid/Widget/Widget");
 require('consoloid-console/Consoloid/Ui/Dialog');
+require('consoloid-console/Consoloid/Entity/Repository');
+require('../../../Entity/Repository');
+require('../../../Entity/RemoteBranch');
+require('../../../Entity/LocalBranch');
 require('../../AbstractDialog');
 require('../DeleteRemote');
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -8,6 +12,8 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
   var
     dialog,
+    branch,
+    localBranch,
     repo,
     remove,
     deleteLocal,
@@ -24,21 +30,25 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
     });
     dialog._renderRepository = sinon.stub();
 
+    branch = env.mock('Tada.Git.Entity.RemoteBranch');
+    branch.getName.returns('origin/foobranch');
+    branch.getLocalName.returns('foobranch');
+    branch.getRemoteName.returns('origin');
+
+    localBranch = env.mock('Tada.Git.Entity.LocalBranch');
+
+    repo = env.mock('Tada.Git.Entity.Repository');
+    repo.getName.returns('tada');
+    repo.getCurrentBranch.returns(env.mock('Tada.Git.Entity.LocalBranch'));
+    repo.getLocalBranches.returns(env.mock('Consoloid.Entity.Repository'));
+    repo.getRemoteBranches.returns(env.mock('Consoloid.Entity.Repository'));
+    repo.getRemoteBranches().getEntity.returns(branch);
+    repo.getLocalBranches().getEntity.returns(localBranch);
+    repo.hasRemoteBranch.returns(true);
+    repo.hasLocalBranch.returns(true);
+
     remove = sinon.stub();
     deleteLocal = sinon.stub();
-    repo = {
-      getCurrentBranch: sinon.stub().returns({
-        getName: sinon.stub().returns("master")
-      }),
-      getLocalBranches: sinon.stub().returns({
-        hasEntity: sinon.stub().returns(true),
-        removeEntity: sinon.stub()
-      }),
-      getRemoteBranches: sinon.stub().returns({
-        hasEntity: sinon.stub().returns(true),
-        removeEntity: sinon.stub()
-      }),
-    }
     queues = {
       getQueue: sinon.stub().returns({
         deleteRemoteBranch: remove,
@@ -96,7 +106,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
     });
 
     it("should not atempt to delete local branch if it does not exist", function() {
-      repo.getLocalBranches().hasEntity.returns(false);
+      repo.hasLocalBranch.returns(false);
       dialog._processRepository("tada");
       remove.args[0][0]();
       deleteLocal.calledOnce.should.not.be.ok;
@@ -118,7 +128,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
     });
 
     it("should not allow delete if remote branch does not exist", function() {
-      repo.getRemoteBranches().hasEntity.returns(false);
+      repo.hasRemoteBranch.returns(false);
 
       dialog._processRepository("tada");
 
@@ -133,5 +143,15 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
       dialog._renderRepository.args[0][1].error.should.be.ok;
       (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
     });
+
+    it('should not try to delete the local branch when that is the current branch', function(){
+      repo.getCurrentBranch.returns(localBranch);
+
+      dialog._processRepository("tada");
+      remove.args[0][0]('Cannot delete local foobranch branch because you are currently on it');
+
+      dialog._renderRepository.args[0][1].error.should.be.ok;
+      (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
+    })
   });
 });
