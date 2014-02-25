@@ -52,7 +52,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
       repo.getFileStatus().isDirty.returns(true);
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Repo has local changes, please commit or stash them' }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Repo has local changes, please commit or stash them' } }).should.be.true;
       branch.setCommits.called.should.be.false;
     });
 
@@ -64,14 +64,14 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Cannot rebase a branch to itself' }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Cannot rebase a branch to itself' } }).should.be.true;
       branch.setCommits.called.should.be.false;
     });
 
     it('should display error when requested branch does not exists in the repo', function(){
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Branch foo does not exist' }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada',  { message: { error: true, text: 'Branch foo does not exist' } }).should.be.true;
       branch.setCommits.called.should.be.false;
     });
 
@@ -82,7 +82,9 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
       rebaseResponse.err = 'BU';
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: rebaseResponse, repo:repo, shouldShowPushAction: false }).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].message.text.indexOf("BU").should.not.equal(-1);
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
       repo.getRemoteBranches().getEntity.alwaysCalledWith('foo').should.be.true;
       branch.setCommits.called.should.be.false;
     });
@@ -93,7 +95,8 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, shouldShowPushAction: false }).should.be.true;
+      dialog._renderRepository.args[0][1].branch.should.be.ok;
+      (dialog._renderRepository.args[0][1].titleLinks || []).length.should.equal(0);
       repo.getLocalBranches().getEntity.alwaysCalledWith('foo').should.be.true;
       branch.setCommits.called.should.be.true;
     });
@@ -119,7 +122,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
         dialog._processRepository('tada');
 
-        dialog._renderRepository.alwaysCalledWith('tada', { error: 'Branch foo does not has upstream' }).should.be.true;
+        dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Branch foo does not has upstream' } }).should.be.true;
         branch.setCommits.called.should.be.false;
       });
 
@@ -128,7 +131,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
         repo.getCurrentBranch().getUpstream.returns(branch);
         dialog._processRepository('tada');
 
-        dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, repo:repo, shouldShowPushAction: false }).should.be.true;
+        dialog._renderRepository.args[0][1].branch.should.be.ok;
         branch.setCommits.called.should.be.true;
       });
     });

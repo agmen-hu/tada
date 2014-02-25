@@ -4,7 +4,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
     {
       this.__base($.extend({
         responseTemplateId: "Tada-Git-Dialog-Rebase",
-        repositoryTemplateId: "Tada-Git-Dialog-RebaseRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
@@ -34,12 +34,12 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       if (repo.getFileStatus().isDirty()) {
-        this._renderRepository(repoName, {error: 'Repo has local changes, please commit or stash them'});
+        this._renderRepository(repoName, { message: { error: true, text: 'Repo has local changes, please commit or stash them' } });
         return;
       }
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, {error: 'Cannot rebase a branch to itself'});
+        this._renderRepository(repoName, { message: { error: true, text: 'Cannot rebase a branch to itself' } });
         return;
       }
 
@@ -49,7 +49,25 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
           this._updateModel(repo, branch);
         }
 
-        this._renderRepository(repoName, {error: err, repo: repo, shouldShowPushAction: this.__decidePushActionVisibility(err, repo, branch) });
+        if (typeof err == 'object' && Object.keys(err).length) {
+          err = JSON.stringify(err);
+        }
+
+        this._renderRepository(repoName, {
+          message: {
+            text: err || "Rebase was successful",
+            error: err ? {
+              fromGit: true
+            } : null
+          },
+          branch: repo.getCurrentBranch(),
+          titleLinks: this.__decidePushActionVisibility(err, repo, branch) ? [{
+            sentence: "Push current branch",
+            arguments: { "repository <value>": name },
+            referenceText: "Push current branch",
+            autoExecute: true
+          }] : null,
+        });
       }.bind(this), repoName, branch.getName());
     },
 
@@ -79,7 +97,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       if (!branch) {
-        this._renderRepository(repo.getName(), {error: err});
+        this._renderRepository(repo.getName(), { message: { error: true, text: err } });
       } else {
         return branch;
       }
