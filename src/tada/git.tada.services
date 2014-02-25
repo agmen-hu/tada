@@ -65,6 +65,7 @@ definitions:
     options:
       service: git.push.branch
       patterns:
+        - Push branch
         - Push branch <branch>
         - Push branch <branch> of <repo>
       arguments:
@@ -383,12 +384,13 @@ definitions:
     options:
       service: git.rebase
       patterns:
+        - Rebase current branch
         - Rebase current branch to <branch>
         - Rebase current branch to <branch> in <repo>
       arguments:
         branch:
           type: Tada.Git.Context.Branch
-          pattern: branch <value>
+          pattern: to branch <value>
           required: true
         repo:
           type: Tada.Git.Context.Repository

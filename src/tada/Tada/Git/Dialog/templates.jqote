@@ -95,13 +95,13 @@
           <% } else {
             if (this.branch.getAheadFromUpstream()) { %>
               ahead by <%= this.branch.getAheadFromUpstream() %> commits
-              <a href="#" class="expression-reference" data-text="Push branch <%= this.branch.getName() %> of <%= this.name %>" data-exec="1">push</a>
+              <%= __s("Push branch", { "branch <value>": this.branch.getName() }, "Push", true) %>
             <% } else if (this.branch.getBehindFromUpstream()) { %>
               behind by <%= this.branch.getBehindFromUpstream() %> commits
             <% } else { %>
               <%= __('sync is needed!') %>
             <% } %>
-            <a href="#" class="expression-reference" data-text="Rebase current branch to <%= this.branch.getUpstream().getName() %> in <%= this.name %>" data-exec="1">Rebase</a>
+            <%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %>
       <% }}} %>
     </div>
 
