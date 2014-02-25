@@ -51,7 +51,7 @@
     </div> </div>
   <% } %>
   <% if (this.branch) { %>
-    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.repo.name }) %>
+    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.name }) %>
   <% } %>
   <% if (this.otherInfo) { %>
     <%= $(this.otherInfo.templateId).jqote(this.otherInfo.data) %>
