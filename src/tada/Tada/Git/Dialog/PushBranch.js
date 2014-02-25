@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
       }
       this.get('git.repository.command.queues').getQueue(repoName).push((function(err) {
         if (err) {
-          this._renderRepository(repoName, { message: { text: "Push is not necessary.", error: { fromGit: true } } });
+          this._renderRepository(repoName, { message: { text: err, error: { fromGit: true } } });
           return;
         }
         var repo = this.get("git.project").getRepository(repoName);
@@ -23,7 +23,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
         this._renderRepository(repoName, {
           message: {
             text: "Push was successful"
-          }
+          },
           repo: repo,
           titleLinks: [{
             sentence: "Run gitk",
