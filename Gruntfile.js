@@ -23,7 +23,13 @@ module.exports = function(grunt) {
         tasks: ['exec:runTest']
       },
       automatic: {
-        files: ['src/**/*.js', 'node_modules/consoloid-framework/**/*.js', 'node_modules/consoloid-console/**/*.js', 'node_modules/consoloid-server/**/*.js'],
+        files: [
+          'src/**/*.js',
+          'node_modules/consoloid-os/Consoloid/**/*.js',
+          'node_modules/consoloid-server/Consoloid/**/*.js',
+          'node_modules/consoloid-console/Consoloid/**/*.js',
+          'node_modules/consoloid-framework/Consoloid/**/*.js',
+          ],
       }
     },
 
@@ -46,7 +52,7 @@ module.exports = function(grunt) {
         reporter: reporter
       },
 
-      Mocha: require('mocha'),
+      Mocha: require('consoloid-framework/node_modules/mocha'),
       path: require('path'),
       fs: require('fs'),
 
