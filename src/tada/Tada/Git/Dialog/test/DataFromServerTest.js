@@ -13,9 +13,6 @@ describeUnitTest('Tada.Git.Dialog.DataFromServer', function() {
     repositoryTemplate;
 
   beforeEach(function() {
-    Consoloid.Widget.JQoteTemplate = function(){
-      this.get = function(){};
-    };
     repositoryTemplate = {
       get: sinon.stub()
     };
@@ -72,9 +69,5 @@ describeUnitTest('Tada.Git.Dialog.DataFromServer', function() {
         remote: 'origin'
       });
     });
-  });
-
-  afterEach(function(){
-    Consoloid.Widget.JQoteTemplate = undefined;
   });
 });

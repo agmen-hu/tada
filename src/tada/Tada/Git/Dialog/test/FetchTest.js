@@ -119,12 +119,12 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
 
     it("should not atempt fetch if there are no remotes in model", function() {
       repo.getRemotes().getEntityCount.returns(0);
-      conversation._processRepository("tada");
+      dialog._processRepository("tada");
 
       fetch.called.should.not.be.ok;
 
-      conversation._renderRepository.args[0][1].error.should.be.ok;
-      (conversation._renderRepository.args[0][1].repo == undefined).should.be.ok;
+      dialog._renderRepository.args[0][1].error.should.be.ok;
+      (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
     });
 
     it("should mention and forget the changes", function() {

@@ -1,3 +1,4 @@
+require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/Widget');
 require('consoloid-console/Consoloid/Ui/Dialog');
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -13,9 +14,7 @@ describeUnitTest('Tada.Git.Dialog.AbstractDialog', function() {
     repositoryTemplate;
 
   beforeEach(function() {
-    Consoloid.Widget.JQoteTemplate = function(){
-      this.get = function(){};
-    };
+
     repositoryTemplate = {
       get: sinon.stub()
     };
@@ -70,9 +69,5 @@ describeUnitTest('Tada.Git.Dialog.AbstractDialog', function() {
 
       repo.mention.calledOnce.should.be.ok;
     });
-  });
-
-  afterEach(function(){
-    Consoloid.Widget.JQoteTemplate = undefined;
   });
 });
