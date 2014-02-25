@@ -31,26 +31,6 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
             referenceText: "Run gitk",
             autoExecute: true
           }],
-          links: repo.getFileStatus().isDirty() ? [
-            {
-              sentence: "Show change summary",
-              arguments: { "for repository <value>": name },
-              referenceText: "Show change summary",
-              autoExecute: true
-            },
-            {
-              sentence: "Stash changes",
-              arguments: { "in repo <value>": name },
-              referenceText: "Stash changes",
-              autoExecute: true
-            },
-            {
-              sentence: "Run git gui",
-              arguments: { "from repo <value>": name },
-              referenceText: "Run git gui",
-              autoExecute: true
-            }
-          ] : [],
           branch: repo.getCurrentBranch()
         });
       }).bind(this), repoName, this.__getTargetRemote(repoName), this.__getTargetBranch(repoName));

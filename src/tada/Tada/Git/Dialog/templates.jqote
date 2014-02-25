@@ -209,12 +209,8 @@
 <script id="Tada-Git-Dialog-FetchRepo" type="text/x-jqote-template">
 <![CDATA[
 <div>
-  <% if (this.error) { %>
-    <div class="pre-whitespace">Error: <%= typeof this.error == 'string' ? this.error : JSON.stringify(this.error, undefined, '\t') %></div>
-  <% } else { %>
-    <h3>Repo: <%= this.name %></h3>
     <% if (this.removedBranches.length != 0) { %>
-      <h4>Removed branches:</h3>
+      <div class="ui red label ribbon"><%= _("Removed branches") %></div>
       <ul>
       <% this.removedBranches.forEach(function(branch) { %>
         <li><%= branch %></li>
@@ -223,15 +219,14 @@
     <% } %>
     <% if (this.updatedBranches.length != 0) { %>
       <% var upstreamNameForCurrentBranch = this.repo.getCurrentBranch().getUpstream() ? this.repo.getCurrentBranch().getUpstream().getName() : ''; %>
-      <h4>Updated branches:</h3>
+      <div class="ui white label ribbon"><%= _("Updated branches") %></div>
       <ul>
       <% this.updatedBranches.forEach((function(branch) { %>
         <li>
           <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
           <%= branch.getName() %>
           <% if (branch.getName() == upstreamNameForCurrentBranch) { %>
-            <a href="#" class="expression-reference"
-              data-text="Rebase current branch to <%= upstreamNameForCurrentBranch %> in <%= this.repo.getName() %>" data-exec="1">Rebase</a>
+            <%= __s("Rebase current branch", { "to branch <value>": upstreamNameForCurrentBranch, "in repo <value>": this.repo.getName() }, "Rebase", true) %>
           <% } %>
           <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
         </li>
@@ -239,7 +234,7 @@
       </ul>
     <% } %>
     <% if (this.newBranches.length != 0) { %>
-      <h4>New branches:</h3>
+      <div class="ui green label ribbon"><%= _("New branches") %></div>
       <ul>
       <% this.newBranches.forEach((function(branch) { %>
         <li>
@@ -250,10 +245,6 @@
       <% }).bind(this)); %>
       </ul>
     <% } %>
-    <% if (this.newBranches.length == 0 && this.updatedBranches.length == 0 && this.removedBranches.length == 0) { %>
-      No changes.
-  <% }} %>
-</div>
 ]]>
 </script>
 

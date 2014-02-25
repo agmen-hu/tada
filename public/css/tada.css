@@ -78,16 +78,20 @@ a:hover {
   border-color: #dc322f !important;
 }
 
-i.ui.inverted.red.icon {
+i.ui.inverted.red.icon,
+div.ui.red.ribbon {
   background-color: #dc322f !important;
+  border-color: #bc121f !important;
 }
 
 .ui.green.segment {
   border-color: #859900 !important;
 }
 
-i.ui.inverted.green.icon {
+i.ui.inverted.green.icon,
+div.ui.green.ribbon {
   background-color: #859900 !important;
+  border-color: #657900 !important;
 }
 
 body,
