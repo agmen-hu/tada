@@ -442,6 +442,7 @@ definitions:
     options:
       service: git.restore.stash
       patterns:
+        - Restore changes from stash
         - Restore changes from stash in repository <repo>
         - Restore and drop stash in repository <repo>
       arguments:

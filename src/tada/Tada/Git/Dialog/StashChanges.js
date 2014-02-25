@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-StashChanges"
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo"
       }, options));
     },
 
@@ -11,21 +11,27 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
     {
       if (!this.get("git.project").getRepository(repo).getFileStatus().isDirty()) {
         this._renderRepository(repo, {
-          hasLocalChange: false,
-          repo: this.get("git.project").getRepository(repo)
+          message: { text: "There were no local changes to stash" },
+          branch: this.get("git.project").getRepository(repo).getCurrentBranch()
         });
         return;
       }
       this.get('git.repository.command.queues').getQueue(repo).stash((function(err) {
         if (err) {
-          this._renderRepository(repo, { error: err });
+          this._renderRepository(repo, { message: { error: { fromGit: true }, text: err } });
           return;
         }
 
         this.__updateModelAfterStash(repo);
         this._renderRepository(repo, {
-          message: "Succesfully stashed changes",
-          repo: this.get("git.project").getRepository(repo)
+          message: { text: "Succesfully stashed changes" },
+          links: [{
+            sentence: "Restore changes from stash",
+            arguments: { "in repo <value>": repo },
+            referenceText: "Restore changes from stash",
+            autoExecute: true
+          }],
+          branch: this.get("git.project").getRepository(repo).getCurrentBranch()
         });
       }).bind(this), repo);
     },
