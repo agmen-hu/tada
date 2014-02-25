@@ -276,11 +276,11 @@ $.each(diffLines, function(index, value) { %><p class="
     <div class="pre-whitespace"><%= this.error %></div>
   <% } else { %>
     <h3>Repo: <%= this.name %></h3>
-    <% if (this.noLocalChange ) { %>
-      <p>There were no local changes to stash.</p>
-    <% } else { %>
+    <% if (this.hasLocalChange ) { %>
       <p>Succesfully stashed changes.</p>
       <p><a href="#" class="expression-reference" data-text="Restore changes from stash in repository <%= this.repo.getName() %>" data-exec="1">Restore changes from stash</a></p>
+    <% } else { %>
+      <p>There were no local changes to stash.</p>
     <% } %>
     <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.repo.getCurrentBranch(), repo: this.repo }) %>
   <% } %>

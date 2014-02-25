@@ -11,7 +11,7 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
     {
       if (!this.get("git.project").getRepository(repo).getFileStatus().isDirty()) {
         this._renderRepository(repo, {
-          noLocalChange: true,
+          hasLocalChange: false,
           repo: this.get("git.project").getRepository(repo)
         });
         return;

@@ -63,7 +63,7 @@ describeUnitTest('Tada.Git.Dialog.StashChanges', function() {
       repo.getFileStatus().isDirty.returns(false);
       dialog._processRepository("tada");
 
-      dialog._renderRepository.args[0][1].noLocalChange.should.be.ok;
+      dialog._renderRepository.args[0][1].hasLocalChange.should.not.be.ok;
     });
 
     it('should render error if server called back with one', function() {
