@@ -31,7 +31,7 @@
   <h3 class="ui top attached label">
     <%= this.repo.name %>
     <% (this.titleLinks || []).forEach(function(link) { %>
-      <%= __ref(link.startText, link.linkText, link.autoExecute) %>
+      <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
     <% }); %>
   </h3>
   <% if (this.message) { %>
@@ -53,7 +53,7 @@
   <% } %>
   <div class="ui vertical buttons repo-expression-links">
   <% (this.links || []).forEach(function(link) { %>
-    <%= __ref(link.startText, link.linkText, link.autoExecute) %>
+    <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
   <% }); %>
   </div>
   <% if (this.branch) { %>
@@ -69,7 +69,7 @@
 <![CDATA[
   <h3>
     Repo: <%= this.name %>
-    <%= __ref("Run gitk from " + this.name, "Run gitk", true) %>
+    <%= __s("Run gitk", { "from repo <value>": this.name }, "Run gitk", true) %>
   </h3>
   <% if (this.getFileStatus().isDirty()) { %>
     <p>

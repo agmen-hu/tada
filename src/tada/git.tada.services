@@ -170,11 +170,12 @@ definitions:
     options:
       service: git.gui
       patterns:
+        - Run git gui
         - Run git gui from <repo>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repo <value>
+          pattern: from repo <value>
           required: true
   git.gui:
     cls: Tada.Git.Dialog.ExternalCommand
@@ -190,11 +191,12 @@ definitions:
     options:
       service: git.gitk
       patterns:
+        - Run gitk
         - Run gitk from <repo>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repo <value>
+          pattern: from repo <value>
           required: true
   git.gitk:
     cls: Tada.Git.Dialog.ExternalCommand

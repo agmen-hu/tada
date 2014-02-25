@@ -1,12 +1,3 @@
-global.__ref = function(startText, linkText, autoExecute, otherClasses) {
-  return $('#Consoloid-Ui-ExpressionReference').jqote({
-    startText: __(startText),
-    linkText: __(linkText || startText),
-    autoExecute: autoExecute ? "1" : "0",
-    otherClasses: otherClasses
-  });
-}
-
 defineClass('Tada.Git.Dialog.WelcomeMessage', 'Tada.Git.Dialog.UpdateVersionControlInfo',
   {
     __constructor: function(options)

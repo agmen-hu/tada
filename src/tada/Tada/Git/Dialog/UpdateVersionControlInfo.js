@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.UpdateVersionControlInfo', 'Tada.Git.Dialog.ShowVer
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-ShowVersionControlSummaryRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 

@@ -4,7 +4,6 @@ defineClass('Tada.Git.Dialog.ShowVersionControlSummary', 'Tada.Git.Dialog.DataFr
     {
       this.__base($.extend({
         repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
-        //repositoryTemplateId: "Tada-Git-Dialog-ShowVersionControlSummaryRepo",
         responseTemplateId: 'Tada-Git-Dialog-ShowVersionControlSummary'
       }, options));
     },
@@ -13,7 +12,7 @@ defineClass('Tada.Git.Dialog.ShowVersionControlSummary', 'Tada.Git.Dialog.DataFr
     {
       this.__base(name, data);
       this.__showHiddenGlobalLinks(data);
-      this.__mentionRepoAndCurrentBranch(data);
+      this.__mentionRepoAndCurrentBranch(data.repo);
     },
 
     _processRepository: function(name)
@@ -22,24 +21,28 @@ defineClass('Tada.Git.Dialog.ShowVersionControlSummary', 'Tada.Git.Dialog.DataFr
       this._renderRepository(name, {
         repo: repo,
         titleLinks: [{
-          startText: "Run gitk from " + name,
-          linkText: "Run gitk",
+          sentence: "Run gitk",
+          arguments: { "from repo <value>": name },
+          referenceText: "Run gitk",
           autoExecute: true
         }],
         links: repo.getFileStatus().isDirty() ? [
           {
-            startText: "Show change summary for " + name,
-            linkText: "Show change summary",
+            sentence: "Show change summary",
+            arguments: { "for repository <value>": name },
+            referenceText: "Show change summary",
             autoExecute: true
           },
           {
-            startText: "Stash changes in " + name,
-            linkText: "Stash changes",
+            sentence: "Stash changes",
+            arguments: { "in repo <value>": name },
+            referenceText: "Stash changes",
             autoExecute: true
           },
           {
-            startText: "Run git gui from " + name,
-            linkText: "Run git gui",
+            sentence: "Run git gui",
+            arguments: { "from repo <value>": name },
+            referenceText: "Run git gui",
             autoExecute: true
           }
         ] : [],
