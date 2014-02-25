@@ -2,15 +2,13 @@ defineClass('Tada.Git.Command.Stash', 'Tada.Git.AbstractServerSideService',
   {
     stash: function(res, data)
     {
-      var
-        $this = this,
-        repo = this.getRepository(data.repo),
-        resultCallback = this.__getResultCallback(res);
+      var resultCallback = this.__getResultCallback(res);
       if (!data.repo) {
-        resultCallback("No repo was added");
+        resultCallback("Missing repo request argument");
         return;
       }
 
+      var repo = this.getRepository(data.repo);
       if (data.option && ["pop", "drop", "apply"].indexOf(data.option) == -1) {
         resultCallback("Unacceptable stash option: " + data.option);
         return;

@@ -13,10 +13,17 @@ defineClass('Tada.Git.Command.InitialInfo', 'Tada.Git.AbstractServerSideService'
 
     getInfo: function(res, data)
     {
+      var resultCallback = this.__getResultCallback(res);
+
+      if (!data.repo) {
+        resultCallback("Missing repo request argument");
+        return;
+      }
+
       var
         options = {
           repo: this.getRepository(data.repo),
-          resCallback: resCallback = this.__getResultCallback(res),
+          resCallback: resultCallback,
           localRefList: "",
           remoteRefList: "",
           data: {},

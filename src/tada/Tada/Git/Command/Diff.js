@@ -2,10 +2,16 @@ defineClass('Tada.Git.Command.Diff', 'Tada.Git.AbstractServerSideService',
   {
     getDiff: function(res, data)
     {
+      var resultCallback = this.__getResultCallback(res);
+
+      if (!data.repo) {
+        resultCallback("Missing repo request argument");
+        return;
+      }
+
       var repo = this.getRepository(data.repo),
         args = (data.file) ? data.file : '',
-        command = new this.git.Command(repo.path, "diff", [], args),
-        resultCallback = this.__getResultCallback(res);
+        command = new this.git.Command(repo.path, "diff", [], args);
 
       command.exec((function(error, stdOut, stdErr) {
         var err = error || stdErr;

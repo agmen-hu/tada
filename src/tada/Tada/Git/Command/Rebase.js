@@ -2,15 +2,13 @@ defineClass('Tada.Git.Command.Rebase', 'Tada.Git.AbstractServerSideService',
   {
     rebase: function(res, data)
     {
-      var
-        $this = this,
-        repo = this.getRepository(data.repo),
-        resultCallback = this.__getResultCallback(res);
+      var resultCallback = this.__getResultCallback(res);
       if (!data.repo || !data.branch) {
-        resultCallback("No repo or branch was added");
+        resultCallback("Missing repo or branch request argument");
         return;
       }
 
+      var repo = this.getRepository(data.repo);
       repo.rebase(data.branch, function(err, output) {
         if (!err && output.split('\n').some(function(line){
               return line.indexOf('Patch failed at') === 0 ||

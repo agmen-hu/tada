@@ -9,6 +9,13 @@ defineClass('Tada.Git.Command.ProcessFactory', 'Tada.Git.AbstractServerSideServi
 
     execOnRepo: function(res, data)
     {
+      var resultCallback = this.__getResultCallback(res);
+
+      if (!data.repo || !data.commandName) {
+        resultCallback("Missing repo or commandName request argument");
+        return;
+      }
+
       var
         command = this.commands[data.commandName];
 
@@ -22,7 +29,6 @@ defineClass('Tada.Git.Command.ProcessFactory', 'Tada.Git.AbstractServerSideServi
 
       var
         repo = this.getRepository(data.repo),
-        resultCallback = this.__getResultCallback(res),
         process = this.create('Consoloid.OS.Process', {
           container: this.container,
           command: command.command,

@@ -2,15 +2,14 @@ defineClass('Tada.Git.Command.DeleteRemoteBranch', 'Tada.Git.AbstractServerSideS
   {
     delete: function(res, data)
     {
-      var
-        $this = this,
-        repo = this.getRepository(data.repo),
-        resultCallback = this.__getResultCallback(res);
+      var resultCallback = this.__getResultCallback(res);
+
       if (!data.repo || !data.branch || !data.remote) {
-        resultCallback("No repo, branch or remote was added");
+        resultCallback("Missing repo, branch or remote request argument");
         return;
       }
 
+      var repo = this.getRepository(data.repo);
       repo.push(data.remote, ":" + data.branch, function(err, success) {
         if (err) {
           resultCallback(err);
