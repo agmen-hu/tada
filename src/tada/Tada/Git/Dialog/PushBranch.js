@@ -13,7 +13,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
         this._renderRepository(repo, { error: "Push is not necessary." });
         return;
       }
-      this.get('repository.command.queues').getQueue(repo).push((function(err) {
+      this.get('git.repository.command.queues').getQueue(repo).push((function(err) {
         if (err) {
           this._renderRepository(repo, { error: err });
           return;

@@ -2,6 +2,7 @@ require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require("consoloid-framework/Consoloid/Widget/Widget");
 require('consoloid-console/Consoloid/Ui/Dialog');
 require('../AbstractDialog');
+require('../DataFromModel');
 require('../ShowVersionControlSummary');
 require('../UpdateVersionControlInfo');
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -27,7 +28,7 @@ describeUnitTest('Tada.Git.Dialog.UpdateVersionControlInfo', function() {
         refresh: refresh
       }),
     }
-    env.addServiceMock('repository.command.queues', queues);
+    env.addServiceMock('git.repository.command.queues', queues);
   });
 
   describe("#_processRepository()", function() {

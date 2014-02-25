@@ -17,7 +17,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
         });
         return;
       }
-      this.get('repository.command.queues').getQueue(repo).deleteRemoteBranch(
+      this.get('git.repository.command.queues').getQueue(repo).deleteRemoteBranch(
         (function(err) {
           if (err) {
             this._renderRepository(repo, { error: err });
@@ -43,7 +43,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
 
     __deleteLocalAfterRemoval: function(repo, branchname)
     {
-      this.get('repository.command.queues').getQueue(repo).deleteLocalBranch(
+      this.get('git.repository.command.queues').getQueue(repo).deleteLocalBranch(
         (function(err) {
           if (err) {
             this._renderRepository(repo, { error: err });

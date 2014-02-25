@@ -17,7 +17,7 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
 
       var oldBrances = this.__extractBranchHashes(this.get("git.project").getRepository(repo));
 
-      var queue = this.get('repository.command.queues').getQueue(repo).createChildQueue();
+      var queue = this.get('git.repository.command.queues').getQueue(repo).createChildQueue();
       queue
         .fetch(function(err){
           if(err) {

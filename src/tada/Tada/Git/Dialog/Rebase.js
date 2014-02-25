@@ -43,7 +43,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
         return;
       }
 
-      this.get('repository.command.queues').getQueue(repoName).rebase(function(err){
+      this.get('git.repository.command.queues').getQueue(repoName).rebase(function(err){
         if (!err || (typeof err == 'object' && !Object.keys(err).length)) {
           err = undefined;
           this._updateModel(repo, branch);

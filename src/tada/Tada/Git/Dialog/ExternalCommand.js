@@ -11,7 +11,7 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
     {
       var
         repo = this.get('git.project').getRepository(repoName),
-        queue = this.get('repository.command.queues').getQueue(repoName).createChildQueue();
+        queue = this.get('git.repository.command.queues').getQueue(repoName).createChildQueue();
 
       queue
         .runExternalCommand(function(err){

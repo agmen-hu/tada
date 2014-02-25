@@ -42,7 +42,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
         createBranch: create
       }),
     }
-    env.addServiceMock('repository.command.queues', queues);
+    env.addServiceMock('git.repository.command.queues', queues);
     project = {
       getRepository: sinon.stub().returns(repo)
     }

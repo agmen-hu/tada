@@ -54,7 +54,7 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
         push: push
       })
     }
-    env.addServiceMock('repository.command.queues', queues);
+    env.addServiceMock('git.repository.command.queues', queues);
     project = {
       getRepository: sinon.stub().returns(repo)
     }

@@ -38,7 +38,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
     env.addServiceMock('git.project', project);
 
     deleteResponse = {};
-    env.addServiceMock('repository.command.queues', {getQueue: sinon.stub().returns({
+    env.addServiceMock('git.repository.command.queues', {getQueue: sinon.stub().returns({
       deleteLocalBranch: function(cb) { cb(deleteResponse); }
     })});
 

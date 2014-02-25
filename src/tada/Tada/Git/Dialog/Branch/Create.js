@@ -19,7 +19,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
         return;
       }
 
-      this.get('repository.command.queues').getQueue(repoName).createBranch((function(err) {
+      this.get('git.repository.command.queues').getQueue(repoName).createBranch((function(err) {
         if (err) {
           this._renderRepository(repoName, { error: err });
           return;

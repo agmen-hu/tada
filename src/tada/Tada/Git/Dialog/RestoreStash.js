@@ -9,7 +9,7 @@ defineClass('Tada.Git.Dialog.RestoreStash', 'Tada.Git.Dialog.AbstractDialog',
 
     _processRepository: function(repo)
     {
-      var queue = this.get('repository.command.queues').getQueue(repo).createChildQueue();
+      var queue = this.get('git.repository.command.queues').getQueue(repo).createChildQueue();
       queue
         .stash(function(err) {
           if (err) {

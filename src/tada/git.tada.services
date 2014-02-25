@@ -13,7 +13,7 @@ definitions:
     cls: Tada.Git.ContextForgetter
     shared: true
 
-  repository.command.queues:
+  git.repository.command.queues:
     cls: Tada.Git.RepositoryCommandQueues
     shared: true
 
@@ -415,7 +415,7 @@ definitions:
   git.rebase:
     cls: Tada.Git.Dialog.Rebase
     shared: false
-    
+
   git.stash.changes.sentence:
     tags: [ sentence ]
     cls: Consoloid.Interpreter.Sentence
@@ -432,7 +432,7 @@ definitions:
   git.stash.changes:
     cls: Tada.Git.Dialog.StashChanges
     shared: false
-    
+
   git.restore.stash.sentence:
     tags: [ sentence ]
     cls: Consoloid.Interpreter.Sentence

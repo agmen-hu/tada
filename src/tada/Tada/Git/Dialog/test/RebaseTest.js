@@ -39,7 +39,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
     env.addServiceMock('git.project', project);
 
     rebaseResponse = {};
-    env.addServiceMock('repository.command.queues', {getQueue: sinon.stub().returns({
+    env.addServiceMock('git.repository.command.queues', {getQueue: sinon.stub().returns({
       rebase: function(cb) { cb(rebaseResponse); }
     })});
   });

@@ -70,7 +70,7 @@ describeUnitTest('Tada.Git.Dialog.WelcomeMessage', function() {
           refresh: refresh
         }),
       }
-      env.addServiceMock('repository.command.queues', queues);
+      env.addServiceMock('git.repository.command.queues', queues);
 
       dialog.name = "Test";
       dialog.node = consoleService.createNewDialog();

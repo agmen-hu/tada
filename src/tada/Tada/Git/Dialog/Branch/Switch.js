@@ -24,7 +24,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         branchName = 'master';
       }
 
-      this.get('repository.command.queues').getQueue(repoName).checkout(function(data){
+      this.get('git.repository.command.queues').getQueue(repoName).checkout(function(data){
         if (!data.err) {
           var branch = this._updateModel(repo, branchName);
         }

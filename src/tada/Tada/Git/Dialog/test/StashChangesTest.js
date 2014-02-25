@@ -30,7 +30,7 @@ describeUnitTest('Tada.Git.Dialog.StashChanges', function() {
         stash: stash
       }),
     }
-    env.addServiceMock('repository.command.queues', queues);
+    env.addServiceMock('git.repository.command.queues', queues);
     project = {
       getRepository: sinon.stub().returns(repo)
     }

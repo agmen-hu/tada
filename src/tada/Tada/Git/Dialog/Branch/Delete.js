@@ -24,7 +24,7 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       var upstream = repo.getLocalBranches().getEntity(branchName).getUpstream();
-      this.get('repository.command.queues').getQueue(repoName).deleteLocalBranch(function(err){
+      this.get('git.repository.command.queues').getQueue(repoName).deleteLocalBranch(function(err){
         err = err ? (typeof err == 'string' ? err : (Object.keys(err).length ? err : undefined)) : err;
         if (!err) {
           this._updateModel(repo, branchName);

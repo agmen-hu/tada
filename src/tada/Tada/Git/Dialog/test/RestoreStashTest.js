@@ -34,7 +34,7 @@ describeUnitTest('Tada.Git.Dialog.RestoreStash', function() {
         isDirty: sinon.stub().returns(true)
       })
     }
-    env.addServiceMock('repository.command.queues', queues);
+    env.addServiceMock('git.repository.command.queues', queues);
     project = {
       getRepository: sinon.stub().returns(repo)
     }

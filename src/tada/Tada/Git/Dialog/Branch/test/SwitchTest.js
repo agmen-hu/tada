@@ -35,7 +35,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
     env.addServiceMock('git.project', project);
 
     checkoutResponse = {};
-    env.addServiceMock('repository.command.queues', {getQueue: sinon.stub().returns({
+    env.addServiceMock('git.repository.command.queues', {getQueue: sinon.stub().returns({
       checkout: function(cb) { cb(checkoutResponse); }
     })});
 
