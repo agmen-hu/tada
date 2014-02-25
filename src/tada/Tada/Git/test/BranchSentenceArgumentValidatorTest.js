@@ -33,14 +33,14 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
   describe('#validateRepoAndBranch(arguments)', function(){
     basicTests('validateRepoAndBranch');
 
-    it('should return the repository branchIsExists method return value', function(){
-      env.container.get('git.project').getRepository().branchIsExists.returns(false);
+    it('should return the repository branchExistsLocallyOrAtSomeRemote method return value', function(){
+      env.container.get('git.project').getRepository().branchExistsLocallyOrAtSomeRemote.returns(false);
 
       validator.validateRepoAndBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}}).should.be.false;
       env.container.get('git.project').getRepository.calledWith('foo').should.be.true;
-      env.container.get('git.project').getRepository().branchIsExists.alwaysCalledWith('master');
+      env.container.get('git.project').getRepository().branchExistsLocallyOrAtSomeRemote.alwaysCalledWith('master');
 
-      env.container.get('git.project').getRepository().branchIsExists.returns(true);
+      env.container.get('git.project').getRepository().branchExistsLocallyOrAtSomeRemote.returns(true);
       validator.validateRepoAndBranch({repo: { value: 'foo'}, branch: {value: 'master'}}).should.be.true;
     });
   });

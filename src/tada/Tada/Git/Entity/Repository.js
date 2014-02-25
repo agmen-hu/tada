@@ -50,7 +50,7 @@ defineClass('Tada.Git.Entity.Repository', 'Consoloid.Entity.Mentionable',
       return this.remoteBranches;
     },
 
-    branchIsExists: function(branchName)
+    branchExistsLocallyOrAtSomeRemote: function(branchName)
     {
       var found = this.localBranches.hasEntity(branchName);
 

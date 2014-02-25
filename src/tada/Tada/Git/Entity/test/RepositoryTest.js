@@ -21,10 +21,10 @@ describeUnitTest('Tada.Git.Enttiy.Repository', function() {
     })
   });
 
-  describe('#branchIsExists(branchName)', function(){
+  describe('#branchExistsLocallyOrAtSomeRemote(branchName)', function(){
     it('should return true when repos has local branch',function() {
       repository.getLocalBranches().hasEntity.returns(true);
-      repository.branchIsExists('master').should.be.true;
+      repository.branchExistsLocallyOrAtSomeRemote('master').should.be.true;
     });
 
     describe('when repo does not have local branch with the given name', function(){
@@ -39,7 +39,7 @@ describeUnitTest('Tada.Git.Enttiy.Repository', function() {
       it('should return true when repo has remotebranch without remote name', function(){
         repository.getRemoteBranches().some.returns(true);
 
-        repository.branchIsExists('master').should.be.true;
+        repository.branchExistsLocallyOrAtSomeRemote('master').should.be.true;
 
         repository.getRemoteBranches().some.alwaysReturned(true).should.be.true;
       });
@@ -47,7 +47,7 @@ describeUnitTest('Tada.Git.Enttiy.Repository', function() {
       it('should return false when repo deos not have', function(){
         repository.getRemoteBranches().some.returns(false);
 
-        repository.branchIsExists('foo').should.be.false;
+        repository.branchExistsLocallyOrAtSomeRemote('foo').should.be.false;
 
         repository.getRemoteBranches().some.alwaysReturned(false).should.be.true;
       });

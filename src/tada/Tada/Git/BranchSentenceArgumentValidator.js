@@ -7,7 +7,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       }
 
       var repoEntity = this.get('git.project').getRepository(arguments.repo.value);
-      return repoEntity.branchIsExists(arguments.branch.value);
+      return repoEntity.branchExistsLocallyOrAtSomeRemote(arguments.branch.value);
     },
 
     __repoAndBranchArgumentsPresent: function(arguments)

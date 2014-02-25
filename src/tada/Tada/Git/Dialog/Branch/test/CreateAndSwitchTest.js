@@ -40,7 +40,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
       checkout: function(cb) { cb(checkoutResponse); }
     })});
 
-    repo.branchIsExists.returns(true);
+    repo.branchExistsLocallyOrAtSomeRemote.returns(true);
   });
 
   describe('_processRepository(repoName)', function(){
@@ -56,7 +56,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
     it('should create and checkout to the new branch when branch does not exists', function(){
       repo.getLocalBranches().createEntity.returns(branch);
 
-      repo.branchIsExists.returns(false);
+      repo.branchExistsLocallyOrAtSomeRemote.returns(false);
 
       dialog._processRepository('tada');
 
@@ -67,7 +67,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
     it('should checkout the remote branch when it is exists', function(){
       sinon.stub(dialog, '_createLocalBranchFromRemote', function(){ return branch; });
 
-      repo.branchIsExists.returns(true);
+      repo.branchExistsLocallyOrAtSomeRemote.returns(true);
       repo.hasLocalBranch.returns(false);
 
       dialog._processRepository('tada');
@@ -78,7 +78,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
     it('should checkout the local branch when it is exists', function(){
       repo.getLocalBranches().getEntity.returns(branch);
 
-      repo.branchIsExists.returns(true);
+      repo.branchExistsLocallyOrAtSomeRemote.returns(true);
       repo.hasLocalBranch.returns(true);
 
       dialog._processRepository('tada');

@@ -13,7 +13,7 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
 
       this.isNew = true;
 
-      if (repo.branchIsExists(branchName)) {
+      if (repo.branchExistsLocallyOrAtSomeRemote(branchName)) {
         this.isNew = false;
 
         if (!repo.hasLocalBranch(branchName)) {

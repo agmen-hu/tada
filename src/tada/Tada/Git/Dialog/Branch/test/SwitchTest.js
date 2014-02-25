@@ -39,7 +39,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
       checkout: function(cb) { cb(checkoutResponse); }
     })});
 
-    repo.branchIsExists.returns(true);
+    repo.branchExistsLocallyOrAtSomeRemote.returns(true);
 
     repo.getLocalBranches().hasEntity.returns(true);
     repo.getLocalBranches().getEntity.returns(branch);
@@ -74,7 +74,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
     });
 
     it('should switch to master the master when branch does not exists', function(){
-      repo.branchIsExists.returns(false);
+      repo.branchExistsLocallyOrAtSomeRemote.returns(false);
 
       dialog._processRepository('tada');
 

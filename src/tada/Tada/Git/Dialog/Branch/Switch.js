@@ -19,7 +19,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         return;
       }
 
-      if (!repo.branchIsExists(branchName)) {
+      if (!repo.branchExistsLocallyOrAtSomeRemote(branchName)) {
         forcedToMaster = true;
         branchName = 'master';
       }
