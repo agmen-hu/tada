@@ -17,10 +17,10 @@
 <![CDATA[
   <div>This project contains <%= this.requestedRepositories.length %> repositories</div>
   <ul class="git-command-toolbox">
-    <li><a href="#" class="expression-reference" data-text="Fetch patches" data-exec="1"><%= __("Fetch patches") %></a></li>
-    <li><a href="#" class="expression-reference" data-text="List branches" data-exec="1"><%= __("List branches") %></a></li>
-    <li class="git-globalpush git-hidden"><a href="#" class="expression-reference" data-text="Push current branch" data-exec="1"><%= __("Push current branch") %></a></li>
-    <li class="git-globalstash git-hidden"><a href="#" class="expression-reference" data-text="Stash changes" data-exec="1"><%= __("Stash changes") %></a></li>
+    <li><%= __s("Fetch patches", {}, null, true) %></li>
+    <li><%= __s("List branches", {}, null, true) %></li>
+    <li class="git-globalpush git-hidden"><%= __s("Push current branch", {}, null, true) %></li>
+    <li class="git-globalstash git-hidden"><%= __s("Stash changes", {}, null, true) %></li>
   </ul>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
@@ -200,7 +200,7 @@
 <script id="Tada-Git-Dialog-Fetch" type="text/x-jqote-template">
 <![CDATA[
   <ul class="git-command-toolbox">
-    <li><a href="#" class="expression-reference" data-text="Rebase current branch to its own upstream" data-exec="1">Rebase current branch to its own upstream</a></li>
+    <li><%= __s("Rebase current branch to its own upstream", {}, null, true) %></li>
   </ul>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
@@ -297,8 +297,8 @@ $.each(diffLines, function(index, value) { %><p class="
 <![CDATA[
   <div class="list-dialog"></div>
   <ul class="git-command-toolbox">
-    <li><a href="#" class="expression-reference" data-text="Create and switch branch" data-exec="1"><%= __("Create and switch to new branch") %></a></li>
-    <li><a href="#" class="expression-reference" data-text="Create branch" data-exec="1"><%= __("Create new branch") %></a></li>
+    <li><%= __s("Create and switch to new branch", {}, null, true) %></li>
+    <li><%= __s("Create branch", {}, "Create new branch", true) %></li>
   </ul>
 ]]>
 </script>
@@ -306,7 +306,7 @@ $.each(diffLines, function(index, value) { %><p class="
 <script id="Tada-Git-Dialog-Rebase" type="text/x-jqote-template">
 <![CDATA[
   <ul class="git-command-toolbox">
-    <li><a href="#" class="expression-reference" data-text="Push current branch" data-exec="1">Push current branch</a></li>
+    <li><%= __s("Push current branch", {}, null, true) %></li>
   </ul>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
