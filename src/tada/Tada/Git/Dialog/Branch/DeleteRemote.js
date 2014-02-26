@@ -65,7 +65,20 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       this.get('git.repository.command.queues').getQueue(this.repo.getName()).deleteLocalBranch(
         (function(err) {
           if (err) {
-            this._renderRepository(this.repo.getName(), { message: { error: true, text: err } });
+            var response = { message: { error: true, text: err } };
+
+            if (err.indexOf("neither matches an existing ref") != -1) {
+              response.links = [{
+                sentence: "Fetch patches",
+                arguments: {
+                  "for <value>": this.repo.getName(),
+                  "also prune unavailable remote branches": true
+                },
+                referenceText: "Do a fetch that prunes unavailable remote branches"
+              }];
+            }
+
+            this._renderRepository(this.repo.getName(), response);
             return;
           }
           this.__appendAfterRemoval()
