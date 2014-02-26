@@ -112,9 +112,11 @@ body,
   background-color: #b58900 !important;
 }
 
-.dialog .response {
-  max-width: 950px;
-  margin: 0 auto;
+@media (min-width: 1000px) {
+  .dialog .response {
+    max-width: 950px;
+    margin: 0 auto;
+  }
 }
 
 #prompt i {
