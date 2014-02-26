@@ -2,6 +2,7 @@
   "name": "tada",
   "version": "0.1.2",
   "dependencies": {
+    "glob": "*",
     "js-yaml": "*",
     "consoloid-framework": "*",
     "consoloid-console": "*",

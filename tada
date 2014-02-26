@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require('./src/tada/Tada/Server/Supervisor');
+require('./src/tada/Tada/Command/Detect');
 
 var program = require('commander');
 program
@@ -28,6 +29,19 @@ program
   .action(function(env) {
     new Tada.Server.Supervisor({ env: 'prod' })
       .stopServer();
+  });
+
+program
+  .command('detect')
+  .description('Collect git repositories under current path and create a default config file')
+  .action(function(env) {
+    new Tada.Command.Detect({})
+      .start(process.cwd(), function(err, config){
+        if (err) {
+          console.log(err);
+        }
+        process.kill();
+      });
   });
 
 program
