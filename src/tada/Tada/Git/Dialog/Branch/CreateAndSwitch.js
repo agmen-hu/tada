@@ -36,7 +36,7 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
             sentence: "Run git gui",
             arguments: { "from repo <value>": repoName },
             referenceText: "git gui",
-            autoExeceute: true
+            autoExecute: true
           }] : null,
           branch: branch,
         });
