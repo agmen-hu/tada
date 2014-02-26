@@ -181,6 +181,23 @@ input.human-text {
   min-width: 400px !important;
 }
 
+#prompt .prompt {
+  width: 85%;
+}
+
+#prompt .prompt > .icon {
+  text-align: right;
+  width: 5%;
+}
+
+#prompt .prompt .ui.input {
+  text-align: left;
+  width: 90%;
+}
+
+#prompt .actions {
+  width: 10%
+}
 
 .ui-autocomplete {
   background-color: rgba(7, 54, 66, 0.8) !important;
