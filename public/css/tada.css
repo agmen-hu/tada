@@ -20,8 +20,8 @@
 .git-branches { margin-bottom: 15px; }
 .git-current-branch-remotes { margin-top: -15px; margin-bottom: 15px; }
 
-.git-staged, .git-diff-line-added { color: #859900; }
-.git-unstaged, .git-unstaged a, .git-diff-line-removed { color: #dc322f; }
+.git-staged, .git-diff-line-added { background-color: rgba(133, 153, 0, 0.35); }
+.git-unstaged, .git-unstaged a, .git-diff-line-removed { background-color: rgba(220, 50, 47, 0.35); }
 .git-new { color: forestgreen; }
 .git-deleted { color: red; }
 
@@ -34,6 +34,7 @@
 
 .git-diff-line-header {
   background-color: #002b36;
+  font-weight: bold;
 }
 
 .pre-whitespace { white-space: pre; }
