@@ -1,4 +1,6 @@
 require('./Webserver');
+require('../Configuration/Factory');
+require('../Configuration/FileHandler');
 defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
   {
     __constructor: function(options)
@@ -18,10 +20,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
 
     __createTadaConfig: function()
     {
-      this.tadaConfig = this.create('Tada.Configuration', {
-        container: this.container,
-        searchFrom: process.cwd()
-      });
+      this.tadaConfig = this.create('Tada.Configuration.FileHandler', {}).loadFrom(process.cwd());
     },
 
     isServerRunning: function(callback)
@@ -81,7 +80,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
         }
 
         if (!result) {
-          new Tada.Server.Webserver({ env: this.env })
+          new Tada.Server.Webserver({ env: this.env, tadaConfig: this.tadaConfig })
             .run();
         } else {
           console.log("Server already started on port " + this.tadaConfig.get('server/port'));
