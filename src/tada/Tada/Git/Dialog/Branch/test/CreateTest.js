@@ -93,7 +93,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
       dialog._processRepository("tada");
 
       create.args[0][0]();
-      dialog._renderRepository.args[0][1].remotes[0].should.be.ok;
+      dialog._renderRepository.args[0][1].links[0].should.be.ok;
       dialog._renderRepository.args[0][1].branch.foo.should.equal("bar");
     });
 
@@ -101,8 +101,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
       dialog._processRepository("tada");
       create.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].error.should.be.ok;
-      (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
     });
   });
 });

@@ -155,7 +155,7 @@ body,
 #prompt .dialog,
 .request,
 .actions a {
-  color: #073642;
+  color: #073642 !important;
   text-decoration: none;
 }
 

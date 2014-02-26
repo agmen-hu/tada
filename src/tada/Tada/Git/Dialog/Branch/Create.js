@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-Branch-CreateRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
@@ -24,7 +24,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
 
       this.get('git.repository.command.queues').getQueue(repoName).createBranch((function(err) {
         if (err) {
-          this._renderRepository(repoName, { error: err });
+          this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
           return;
         }
 
@@ -49,7 +49,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
     __createLinks: function(repository)
     {
       var result = [];
-      this.__checkForRemotes(repository).forEach(function(remote) {
+      this.__checkForRemotes(repository).forEach((function(remote) {
         result.push({
           sentence: "Add upstream",
           arguments: {
@@ -59,7 +59,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
           referenceText: "Add upstream: " + remote.getName(),
           autoExecute: true
         })
-      });
+      }).bind(this));
 
       return result;
     },
