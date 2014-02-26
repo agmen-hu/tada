@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-Branch-DeleteRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
@@ -14,12 +14,12 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, {error: 'Cannot delete ' + branchName + ' branch, because you are on it!'});
+        this._renderRepository(repoName, { message: { error: true, text: 'Cannot delete ' + branchName + ' branch, because you are on it!' } });
         return;
       }
 
       if (!repo.hasLocalBranch(branchName)) {
-       this._renderRepository(repoName, {error: 'Branch ' + branchName + ' does not exist!'});
+       this._renderRepository(repoName, { message: { error: true, text: 'Branch ' + branchName + ' does not exist!' } });
         return;
       }
 
@@ -30,7 +30,30 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
           this._updateModel(repo, branchName);
         }
 
-        this._renderRepository(repo.getName(), {error: err, branchName: branchName, repo: repo, upstreamName: upstream ? upstream.getName() : '' });
+        this._renderRepository(repo.getName(), {
+          message: {
+            error: err,
+            text: err ? JSON.stringify(err) : "Branch " + branchName + "  successfully deleted."
+          },
+          links: (err && JSON.stringify(err).indexOf("not fully merged") != -1) ? [{
+            sentence: "Delete branch",
+            arguments: {
+              "branch <value>": branchName,
+              "from repo <value>": repo.getName(),
+              "even if unmerged": true
+            },
+            referenceText: "Delete branch even if unmerged",
+            autoExecute: true
+          }] : (upstream ? [{
+            sentence: "Delete remote branch",
+            arguments: {
+              "branch <value>": upstream.getName(),
+              "from repo <value>": repo.getName(),
+            },
+            referenceText: "Delete remote branch " + upstream.getName(),
+            autoExecute: true
+          }] : []),
+        });
       }.bind(this), repoName, branchName, this.arguments.unmerged && this.arguments.unmerged.value);
     },
 

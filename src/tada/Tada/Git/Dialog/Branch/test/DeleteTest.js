@@ -51,7 +51,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Cannot delete foo branch, because you are on it!' }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Cannot delete foo branch, because you are on it!' } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -60,7 +60,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Branch foo does not exist!' }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Branch foo does not exist!' } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -68,14 +68,25 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
       deleteResponse.message = 'Error';
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: deleteResponse, branchName: 'foo', repo: repo, upstreamName: ''}).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      (dialog._renderRepository.args[0][1].links || []).length.should.equal(0);
+
+      deleteResponse.message = 'This random branch is not fully merged';
+      dialog._processRepository('tada');
+
+      dialog._renderRepository.args[1][0].should.equal("tada");
+      dialog._renderRepository.args[1][1].message.error.should.be.ok;
+      dialog._renderRepository.args[1][1].links.length.should.be.ok;
     });
 
     it('should remove the branch entity from the repository', function(){
       branch.getUpstream.returns({getName: sinon.stub().returns('origin/foo')});
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: undefined, branchName: 'foo', repo: repo, upstreamName: 'origin/foo'}).should.be.true;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      (dialog._renderRepository.args[0][1].message.error == undefined).should.be.ok;
+      dialog._renderRepository.args[0][1].links.length.should.be.ok;
       repo.getLocalBranches().removeEntity.alwaysCalledWith('foo').should.be.true;
     });
 

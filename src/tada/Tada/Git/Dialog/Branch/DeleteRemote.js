@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-Branch-DeleteRemoteRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo",
       }, options));
     },
 
@@ -14,8 +14,10 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
 
       if (!this.remoteBranch) {
         this._renderRepository(repoName, {
-          error: "Remote branch: " + this.arguments.branch.value + " does not exist.",
-          repo: this.repo
+          message: {
+            error: true,
+            text: __("Remote branch: <value> does not exist.", { "<value>": this.arguments.branch.value })
+          }
         });
         return;
       }
@@ -25,7 +27,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       this.get('git.repository.command.queues').getQueue(repoName).deleteRemoteBranch(
         (function(err) {
           if (err) {
-            this._renderRepository(repoName, { error: err });
+            this._renderRepository(repoName, { message: { error: true, text: err } });
             return;
           }
           if (this.arguments.deleteLocal && this.hasLocalBranch) {
@@ -52,8 +54,10 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
     {
       if (this.repo.getLocalBranches().getEntity(this.remoteBranch.getLocalName()) == this.repo.getCurrentBranch()) {
         this._renderRepository(repoName, {
-          error: 'Cannot delete local ' + this.remoteBranch.getLocalName() + ' branch because you are currently on it',
-          repo: this.repo
+          message: {
+            error: true,
+            text: __("Cannot delete local <value>  branch because you are currently on it.", { "<value>":  this.remoteBranch.getLocalName() })
+          }
         });
         return;
       }
@@ -61,7 +65,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       this.get('git.repository.command.queues').getQueue(this.repo.getName()).deleteLocalBranch(
         (function(err) {
           if (err) {
-            this._renderRepository(this.repo.getName(), { error: err });
+            this._renderRepository(this.repo.getName(), { message: { error: true, text: err } });
             return;
           }
           this.__appendAfterRemoval()
@@ -73,17 +77,25 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
 
     __appendAfterRemoval: function() {
       var response = {
-        message: "Remove was successful",
-        repo: this.repo,
-        remoteBranch: this.remoteBranch
+        message: {
+          text: "Remove remote branch was successful.",
+        }
       }
 
       if (this.arguments.deleteLocal && !this.hasLocalBranch) {
-        response.localDidNotExist = true;
+        response.message.text += " There wasn't any local branch named like this to remove."
       }
 
       if (!this.arguments.deleteLocal && this.hasLocalBranch) {
-        response.localDoesExist = true;
+        response.links = [{
+          sentence: "Delete branch",
+          arguments: {
+            "branch <value>": this.remoteBranch.getLocalName(),
+            "from repo <value>": this.repo.getName()
+          },
+          referenceText: "Delete local branch",
+          autoExecute: true
+        }]
       }
 
       this.__updateModelAndContextAfterRemove();
