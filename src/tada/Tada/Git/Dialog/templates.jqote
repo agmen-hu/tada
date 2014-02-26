@@ -126,7 +126,7 @@
 <script id="Tada-Git-Dialog-ShowChangeRepo" type="text/x-jqote-template">
 <![CDATA[
   <% if (this.getFileStatus().getStaged().length) { %>
-  <div class="ui green label ribbon">Staged:</div>
+  <div class="ui green label ribbon"><%= __("Staged") %></div>
   <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getStaged().length; i<len; i++) { %>
       <div class="item">
@@ -140,7 +140,7 @@
   <% } %>
 
   <% if (this.getFileStatus().getNotStaged().length) { %>
-  <div class="ui red label ribbon">Unstaged:</div>
+  <div class="ui red label ribbon"><%= __("Unstaged") %></div>
   <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getNotStaged().length; i<len; i++) { %>
       <div class="item">
@@ -156,7 +156,7 @@
   <% } %>
 
   <% if (this.getFileStatus().getUntracked().length) { %>
-  <div class="ui white label ribbon">Untracked:</div>
+  <div class="ui white label ribbon"><%= __("Untracked") %></div>
   <div class="ui list">
     <% for (var i=0,len=this.getFileStatus().getUntracked().length; i<len; i++) { %>
       <div class="ui item">
@@ -210,7 +210,7 @@
 <![CDATA[
 <div>
     <% if (this.removedBranches.length != 0) { %>
-      <div class="ui red label ribbon"><%= _("Removed branches") %></div>
+      <div class="ui red label ribbon"><%= __("Removed branches") %></div>
       <ul>
       <% this.removedBranches.forEach(function(branch) { %>
         <li><%= branch %></li>
@@ -219,7 +219,7 @@
     <% } %>
     <% if (this.updatedBranches.length != 0) { %>
       <% var upstreamNameForCurrentBranch = this.repo.getCurrentBranch().getUpstream() ? this.repo.getCurrentBranch().getUpstream().getName() : ''; %>
-      <div class="ui white label ribbon"><%= _("Updated branches") %></div>
+      <div class="ui white label ribbon"><%= __("Updated branches") %></div>
       <ul>
       <% this.updatedBranches.forEach((function(branch) { %>
         <li>
@@ -234,7 +234,7 @@
       </ul>
     <% } %>
     <% if (this.newBranches.length != 0) { %>
-      <div class="ui green label ribbon"><%= _("New branches") %></div>
+      <div class="ui green label ribbon"><%= __("New branches") %></div>
       <ul>
       <% this.newBranches.forEach((function(branch) { %>
         <li>
@@ -264,9 +264,12 @@
 
 <script id="Tada-Git-Dialog-FileChanges" type="text/x-jqote-template">
 <![CDATA[
+  <div class="one column ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
-    <div class="git-repo git-repo-one-column" data-repo-name="<%= this.requestedRepositories[i] %>">
-    Repository with name <%= this.requestedRepositories[i] %> is processing...
+    <div class="column">
+      <div class="ui raised blue segment" data-repo-name="<%= this.requestedRepositories[i] %>">
+        <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
+      </div>
     </div>
   <% } %>
 ]]>
@@ -274,7 +277,6 @@
 
 <script id="Tada-Git-Dialog-File-ChangesRepo" type="text/x-jqote-template">
 <![CDATA[
-<h3>Repo: <%= this.name %></h3>
 <% var htmlEntityEncode = function (str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }; %>
