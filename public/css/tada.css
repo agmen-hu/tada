@@ -128,13 +128,18 @@ body,
 
 #prompt,
 .request,
-.ui.mini.basic.button,
-.ui.mini.basic.button > .icon
+.ui.mini.basic.button
 {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%);
-  color: #073642!important;
 }
+
+#prompt,
+.request,
+.ui.mini.basic.button,
+.ui.mini.basic.button > .icon {
+  color: #073642!important;
+ }
 
 .ui.mini.basic.button:hover
 {
@@ -155,6 +160,7 @@ body,
 }
 
 #prompt,
+.prompt > .icon,
 #prompt .dialog,
 .request,
 .actions a {
@@ -177,27 +183,64 @@ body,
 }
 
 input.human-text {
+	margin-top: -0.2em !important;
   padding: 0.2em !important;
-  min-width: 400px !important;
 }
 
 #prompt .prompt {
-  width: 85%;
+  width: 80%;
 }
 
-#prompt .prompt > .icon {
-  text-align: right;
-  width: 5%;
-}
-
-#prompt .prompt .ui.input {
+#prompt .prompt input {
   text-align: left;
   width: 90%;
 }
 
-#prompt .actions {
-  width: 10%
+#prompt .actions,
+#prompt .actions ul,
+#prompt .actions li {
+	margin: 0 !important;
+	padding: 0 !important;
 }
+
+.clicked-prompt-mic {
+   display: inline-block;
+   border-radius: 10em;
+   background-color: #dc322f !important;
+   color: white !important;
+
+   padding: 0 !important;
+   width: auto !important;
+   height:  auto !important;
+   position: relative;
+   margin-bottom: 0 !important;
+   margin-left:  0 !important;
+   right: 0 !important;
+   bottom: 0 !important;
+
+   text-align: center;
+
+  animation: redPulse 2s infinite;
+
+  -webkit-animation: redPulse 2s infinite;
+}
+
+@keyframes redPulse {
+  from { box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+  50% { box-shadow: 0 0 0 10px rgba(220, 50, 47, 0.35); }
+  to { box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+}
+
+@-webkit-keyframes redPulse {
+  from { -webkit-box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+  50% { -webkit-box-shadow: 0 0 0 10px rgba(220, 50, 47, 0.35); }
+  to { -webkit-box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+}
+
+.clicked-prompt-mic i:before {
+   color: white !important;
+}
+
 
 .ui-autocomplete {
   background-color: rgba(7, 54, 66, 0.8) !important;

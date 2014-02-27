@@ -2,11 +2,9 @@
 <![CDATA[
   <div class="dialog">
     <div class="request">
-      <div class="prompt">
+      <div class="prompt ui input">
       <i class="small comment icon"></i>
-      <div class="ui input">
       <input type="text" class="human-text" name="requested-words" value="" />
-      </div>
       </div>
       <div class="actions">
         <ul>
