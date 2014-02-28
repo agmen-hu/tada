@@ -4,7 +4,7 @@
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
     <div class="column" data-repo-name="<%= this.requestedRepositories[i] %>">
       <div class="ui raised blue segment" >
-        <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
+        <div class="ui inline active loader"></div>Repository with name <%= this.requestedRepositories[i] %> is processing...
       </div>
     </div>
   <% } %>
