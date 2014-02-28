@@ -287,8 +287,7 @@
       <%= (value[0] == '+') ? "git-diff-line-added" : "" %>
       <%= (value[0] == '-') ? "git-diff-line-removed" : "" %>
       <%= (value[0] == 'd' || value[0] == 'i' || value[0] == '@' ) ? "git-diff-line-header" : "" %>
-    "><%= htmlEntityEncode(value) %></p>
-  <% }); %>
+    "><%= htmlEntityEncode(value) %></p><% }); %>
   </pre>
   </div>
 ]]>
