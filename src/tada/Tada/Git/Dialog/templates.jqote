@@ -67,23 +67,6 @@
 ]]>
 </script>
 
-<script id="Tada-Git-Dialog-ShowVersionControlSummaryRepo" type="text/x-jqote-template">
-<![CDATA[
-  <h3>
-    Repo: <%= this.name %>
-    <%= __s("Run gitk", { "from repo <value>": this.name }, "Run gitk", true) %>
-  </h3>
-  <% if (this.getFileStatus().isDirty()) { %>
-    <p>
-      <a href="#" class="expression-reference" data-text="Show change summary for <%= this.name %>" data-exec="1">Show change summary</a>
-      <a href="#" class="expression-reference" data-text="Stash changes in <%= this.name %>" data-exec="1">Stash changes</a>
-      <a href="#" class="expression-reference" data-text="Run git gui from <%= this.name %>" data-exec="1">Run git gui</a>
-    </p>
-  <% } %>
-  <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.repo.getCurrentBranch(), repo: this }) %>
-]]>
-</script>
-
 <script id="Tada-Git-Dialog-BranchStatus" type="text/x-jqote-template">
 <![CDATA[
   <div class="ui segment branch-status">
@@ -197,80 +180,12 @@
 ]]>
 </script>
 
-<script id="Tada-Git-Dialog-PushRepo" type="text/x-jqote-template">
-<![CDATA[
-  <h3>Repo: <%= this.name %></h3>
-<% if (this.error) { %>
-  <div class="pre-whitespace"><%= typeof this.error == 'string' ? this.error : JSON.stringify(this.error, undefined, '\t') %></div>
-<% } else { %>
-  <%= $('#Tada-Git-Dialog-ShowVersionControlSummary-Repo').jqote(this.repo) %>
-  <p><%= __(this.message) %></p>
-<% } %>
-]]>
-</script>
-
 <script id="Tada-Git-Dialog-Fetch" type="text/x-jqote-template">
 <![CDATA[
   <ul class="git-command-toolbox">
     <li><%= __s("Rebase current branch to its own upstream", {}, null, true) %></li>
   </ul>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
-]]>
-</script>
-
-<script id="Tada-Git-Dialog-FetchRepo" type="text/x-jqote-template">
-<![CDATA[
-<div>
-    <% if (this.removedBranches.length != 0) { %>
-      <div class="ui red label ribbon"><%= __("Removed branches") %></div>
-      <ul>
-      <% this.removedBranches.forEach(function(branch) { %>
-        <li><%= branch %></li>
-      <% }); %>
-      </ul>
-    <% } %>
-    <% if (this.updatedBranches.length != 0) { %>
-      <% var upstreamNameForCurrentBranch = this.repo.getCurrentBranch().getUpstream() ? this.repo.getCurrentBranch().getUpstream().getName() : ''; %>
-      <div class="ui white label ribbon"><%= __("Updated branches") %></div>
-      <ul>
-      <% this.updatedBranches.forEach((function(branch) { %>
-        <li>
-          <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
-          <%= branch.getName() %>
-          <% if (branch.getName() == upstreamNameForCurrentBranch) { %>
-            <%= __s("Rebase current branch", { "to branch <value>": upstreamNameForCurrentBranch, "in repo <value>": this.repo.getName() }, "Rebase", true) %>
-          <% } %>
-          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
-        </li>
-      <% }).bind(this)); %>
-      </ul>
-    <% } %>
-    <% if (this.newBranches.length != 0) { %>
-      <div class="ui green label ribbon"><%= __("New branches") %></div>
-      <ul>
-      <% this.newBranches.forEach((function(branch) { %>
-        <li>
-          <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
-          <%= branch.getName() %>
-          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
-        </li>
-      <% }).bind(this)); %>
-      </ul>
-    <% } %>
-]]>
-</script>
-
-
-<script id="Tada-Git-Dialog-ExternalCommandRepo" type="text/x-jqote-template">
-<![CDATA[
-  <h3>Repo: <%= this.name %></h3>
-  <% if (this.error) { %>
-    <div class="pre-whitespace"><%= typeof this.error == 'string' ? this.error : JSON.stringify(this.error, undefined, '\t') %></div>
-  <% } else if (this.repo) { %>
-    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.repo.getCurrentBranch(), repo: this.repo}) %>
-  <% } else { %>
-    <div>Requested external command finished.</div>
-  <% } %>
 ]]>
 </script>
 
@@ -309,53 +224,5 @@
     <li><%= __s("Push current branch", {}, null, true) %></li>
   </ul>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
-]]>
-</script>
-
-<script id="Tada-Git-Dialog-RebaseRepo" type="text/x-jqote-template">
-<![CDATA[
-  <% if (this.error ) { %>
-    <h3>Repo: <%= this.name %></h3>
-    <div class="pre-whitespace"><%= this.error %></div>
-    <% if (this.shouldShowPushAction) { %>
-      <a href="#" class="expression-reference" data-text="Push current branch of <%= this.repo.getName() %>" data-exec="1">Push current branch</a>
-    <% } %>
-  <% } else { %>
-    <div>Rebase was successful</div>
-    <%= $('#Tada-Git-Dialog-ShowVersionControlSummary-Repo').jqote(this.repo) %>
-  <% } %>
-]]>
-</script>
-
-<script id="Tada-Git-Dialog-StashChanges" type="text/x-jqote-template">
-<![CDATA[
-  <% if (this.error ) { %>
-    <h3>Repo: <%= this.name %></h3>
-    <div class="pre-whitespace"><%= this.error %></div>
-  <% } else { %>
-    <h3>Repo: <%= this.name %></h3>
-    <% if (this.hasLocalChange ) { %>
-      <p>Succesfully stashed changes.</p>
-      <p><a href="#" class="expression-reference" data-text="Restore changes from stash in repository <%= this.repo.getName() %>" data-exec="1">Restore changes from stash</a></p>
-    <% } else { %>
-      <p>There were no local changes to stash.</p>
-    <% } %>
-    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.repo.getCurrentBranch(), repo: this.repo }) %>
-  <% } %>
-]]>
-</script>
-
-<script id="Tada-Git-Dialog-RestoreStash" type="text/x-jqote-template">
-<![CDATA[
-  <% if (this.error ) { %>
-    <h3>Repo: <%= this.name %></h3>
-    <div class="pre-whitespace"><%= this.error %></div>
-  <% } else { %>
-    <h3>Repo: <%= this.name %></h3>
-    <p>Restored stash</p>
-    <% if (this.isDirty ) { %>
-      <p><a href="#" class="expression-reference" data-text="Show change summary for <%= this.name %>" data-exec="1">Show change summary</a></p>
-    <% } %>
-  <% } %>
 ]]>
 </script>
