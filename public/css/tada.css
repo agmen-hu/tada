@@ -119,6 +119,10 @@ body,
   }
 }
 
+.float.right {
+	float: right;
+}
+
 #prompt i {
   float: left;
   display: block;

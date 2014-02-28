@@ -74,6 +74,9 @@
     <div class="ui list">
       <div class="item">
         <% if (this.branch instanceof getClass('Tada.Git.Entity.LocalBranch') && this.branch.getUpstream()) { %>
+          <% if (!this.branch.isSyncedWithUpstream()) { %>
+            <div class="float right"><%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %></div>
+          <% } %>
           <i class="ui external url icon"></i>
           <div class="content">
             <div class="header"><%= this.branch.getUpstream().getName() %></div>
@@ -88,8 +91,6 @@
               <% } else { %>
                 <%= __('Need sync') %>
               <% } %>
-              <br />
-              <%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %>
             <% } %>
           </div>
         <% } %>
@@ -170,7 +171,7 @@
 <![CDATA[
   <div class="list">
     <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.getCreated().toLocaleString() %></div></div>
-    <div class="item"><i class="ui barcode icon"></i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
+    <div class="item"><i class="ui icon">#</i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
     <div class="item"><i class="ui user icon"></i> <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></div>
     <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= this.getMessageSubject() %></div></div>
     <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
