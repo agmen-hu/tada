@@ -63,7 +63,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
           branch: repo.getCurrentBranch(),
           titleLinks: this.__decidePushActionVisibility(err, repo, branch) ? [{
             sentence: "Push current branch",
-            arguments: { "repository <value>": name },
+            arguments: { "repository <value>": repoName },
             referenceText: "Push current branch",
             autoExecute: true
           }] : null,
