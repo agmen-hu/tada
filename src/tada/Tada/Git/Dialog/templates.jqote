@@ -155,7 +155,7 @@
         <i class="ui add icon" title="<%= __("new") %>"></i>
         <div class="content"title="<%= this.repo.getFileStatus().getUntracked()[i].file %>">
           <% if (this.singleRepo) { %>
-            <%= this.repo.getFileStatus().getUntracked()[i].file %>
+            <%= this.repo.getFileStatus().getUntracked()[i] %>
           <% } else { %>
             <%= ((this.repo.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.repo.getFileStatus().getUntracked()[i].slice(-20) %>
           <% } %>
