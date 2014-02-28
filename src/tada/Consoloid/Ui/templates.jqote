@@ -20,8 +20,7 @@
 
 <script id="Consoloid-Ui-Expression" type="text/x-jqote-template">
 <![CDATA[
-  <div class="prompt"><i class="small comment icon"></i></div>
-  <div class="expression"><%= this._encodeTagBoundaries(this.text) %></div>
+  <div class="expression"><i class="small comment icon"></i><%= this._encodeTagBoundaries(this.text) %></div>
   <div class="actions">
     <ul>
       <li><a class="remove" href="#"><i class="small trash icon"></i></a></li>
