@@ -1,6 +1,6 @@
 <script id="Tada-Git-Dialog-AbstractDialog" type="text/x-jqote-template">
 <![CDATA[
-  <div class="three column doubling ui grid repos">
+  <div class="<%= this.arguments.repo ? "one" : "three" %> column doubling ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
     <div class="column" data-repo-name="<%= this.requestedRepositories[i] %>">
       <div class="ui raised blue segment" >
@@ -125,29 +125,37 @@
 
 <script id="Tada-Git-Dialog-ShowChangeRepo" type="text/x-jqote-template">
 <![CDATA[
-  <% if (this.getFileStatus().getStaged().length) { %>
+  <% if (this.repo.getFileStatus().getStaged().length) { %>
   <div class="ui green label ribbon"><%= __("Staged") %></div>
   <div class="ui list">
-    <% for (var i=0,len=this.getFileStatus().getStaged().length; i<len; i++) { %>
+    <% for (var i=0,len=this.repo.getFileStatus().getStaged().length; i<len; i++) { %>
       <div class="item">
-        <i class="ui <%= this.getFileStatus().getStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.getFileStatus().getStaged()[i].status) %>"></i>
-        <div class="content" title="<%= this.getFileStatus().getStaged()[i].file %>">
-          <%= ((this.getFileStatus().getStaged()[i].file.length > 20) ? "…" : "") + this.getFileStatus().getStaged()[i].file.slice(-20) %>
+        <i class="ui <%= this.repo.getFileStatus().getStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.repo.getFileStatus().getStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.repo.getFileStatus().getStaged()[i].file %>">
+          <% if (this.singleRepo) { %>
+            <%= this.repo.getFileStatus().getStaged()[i].file %>
+          <% } else { %>
+            <%= ((this.repo.getFileStatus().getStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getStaged()[i].file.slice(-20) %>
+          <% } %>
         </div>
       </div>
     <% } %>
   </div>
   <% } %>
 
-  <% if (this.getFileStatus().getNotStaged().length) { %>
+  <% if (this.repo.getFileStatus().getNotStaged().length) { %>
   <div class="ui red label ribbon"><%= __("Unstaged") %></div>
   <div class="ui list">
-    <% for (var i=0,len=this.getFileStatus().getNotStaged().length; i<len; i++) { %>
+    <% for (var i=0,len=this.repo.getFileStatus().getNotStaged().length; i<len; i++) { %>
       <div class="item">
-        <i class="ui <%= this.getFileStatus().getNotStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.getFileStatus().getNotStaged()[i].status) %>"></i>
-        <div class="content" title="<%= this.getFileStatus().getNotStaged()[i].file %>">
-          <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.name %> of <%= this.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
-            <%= ((this.getFileStatus().getNotStaged()[i].file.length > 20) ? "…" : "") + this.getFileStatus().getNotStaged()[i].file.slice(-20) %>
+        <i class="ui <%= this.repo.getFileStatus().getNotStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.repo.getFileStatus().getNotStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.repo.getFileStatus().getNotStaged()[i].file %>">
+          <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.repo.name %> of <%= this.repo.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
+            <% if (this.singleRepo) { %>
+              <%= this.repo.getFileStatus().getNotStaged()[i].file %>
+            <% } else { %>
+              <%= ((this.repo.getFileStatus().getNotStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getNotStaged()[i].file.slice(-20) %>
+            <% } %>
           </a>
         </div>
       </div>
@@ -155,14 +163,18 @@
   </div>
   <% } %>
 
-  <% if (this.getFileStatus().getUntracked().length) { %>
+  <% if (this.repo.getFileStatus().getUntracked().length) { %>
   <div class="ui white label ribbon"><%= __("Untracked") %></div>
   <div class="ui list">
-    <% for (var i=0,len=this.getFileStatus().getUntracked().length; i<len; i++) { %>
+    <% for (var i=0,len=this.repo.getFileStatus().getUntracked().length; i<len; i++) { %>
       <div class="ui item">
         <i class="ui add icon" title="<%= __("new") %>"></i>
-        <div class="content"title="<%= this.getFileStatus().getUntracked()[i].file %>">
-          <%= ((this.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.getFileStatus().getUntracked()[i].slice(-20) %>
+        <div class="content"title="<%= this.repo.getFileStatus().getUntracked()[i].file %>">
+          <% if (this.singleRepo) { %>
+            <%= this.repo.getFileStatus().getUntracked()[i].file %>
+          <% } else { %>
+            <%= ((this.repo.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.repo.getFileStatus().getUntracked()[i].slice(-20) %>
+          <% } %>
         </div>
       </div>
     <% } %>
@@ -262,34 +274,23 @@
 ]]>
 </script>
 
-<script id="Tada-Git-Dialog-FileChanges" type="text/x-jqote-template">
-<![CDATA[
-  <div class="one column ui grid repos">
-  <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
-    <div class="column">
-      <div class="ui raised blue segment" data-repo-name="<%= this.requestedRepositories[i] %>">
-        <i class="big loading icon"></i>Repository with name <%= this.requestedRepositories[i] %> is processing...
-      </div>
-    </div>
-  <% } %>
-]]>
-</script>
-
 <script id="Tada-Git-Dialog-File-ChangesRepo" type="text/x-jqote-template">
 <![CDATA[
-<% var htmlEntityEncode = function (str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}; %>
-<pre>
-<% var diffLines = JSON.parse(this.diffLines);
-$.each(diffLines, function(index, value) { %><p class="
-    git-diff-line
-    <%= (value[0] == '+') ? "git-diff-line-added" : "" %>
-    <%= (value[0] == '-') ? "git-diff-line-removed" : "" %>
-    <%= (value[0] == 'd' || value[0] == 'i' || value[0] == '@' ) ? "git-diff-line-header" : "" %>
-  "><%= htmlEntityEncode(value) %></p>
-<% }); %>
-</pre>
+<div class="ui raised blue segment">
+  <% var htmlEntityEncode = function (str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }; %>
+  <pre>
+  <% var diffLines = JSON.parse(this.diffLines);
+  $.each(diffLines, function(index, value) { %><p class="
+      git-diff-line
+      <%= (value[0] == '+') ? "git-diff-line-added" : "" %>
+      <%= (value[0] == '-') ? "git-diff-line-removed" : "" %>
+      <%= (value[0] == 'd' || value[0] == 'i' || value[0] == '@' ) ? "git-diff-line-header" : "" %>
+    "><%= htmlEntityEncode(value) %></p>
+  <% }); %>
+  </pre>
+  </div>
 ]]>
 </script>
 

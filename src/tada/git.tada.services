@@ -161,7 +161,6 @@ definitions:
     options:
       remoteService: git.command.diff
       remoteMethod: getDiff
-      responseTemplateId: Tada-Git-Dialog-FileChanges
       repositoryTemplateId: Tada-Git-Dialog-File-ChangesRepo
 
   git.gui.sentence:

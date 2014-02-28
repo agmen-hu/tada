@@ -23,7 +23,10 @@ defineClass('Tada.Git.Dialog.ShowChanges', 'Tada.Git.Dialog.DataFromModel',
         } : null,
         otherInfo: {
           templateId: "#Tada-Git-Dialog-ShowChangeRepo",
-          data: repo
+          data: {
+            repo: repo,
+            singleRepo: this.arguments.repo
+          }
         }
       });
     },
