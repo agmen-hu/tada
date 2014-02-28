@@ -54,13 +54,12 @@
 }
 
 .git-branch.item.extended {
-  margin-top: 10px;
   padding-bottom: 10px;
 }
 
 .git-branch.item.extended h5 {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  padding-top: 0.5em;
+  float: left;
 }
 
 ul.git-command-toolbox {
@@ -142,6 +141,10 @@ body,
   }
 }
 
+.dialog .response {
+  overflow-x: hidden;
+}
+
 .float.right {
 	float: right;
 }
@@ -170,12 +173,14 @@ body,
 
 .ui.mini.basic.button:hover
 {
+  opacity: 1;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93b1b1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93b1b1 100%);
 }
 
 .ui.mini.basic.button:active
 {
+  opacity: 1;
   background-color: #eee8d5!important;
   background-image: none;
 }
@@ -382,4 +387,22 @@ input.human-text {
 .scrollbar-wrapper button.ui.basic.button:disabled:active
 {
   background: none !important;
+}
+
+.list-view .collapsed {
+  white-space: nowrap;
+}
+
+.list-view .collapse-buttons .button {
+  margin-top: 0.5em;
+  opacity: 0.5;
+  padding: .6em !important;
+}
+
+.list-view .collapse-buttons .button .icon {
+  font-size: 0.8em;
+}
+
+.list-view .collapse-buttons .button.less {
+  margin-left: 3.5em !important;
 }

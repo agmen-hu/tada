@@ -14,7 +14,7 @@
   <% var branchName = branch.getName(); %>
   <div class="git-branch item" data-branch="<%= branchName %>" data-is-remote="<%= branch instanceof getClass('Tada.Git.Entity.RemoteBranch') %>">
     <% var localBranchName = branch instanceof getClass('Tada.Git.Entity.RemoteBranch') ? branch.getLocalName() : branchName; %>
-
+    <h5 class="ui header"><i class="ui fork code icon"></i><%= branchName %></h5>
     <ul class="git-command-toolbox float right">
       <li><%= __s("Switch to branch", { "branch <value>": localBranchName }, null, true) %></li>
       <% if (branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
@@ -26,7 +26,7 @@
         <li><%= __s("Delete remote branch", { "branch <value>": branchName }, null, true) %></li>
       <% } %>
     </ul>
-    <h5 class="ui header"><i class="ui fork code icon"></i><%= branchName %></h5>
+    <div style="clear: left"></div>
     <div class="ui three column doubling grid repos">
       <% for (var index in this.data) { %>
         <% var branch = this.data[index].branch; %>
@@ -58,7 +58,7 @@
         </div>
       <% } %>
     </div>
-    <div style="clear: left"></div>
+
   </div>
 ]]>
 </script>
