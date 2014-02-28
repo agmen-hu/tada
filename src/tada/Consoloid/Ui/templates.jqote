@@ -47,7 +47,7 @@
   <div class="scrollbar-wrapper ui vertical buttons">
     <button class="scrollbar-button-first-page ui basic button"><i class="double angle up icon"></i></button>
     <button class="scrollbar-button-previous-page ui basic button"><i class="angle up icon"></i></button>
-    <span class="scrollbar-pagenumber"><%= Math.round(this.pageNumber) + 1 %></span>
+    <div class="scrollbar-pagenumber"><%= Math.round(this.pageNumber) + 1 %></div>
     <button class="scrollbar-button-next-page ui basic button"><i class="angle down icon"></i></button>
     <button class="scrollbar-button-last-page ui basic button"><i class="double angle down icon"></i></button>
   </div>

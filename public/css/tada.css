@@ -162,6 +162,7 @@ body,
 {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%);
+  opacity: 1;
 }
 
 #prompt,
@@ -173,7 +174,7 @@ body,
 
 .ui.mini.basic.button:hover
 {
-  opacity: 1;
+  opacity: 1 !important;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93b1b1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93b1b1 100%);
 }
@@ -389,13 +390,17 @@ input.human-text {
   background: none !important;
 }
 
+.scrollbar-pagenumber {
+  padding: 1em 0;
+}
+
 .list-view .collapsed {
   white-space: nowrap;
 }
 
 .list-view .collapse-buttons .button {
   margin-top: 0.5em;
-  opacity: 0.5;
+  opacity: 0.5 !important;
   padding: .6em !important;
 }
 
