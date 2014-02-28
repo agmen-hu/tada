@@ -34,7 +34,21 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       if (repo.getFileStatus().isDirty()) {
-        this._renderRepository(repoName, { message: { error: true, text: 'Repo has local changes, please commit or stash them' } });
+        this._renderRepository(repoName, {
+          message: { error: true, text: 'Repo has local changes, please commit or stash them' },
+          links: [{
+            sentence: "Stash changes",
+            arguments: { "in repo <value>": repoName },
+            referenceText: "Stash changes",
+            autoExecute: true
+          },
+          {
+            sentence: "Run git gui",
+            arguments: { "from repo <value>": repoName },
+            referenceText: "Run git gui",
+            autoExecute: true
+          }]
+        });
         return;
       }
 
