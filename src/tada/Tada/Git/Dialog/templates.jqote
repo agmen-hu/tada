@@ -183,9 +183,11 @@
 
 <script id="Tada-Git-Dialog-Fetch" type="text/x-jqote-template">
 <![CDATA[
-  <ul class="git-command-toolbox">
-    <li><%= __s("Rebase current branch to its own upstream", {}, null, true) %></li>
-  </ul>
+  <% if (!this.arguments.repo) { %>
+    <ul class="git-command-toolbox">
+      <li><%= __s("Rebase current branch to its own upstream", {}, null, true) %></li>
+    </ul>
+  <% } %>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
 </script>
@@ -221,9 +223,11 @@
 
 <script id="Tada-Git-Dialog-Rebase" type="text/x-jqote-template">
 <![CDATA[
-  <ul class="git-command-toolbox">
-    <li><%= __s("Push current branch", {}, null, true) %></li>
-  </ul>
+  <% if (!this.arguments.repo) { %>
+    <ul class="git-command-toolbox">
+      <li><%= __s("Push current branch", {}, null, true) %></li>
+    </ul>
+  <% } %>
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
 </script>
