@@ -2,7 +2,7 @@
 <![CDATA[
   <div class="git-branch item">
     <% var branch = this.data[0].branch; %>
-    <div>Name: <b><%= branch.getName() %></b></div>
+    <div><i class="ui fork code icon"></i><%= branch.getName() %></div>
     <div>Repos: <%= this.data.map(function(item){ return item.repo.getName(); }).join(', ') %></div>
   </div>
 ]]>
@@ -15,45 +15,49 @@
   <div class="git-branch item" data-branch="<%= branchName %>" data-is-remote="<%= branch instanceof getClass('Tada.Git.Entity.RemoteBranch') %>">
     <% var localBranchName = branch instanceof getClass('Tada.Git.Entity.RemoteBranch') ? branch.getLocalName() : branchName; %>
 
-    <ul class="git-command-toolbox">
-      <li>Name: <b><%= branchName %></b></li>
-      <li><a href="#" class="expression-reference" data-text="Switch to branch <%= localBranchName %>" data-exec="1">Switch to branch</a></li>
+    <ul class="git-command-toolbox float right">
+      <li><%= __s("Switch to branch", { "branch <value>": localBranchName }, null, true) %></li>
       <% if (branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
         <% if (this.data.some(function(entity){ return entity.branch.getAheadFromUpstream(); })) { %>
-          <li><a href="#" class="expression-reference" data-text="Push branch <%= branchName %>" data-exec="0">Push branch</a></li>
+          <li><%= __s("Push branch", { "branch <value>": branchName }, null, true) %></li>
         <% } %>
-        <li><a href="#" class="expression-reference" data-text="Delete branch <%= branchName %>" data-exec="0">Delete branch</a></li>
+        <li><%= __s("Delete branch", { "branch <value>": branchName }, null, true) %></li>
       <% } else if (branch instanceof getClass('Tada.Git.Entity.RemoteBranch')) { %>
-        <li><a href="#" class="expression-reference" data-text="Delete remote branch <%= branchName %>" data-exec="0">Delete remote branch</a></li>
+        <li><%= __s("Delete remote branch", { "branch <value>": branchName }, null, true) %></li>
       <% } %>
     </ul>
-
-    <% for (var index in this.data) { %>
-      <% var branch = this.data[index].branch; %>
-      <% var repoName = this.data[index].repo.getName(); %>
-      <% var commit = branch.getLatestCommit(); %>
-      <% var currentBranchName = this.data[index].repo.getCurrentBranch().getName(); %>
-      <div class="git-repo">
-        <div>Repo: <b><%= repoName %></b></div>
-        <div>Hash: <b><%= commit.getHash().substr(0, 8) %></b></div>
-        <div>Subject: <%= commit.getMessageSubject() %></div>
-        <div style="margin: 5px 0;">
-          <a href="#" class="expression-reference" data-text="Switch to branch <%= localBranchName %> in <%= repoName %>" data-exec="1">Switch</a>
-          <% if (branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
-            <% if (branch.getAheadFromUpstream()) { %>
-              <a href="#" class="expression-reference" data-text="Push branch <%= branchName %> of <%= repoName %>" data-exec="0">Push</a>
-            <% } %>
-            <a href="#" class="expression-reference" data-text="Delete branch <%= branchName %> from <%= repoName %>" data-exec="0">Delete</a>
-          <% } else if (branch instanceof getClass('Tada.Git.Entity.RemoteBranch')) { %>
-            <a href="#" class="expression-reference" data-text="Delete remote branch <%= branchName %> from <%= repoName %>" data-exec="0">Delete</a>
-          <% } %>
-          <% if (branchName != currentBranchName) { %>
-            <a href="#" class="expression-reference"
-              data-text="Rebase current branch to <%= branchName %> in <%= repoName %>" data-exec="0">Rebase current to this</a>
-          <% } %>
+    <h5 class="ui header"><i class="ui fork code icon"></i><%= branchName %></h5>
+    <div class="ui three column doubling grid repos">
+      <% for (var index in this.data) { %>
+        <% var branch = this.data[index].branch; %>
+        <% var repoName = this.data[index].repo.getName(); %>
+        <% var commit = branch.getLatestCommit(); %>
+        <% var currentBranchName = this.data[index].repo.getCurrentBranch().getName(); %>
+        <div class="column">
+         <div class="ui raised blue segment">
+            <div class="ui top attached label"><%= repoName %></div>
+            <div class="ui list">
+              <div class="item"><i class="ui icon">#</i><div class="content"><%= commit.getHash().substr(0, 8) %></div></div>
+              <div class="item"><i class="ui comment outline icon"></i><div class="content"><%= commit.getMessageSubject() %></div></div>
+            </div>
+            <ul class="git-command-toolbox">
+              <li><%= __s("Switch to branch", { "branch <value>": localBranchName, "in repo <value>": repoName }, "Switch", true) %></li>
+              <% if (branch instanceof getClass('Tada.Git.Entity.LocalBranch')) { %>
+                <% if (branch.getAheadFromUpstream()) { %>
+                  <li><%= __s("Push branch", { "branch <value>": localBranchName, "repository <value>": repoName }, "Push", true) %></li>
+                <% } %>
+                <li><%= __s("Delete branch", { "branch <value>": branchName, "from repo <value>": repoName }, "Delete", true) %></li>
+              <% } else if (branch instanceof getClass('Tada.Git.Entity.RemoteBranch')) { %>
+                <li><%= __s("Delete remote branch", { "branch <value>": branchName, "from repo <value>": repoName }, "Delete", true) %></li>
+              <% } %>
+              <% if (branchName != currentBranchName) { %>
+                <li><%= __s("Rebase current branch", { "to branch <value>": branchName, "in repo <value>": repoName }, "Rebase current to this", true) %></li>
+              <% } %>
+            </ul>
+          </div>
         </div>
-      </div>
-    <% } %>
+      <% } %>
+    </div>
     <div style="clear: left"></div>
   </div>
 ]]>

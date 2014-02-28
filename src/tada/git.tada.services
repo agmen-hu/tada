@@ -277,6 +277,7 @@ definitions:
     options:
       service: git.switch.branch
       patterns:
+        - Switch to branch
         - Switch to branch <branch>
         - Switch to branch <branch> in <repo>
       arguments:
