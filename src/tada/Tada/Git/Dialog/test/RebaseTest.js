@@ -17,7 +17,9 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
     repo,
     branch,
     dialog,
-    rebaseResponse;
+    rebaseResponse,
+    refreshResponse,
+    queue;
 
   beforeEach(function() {
     dialog = env.create('Tada.Git.Dialog.Rebase', { arguments: {} });
@@ -39,9 +41,16 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
     env.addServiceMock('git.project', project);
 
     rebaseResponse = {};
-    env.addServiceMock('git.repository.command.queues', {getQueue: sinon.stub().returns({
-      rebase: function(cb) { cb(rebaseResponse); }
-    })});
+    refreshResponse = {};
+    queue = {
+      rebase: function(cb) { cb(rebaseResponse); return queue },
+      refresh: sinon.stub().yields(refreshResponse),
+      killQueue: sinon.stub()
+    }
+    sinon.spy(queue, "rebase");
+    env.addServiceMock('git.repository.command.queues', {
+      getQueue: sinon.stub().returns(queue)
+    });
   });
 
   describe("#_processRepository()", function() {
@@ -52,7 +61,9 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
       repo.getFileStatus().isDirty.returns(true);
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Repo has local changes, please commit or stash them' } }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada');
+      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].links.should.be.ok;
       branch.setCommits.called.should.be.false;
     });
 
@@ -98,18 +109,48 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
       dialog._renderRepository.args[0][1].branch.should.be.ok;
       (dialog._renderRepository.args[0][1].titleLinks || []).length.should.equal(0);
       repo.getLocalBranches().getEntity.alwaysCalledWith('foo').should.be.true;
-      branch.setCommits.called.should.be.true;
     });
 
-    it('should update the model when rebase was successful', function(){
+    it('should kill queue if rebase returned with error', function() {
+      rebaseResponse.err = 'BU';
+      repo.hasRemoteBranch.returns(true);
+      repo.getRemoteBranches().getEntity.returns(branch);
+      dialog._processRepository('tada');
+
+      queue.rebase.calledOnce.should.be.ok;
+      queue.refresh.calledOnce.should.be.ok;
+      queue.killQueue.calledOnce.should.be.ok;
+    });
+
+    it('should allow push if rebase error is that branch is up to date', function() {
+      rebaseResponse = "Current branch foobar is up to date.";
+
+      repo.hasRemoteBranch.returns(true);
+      repo.getRemoteBranches().getEntity.returns(branch);
+      dialog._processRepository('tada');
+
+      queue.killQueue.calledOnce.should.be.ok;
+      dialog._renderRepository.args[0][1].titleLinks.should.be.ok;
+    });
+
+    it('should call refresh when rebase was successful', function() {
+      repo.hasRemoteBranch.returns(true);
+      repo.getRemoteBranches().getEntity.returns(branch);
+
+      dialog._processRepository('tada');
+
+      queue.rebase.calledOnce.should.be.ok;
+      queue.refresh.calledOnce.should.be.ok;
+      queue.refresh.args[0][1].should.equal('tada');
+      //queue.refresh.args[0][2].should.equal(['localRefList']);
+    });
+
+    it('should mention branches when rebase was successful', function(){
       repo.hasRemoteBranch.returns(true);
       repo.getRemoteBranches().getEntity.returns(branch);
       branch.getCommits.returns([1,0]);
 
       dialog._processRepository('tada');
-
-      branch.setCommits.called.should.be.true;
-      branch.setCommits.alwaysCalledWith([3,2,1,0]).should.be.true;
 
       branch.mention.called.should.be.true;
       repo.getCurrentBranch().mention.called.should.be.true;
@@ -122,7 +163,7 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
         dialog._processRepository('tada');
 
-        dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Branch foo does not has upstream' } }).should.be.true;
+        dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Branch foo does not have an upstream' } }).should.be.true;
         branch.setCommits.called.should.be.false;
       });
 
@@ -132,7 +173,6 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
         dialog._processRepository('tada');
 
         dialog._renderRepository.args[0][1].branch.should.be.ok;
-        branch.setCommits.called.should.be.true;
       });
     });
   });

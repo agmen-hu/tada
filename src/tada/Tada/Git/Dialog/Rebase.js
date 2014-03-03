@@ -27,7 +27,8 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       var
         repo = this.get('git.project').getRepository(repoName),
         branch = this.__getBranch(repo),
-        branchName = branch ? branch.getName() : '';
+        branchName = branch ? branch.getName() : '',
+        queue = this.get('git.repository.command.queues').getQueue(repoName);
 
       if (!branch) {
         return;
@@ -57,32 +58,48 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
         return;
       }
 
-      this.get('git.repository.command.queues').getQueue(repoName).rebase(function(err){
-        if (!err || (typeof err == 'object' && !Object.keys(err).length)) {
-          err = undefined;
-          this._updateModel(repo, branch);
-        }
+      queue
+        .rebase(function(err){
+          if (!err || (typeof err == 'object' && !Object.keys(err).length)) {
+            return;
+          }
+          var response = { message: { text: err } };
+          queue.killQueue();
+          if (typeof err == 'object' && Object.keys(err).length) {
+            response.message.text = JSON.stringify(err);
+          }
 
-        if (typeof err == 'object' && Object.keys(err).length) {
-          err = JSON.stringify(err);
-        }
-
-        this._renderRepository(repoName, {
-          message: {
-            text: err || "Rebase was successful",
-            error: err ? {
+          if (response.message.text.indexOf("is up to date") !== -1) {
+            response.titleLinks = [ this.__pushCurrentBranchLink(repoName) ];
+          } else {
+            response.message.error = {
               fromGit: true
-            } : null
-          },
-          branch: repo.getCurrentBranch(),
-          titleLinks: this.__decidePushActionVisibility(err, repo, branch) ? [{
-            sentence: "Push current branch",
-            arguments: { "repository <value>": repoName },
-            referenceText: "Push current branch",
-            autoExecute: true
-          }] : null,
-        });
-      }.bind(this), repoName, branch.getName());
+            }
+          }
+
+          this._renderRepository(repoName, response);
+        }.bind(this), repoName, branch.getName())
+        .refresh(function(err) {
+          if (!err || (typeof err == 'object' && !Object.keys(err).length)) {
+            err = undefined;
+            this._mentionBranches(repo, branch);
+          }
+
+          if (typeof err == 'object' && Object.keys(err).length) {
+            err = JSON.stringify(err);
+          }
+
+          this._renderRepository(repoName, {
+            message: {
+              text: err || "Rebase was successful",
+              error: err ? {
+                fromGit: true
+              } : null
+            },
+            branch: repo.getCurrentBranch(repoName),
+            titleLinks: (!err && this.__decidePushActionVisibility(repo, branch)) ? [this.__pushCurrentBranchLink(repoName)] : null,
+          });
+        }.bind(this), repoName/*, ['localRefList']*/);
     },
 
     __getBranch: function(repo)
@@ -94,7 +111,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       if (this.toUpstream) {
         branch = repo.getCurrentBranch().getUpstream();
         if (!branch) {
-          err = 'Branch ' + repo.getCurrentBranch().getName() + ' does not has upstream';
+          err = 'Branch ' + repo.getCurrentBranch().getName() + ' does not have an upstream';
         }
       } else {
         var branchName = this.arguments.branch.value;
@@ -117,24 +134,27 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
     },
 
-    _updateModel: function(repo, branch)
+    _mentionBranches: function(repo, branch)
     {
       var currentBranch = repo.getCurrentBranch();
-      branch.setCommits(currentBranch.getCommits().concat(branch.getCommits()));
 
       currentBranch.mention();
       branch.mention();
     },
 
-    __decidePushActionVisibility: function(err, repo, branch)
+    __decidePushActionVisibility: function(repo, branch)
     {
-      var errorIsRequire = err && typeof err == 'string' && err.indexOf('Current branch') === 0;
-
-      if (!errorIsRequire) {
-        return false;
-      }
-
       return repo.getCurrentBranch().getLatestCommit() != branch.getLatestCommit();
+    },
+
+    __pushCurrentBranchLink: function(repoName)
+    {
+      return {
+        sentence: "Push current branch",
+        arguments: { "repository <value>": repoName },
+        referenceText: "Push current branch",
+        autoExecute: true
+      }
     }
   }
 );
