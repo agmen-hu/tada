@@ -231,3 +231,45 @@
   <%= $('#Tada-Git-Dialog-AbstractDialog').jqote(this) %>
 ]]>
 </script>
+
+<script id="Tada-Git-Dialog-FetchRepo" type="text/x-jqote-template">
+<![CDATA[
+<div>
+    <% if (this.removedBranches.length != 0) { %>
+      <div class="ui red label ribbon"><%= __("Removed branches") %></div>
+      <ul>
+      <% this.removedBranches.forEach(function(branch) { %>
+        <li><%= branch %></li>
+      <% }); %>
+      </ul>
+    <% } %>
+    <% if (this.updatedBranches.length != 0) { %>
+      <% var upstreamNameForCurrentBranch = this.repo.getCurrentBranch().getUpstream() ? this.repo.getCurrentBranch().getUpstream().getName() : ''; %>
+      <div class="ui white label ribbon"><%= __("Updated branches") %></div>
+      <ul>
+      <% this.updatedBranches.forEach((function(branch) { %>
+        <li>
+          <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
+          <%= branch.getName() %>
+          <% if (branch.getName() == upstreamNameForCurrentBranch) { %>
+            <%= __s("Rebase current branch", { "to branch <value>": upstreamNameForCurrentBranch, "in repo <value>": this.repo.getName() }, "Rebase", true) %>
+          <% } %>
+          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
+        </li>
+      <% }).bind(this)); %>
+      </ul>
+    <% } %>
+    <% if (this.newBranches.length != 0) { %>
+      <div class="ui green label ribbon"><%= __("New branches") %></div>
+      <ul>
+      <% this.newBranches.forEach((function(branch) { %>
+        <li>
+          <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
+          <%= branch.getName() %>
+          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
+        </li>
+      <% }).bind(this)); %>
+      </ul>
+    <% } %>
+]]>
+</script>
