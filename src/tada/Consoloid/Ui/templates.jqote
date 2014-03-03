@@ -64,3 +64,12 @@
   </div>
 ]]>
 </script>
+
+<script id="Consoloid-Ui-List-BaseFilterWidget" type="text/x-jqote-template">
+<![CDATA[
+  <div class="list-filter ui raised segment">
+    <div class="clear-filters ui right corner label"><i class="ui trash icon"></i></div>
+    <div><div class="ui top attached label"><%= __("Currently filtering for:") %></div> <div class="filter-value"></div></div>
+  </div>
+]]>
+</script>

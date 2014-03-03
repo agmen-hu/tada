@@ -286,8 +286,17 @@ input.human-text {
 }
 
 .repos .segment,
-.list-view .segment {
+.list-view .segment,
+.list-filter.segment {
   background-color: rgba(7, 54, 66, 0.8) !important;
+}
+
+.list-filter.segment {
+	border: none !important;
+}
+
+.filter-value {
+	margin-top: 2em;
 }
 
 .repos .segment {
@@ -313,7 +322,9 @@ input.human-text {
   height: 2.5em;
 }
 
-.repos h4.top.attached.label {
+.repos h4.top.attached.label,
+.list-filter .top.attached.label,
+.list-filter .corner.label {
   background-color: rgba(10, 57, 69, 1);
   color: #839496;
   font-size: 1em;
