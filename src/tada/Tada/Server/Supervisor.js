@@ -10,7 +10,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
         env: 'prod',
         netModule: require('net'),
         childProcessModule: require('child_process'),
-        httpModule: require('http'),
+        httpModule: require('http')
       }, options));
 
       if (this.tadaConfig === undefined) {
@@ -62,7 +62,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
 
     spawnServer: function()
     {
-      console.log("Starting server on port " + this.tadaConfig.get('server/port'));
+      console.log("Starting server at http://localhost:" + this.tadaConfig.get('server/port') + '/');
 
       var child = this.childProcessModule.spawn(process.argv[0], [ process.argv[1], 'server-foreground' ], {
         stdio: 'inherit',
