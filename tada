@@ -46,7 +46,6 @@ program
 
 program
   .command('*')
-  .description('any other sentence given will be forwarded to the tada server')
   .action(function(expression){
     program.help();
   });
