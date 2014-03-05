@@ -3,7 +3,7 @@ defineClass('Tada.Git.Dialog.WelcomeMessage', 'Tada.Git.Dialog.UpdateVersionCont
     __constructor: function(options)
     {
       this.__base($.extend({
-        repositoryTemplateId: "Tada-Git-Dialog-ShowVersionControlSummaryRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-ShowVersionControlSummaryRepo"
       }, options));
     },
 
@@ -32,6 +32,6 @@ defineClass('Tada.Git.Dialog.WelcomeMessage', 'Tada.Git.Dialog.UpdateVersionCont
 
       document.title = this.name + " - Consoloid Tada";
       this.__processRequestedRepositories();
-    },
+    }
   }
 );
