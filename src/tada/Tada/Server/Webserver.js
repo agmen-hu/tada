@@ -21,20 +21,18 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
 
     __flushBootLogs: function()
     {
-      if (this.env == "prod") {
-        this.__loggingInProductionEnvironment();
+      if (this.env == "prod" && this.logFile) {
+        this.__redirectConsoleLogToFile();
       }
       this.__base();
     },
 
-    __loggingInProductionEnvironment: function()
+    __redirectConsoleLogToFile: function()
     {
       var minilogDefinition = this.container.getDefinition("minilog");
       minilogDefinition.options.console = false;
-      minilogDefinition.options.path = "/tmp/tada-" + Math.random().toString(36).substring(7) + ".log";
+      minilogDefinition.options.path = this.logFile;
       this.container.addDefinition("minilog", minilogDefinition);
-
-      console.log('Log file: ' + minilogDefinition.options.path);
     }
   }
 );

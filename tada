@@ -16,10 +16,10 @@ program
   });
 
 program
-  .command('server-foreground [env]')
+  .command('server-foreground [env] [logfile]')
   .description('start tada server for this project')
-  .action(function(env) {
-    new Tada.Server.Supervisor({ env: env || 'prod' })
+  .action(function(env, logfile) {
+    new Tada.Server.Supervisor({ env: env || 'prod', logFile: logfile })
       .startServer();
   });
 

@@ -8,6 +8,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
       this.__base($.extend({
         tadaConfig: undefined,
         env: 'prod',
+        logFile: undefined,
         netModule: require('net'),
         childProcessModule: require('child_process'),
         httpModule: require('http')
@@ -64,7 +65,10 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
     {
       console.log("Starting server at http://localhost:" + this.tadaConfig.get('server/port') + '/');
 
-      var child = this.childProcessModule.spawn(process.argv[0], [ process.argv[1], 'server-foreground' ], {
+      var logFile = "/tmp/tada-" + Math.random().toString(36).substring(7) + ".log";
+      console.log('Log is written to file: ' + logFile);
+
+      var child = this.childProcessModule.spawn(process.argv[0], [ process.argv[1], 'server-foreground', this.env, logFile ], {
         stdio: 'inherit',
         detached: true
       });
@@ -80,7 +84,7 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
         }
 
         if (!result) {
-          new Tada.Server.Webserver({ env: this.env, tadaConfig: this.tadaConfig })
+          new Tada.Server.Webserver({ env: this.env, tadaConfig: this.tadaConfig, logFile: this.logFile })
             .run();
         } else {
           console.log("Server already started on port " + this.tadaConfig.get('server/port'));
