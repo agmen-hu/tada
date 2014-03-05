@@ -75,7 +75,7 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
         }
 
         if (!Object.keys(repositories).length) {
-          callback('There are not found any git project');
+          callback('Search hasn\'t found any git repository, exiting...');
           return;
         }
 

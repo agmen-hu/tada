@@ -43,4 +43,4 @@ defineClass('Tada.Git.DetectRepositories', 'Consoloid.Base.Object',
       repositories[splittedPath[splittedPath.length - 1]] = splittedPath.join('/');
     }
   }
-)
+);
