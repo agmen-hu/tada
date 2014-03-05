@@ -24,6 +24,11 @@ defineClass('Tada.Server.Supervisor', 'Consoloid.Base.Object',
       this.tadaConfig = this.create('Tada.Configuration.FileHandler', {}).loadFrom(process.cwd());
     },
 
+    getConfig: function(path, defaultValue)
+    {
+      return this.tadaConfig.get(path, defaultValue);
+    },
+
     isServerRunning: function(callback)
     {
       this.__tryToListenOnPort(callback, this.tadaConfig.get('server/port'));

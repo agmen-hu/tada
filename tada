@@ -3,6 +3,23 @@
 require('./src/tada/Tada/Server/Supervisor');
 require('./src/tada/Tada/Command/Detect');
 
+var spawnServer = function(env) {
+  var supervisor = new Tada.Server.Supervisor({ env: env || 'prod' });
+
+  supervisor.isServerRunning(function(err, result) {
+    if (err) {
+      throw Error(err);
+    }
+
+    if (result) {
+      console.log("ERROR: Server already running at http://localhost:" + supervisor.getConfig('server/port') + "/");
+      program.help();
+    } else {
+      supervisor.spawnServer();
+    }
+  });
+}
+
 var program = require('commander');
 program
   .option('-v, --verbose', 'Verbose logging', null);
@@ -10,10 +27,7 @@ program
 program
   .command('server [env]')
   .description('start tada server for this project')
-  .action(function(env) {
-    new Tada.Server.Supervisor({ env: env || 'prod' })
-      .spawnServer();
-  });
+  .action(spawnServer);
 
 program
   .command('server-foreground [env] [logfile]')
@@ -55,6 +69,5 @@ program
   .parse(process.argv);
 
 if (!program.args.length) {
-  new Tada.Server.Supervisor({ env: 'prod' })
-    .spawnServer();
+  spawnServer('prod');
 }
