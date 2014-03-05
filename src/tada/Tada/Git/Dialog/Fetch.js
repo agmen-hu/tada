@@ -4,7 +4,7 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
     {
       this.__base($.extend({
         responseTemplateId: "Tada-Git-Dialog-Fetch",
-        repositoryTemplateId: "Tada-Git-Dialog-FetchRepo",
+        repositoryTemplateId: "Tada-Git-Dialog-FetchRepo"
       }, options));
     },
 
@@ -40,7 +40,7 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
 
       repo.getRemoteBranches().forEach(function(branch) {
         result[branch.getName()] = branch.getLatestCommit().getHash();
-      })
+      });
 
       return result
     },
