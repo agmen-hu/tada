@@ -27,13 +27,13 @@ Notes:
 
 # Support
 
- For help and discussion you can find us:
-  * IRC (freenode): #consoloid-tada
-                      * Google Groups: http://groups.google.com/group/consoloid-tada (email: consoloid-tada@googlegroups.com)
+For help and discussion you can find us:
+ * IRC (freenode): #consoloid-tada
+ * Google Groups: http://groups.google.com/group/consoloid-tada (email: consoloid-tada@googlegroups.com)
 
-                     Known issues:
-                      * tada does not support Windows yet. It should work on any Linux based OS..
+Known issues:
+ * tada does not support Windows yet. It should work on any Linux based OS.
 
 # Extending tada
 
-                      Tada can be extended with new commands. Look for help at #consoloid-tada IRC channel.
+Tada can be extended with new commands. Look for help at #consoloid-tada IRC channel.
