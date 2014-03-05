@@ -72,7 +72,11 @@ describeUnitTest('Tada.Server.Supervisor', function() {
       console.log.restore();
 
       childProcessModule.spawn.calledOnce.should.be.true;
-      childProcessModule.spawn.calledWith(process.argv[0], [ process.argv[1], 'server-foreground' ]).should.be.true;
+      childProcessModule.spawn.args[0][0].should.be.equal(process.argv[0]);
+      childProcessModule.spawn.args[0][1][0].should.be.equal(process.argv[1]);
+      childProcessModule.spawn.args[0][1][1].should.be.equal('server-foreground');
+      childProcessModule.spawn.args[0][1][2].should.be.equal('prod');
+      childProcessModule.spawn.args[0][1][3].should.match(/\/tmp\/tada-.*\.log/);
     });
 
     it('should detach child and also unref it', function() {
