@@ -16,7 +16,31 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
 
       this.container.addSharedObject('tada_config', this.tadaConfig);
       this.config.server.port = this.tadaConfig.get('server/port');
-      this.config.resourceLoader.resourceDirectories.unshift(this.tadaConfig.get('tadaRoot'));
+
+      this.__addResourceDirectories();
+    },
+
+    __addResourceDirectories: function()
+    {
+      var theme = this.tadaConfig.get('theme') || "vanda";
+      this.tadaDirectories = [
+        "themes/" + theme,
+        this.tadaConfig.get('tadaRoot') + "/themes/" + theme,
+        this.tadaConfig.get('tadaRoot')
+      ];
+
+      this.tadaDirectories.forEach(function(directory) {
+        this.config.resourceLoader.resourceDirectories.unshift(directory);
+      }.bind(this));
+    },
+
+    run: function()
+    {
+      this.__base();
+
+      this.tadaDirectories.forEach(function(directory) {
+        this.setAsStaticDirectory(directory);
+      }.bind(this));
     },
 
     __flushBootLogs: function()
