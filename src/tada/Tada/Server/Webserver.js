@@ -27,9 +27,9 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
       this.__checkForThemeDirectory(theme);
 
       this.tadaDirectories = [
-        "themes/" + theme,
+        this.tadaConfig.get('tadaRoot'),
         this.tadaConfig.get('tadaRoot') + "/themes/" + theme,
-        this.tadaConfig.get('tadaRoot')
+        "themes/" + theme
       ];
 
       this.tadaDirectories.forEach(function(directory) {
