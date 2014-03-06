@@ -29,7 +29,7 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
       this.tadaDirectories = [
         this.tadaConfig.get('tadaRoot'),
         this.tadaConfig.get('tadaRoot') + "/themes/" + theme,
-        "themes/" + theme
+        __dirname + "/../../../../themes/" + theme
       ];
 
       this.tadaDirectories.forEach(function(directory) {
@@ -41,7 +41,7 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
     {
       var fs = require('fs');
 
-      if (!fs.existsSync("themes/" + theme) && !fs.existsSync(this.tadaConfig.get('tadaRoot') + "/themes/" + theme)) {
+      if (!fs.existsSync(__dirname + "/../../../../themes/" + theme) && !fs.existsSync(this.tadaConfig.get('tadaRoot') + "/themes/" + theme)) {
         throw new Error("Theme folder for \"" + theme + "\" theme does not exist.");
       }
     },
