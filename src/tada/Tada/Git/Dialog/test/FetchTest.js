@@ -103,10 +103,10 @@ describeUnitTest('Tada.Git.Dialog.Fetch', function() {
       refresh.args[0][0]();
 
       dialog._renderRepository.calledWith("tada").should.be.ok;
-      dialog._renderRepository.args[0][1].otherInfo.data.removedBranches[0].should.equal("barName");
-      dialog._renderRepository.args[0][1].otherInfo.data.updatedBranches[0].should.equal("fooName");
-      dialog._renderRepository.args[0][1].otherInfo.data.newBranches[0].should.equal("foobarName");
-      dialog._renderRepository.args[0][1].otherInfo.data.repo.should.equal(repo);
+      dialog._renderRepository.args[0][1].embed.data.removedBranches[0].should.equal("barName");
+      dialog._renderRepository.args[0][1].embed.data.updatedBranches[0].should.equal("fooName");
+      dialog._renderRepository.args[0][1].embed.data.newBranches[0].should.equal("foobarName");
+      dialog._renderRepository.args[0][1].embed.data.repo.should.equal(repo);
     });
 
     it("should send prune argument", function() {

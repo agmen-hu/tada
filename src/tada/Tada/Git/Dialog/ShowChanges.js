@@ -22,7 +22,7 @@ defineClass('Tada.Git.Dialog.ShowChanges', 'Tada.Git.Dialog.DataFromModel',
           type: this.__self.MESSAGE_INFO,
           text: "Repository is clean."
         } : null,
-        otherInfo: {
+        embed: {
           templateId: "#Tada-Git-Dialog-ShowChangeRepo",
           data: {
             repo: repo,

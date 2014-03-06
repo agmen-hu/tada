@@ -36,7 +36,7 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
               text: "No changes",
               type: this.__self.MESSAGE_INFO
             } : null,
-            otherInfo: {
+            embed: {
               templateId: "#Tada-Git-Dialog-FetchRepo",
               data: changes
             }
