@@ -23,6 +23,9 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
     __addResourceDirectories: function()
     {
       var theme = this.tadaConfig.get('theme') || "vanda";
+
+      this.__checkForThemeDirectory(theme);
+
       this.tadaDirectories = [
         "themes/" + theme,
         this.tadaConfig.get('tadaRoot') + "/themes/" + theme,
@@ -32,6 +35,15 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
       this.tadaDirectories.forEach(function(directory) {
         this.config.resourceLoader.resourceDirectories.unshift(directory);
       }.bind(this));
+    },
+
+    __checkForThemeDirectory: function(theme)
+    {
+      var fs = require('fs');
+
+      if (!fs.existsSync("themes/" + theme) && !fs.existsSync(this.tadaConfig.get('tadaRoot') + "/themes/" + theme)) {
+        throw new Error("Theme folder for \"" + theme + "\" theme does not exist.");
+      }
     },
 
     run: function()
