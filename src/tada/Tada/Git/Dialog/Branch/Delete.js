@@ -14,12 +14,12 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Cannot delete ' + branchName + ' branch, because you are on it!' } });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Cannot delete <value> branch, because you are on it!', arguments: { '<value>': branchName } } });
         return;
       }
 
       if (!repo.hasLocalBranch(branchName)) {
-       this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Branch ' + branchName + ' does not exist!' } });
+       this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Branch <value> does not exist!', arguments: { '<value>': branchName } } });
         return;
       }
 
