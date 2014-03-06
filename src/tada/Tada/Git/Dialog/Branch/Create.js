@@ -14,7 +14,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
         this._renderRepository(repoName, {
           message: {
             text: "Branch already exists",
-            error: true
+            type: this.__self.MESSAGE_ERROR,
           },
           branch: repository.getLocalBranches().getEntity(this.arguments.branch.value),
           links: this.__createLinks(repository)
@@ -24,7 +24,7 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
 
       this.get('git.repository.command.queues').getQueue(repoName).createBranch((function(err) {
         if (err) {
-          this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
+          this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
           return;
         }
 

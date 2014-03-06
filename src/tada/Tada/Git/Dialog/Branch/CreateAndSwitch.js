@@ -7,7 +7,7 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, { message: { error: true, text: __('Already on <value>', { "<value>": branchName }) } });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: __('Already on <value>', { "<value>": branchName }) } });
         return;
       }
 
@@ -29,7 +29,8 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
 
         this._renderRepository(repo.getName(), {
           message: {
-            error: data.err ? { fromGit: true } : null,
+            type: data.err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
+            fromGit: data.err ? true : false,
             text: data.err ? JSON.stringify(data.err) :  "Switched branch."
           },
           titleLinks: (!data.err && repo.getFileStatus().isDirty()) ? [{

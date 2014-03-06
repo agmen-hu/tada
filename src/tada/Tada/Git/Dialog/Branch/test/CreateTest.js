@@ -81,7 +81,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
 
       create.calledOnce.should.not.be.ok;
       dialog._renderRepository.args[0][1].branch.foo.should.equal("bar");
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should offer to set upstream if it is avilable on a remote', function() {
@@ -101,7 +101,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Create', function() {
       dialog._processRepository("tada");
       create.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
   });
 });

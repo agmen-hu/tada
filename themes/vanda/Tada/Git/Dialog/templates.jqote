@@ -28,7 +28,7 @@
 
 <script id="Tada-Git-Dialog-RepoInfo" type="text/x-jqote-template">
 <![CDATA[
-<div class="ui raised <%= this.message ? (this.message.error ? "red" : "green") : "blue" %> segment" >
+<div class="ui raised <%= this.message ? (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR ? "red" : "green") : "blue" %> segment" >
   <h3 class="ui top attached label">
     <%= this.name %>
     <% (this.titleLinks || []).forEach(function(link) { %>
@@ -37,13 +37,13 @@
   </h3>
   <% if (this.message) { %>
     <div class="ui list"><div class="item">
-      <% if (this.message.error) { %>
+      <% if (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR) { %>
           <i class="ui circular inverted red warning icon"></i>
       <% } else { %>
           <i class="ui circular inverted green info letter icon"></i>
       <% } %>
       <div class="content">
-        <% if (this.message.error && this.message.error.fromGit) { %>
+        <% if (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR && this.message.fromGit) { %>
           <div class="header"><%= __('This message arrived from git CLI:') %></div>
         <% } %>
         <%= __(this.message.text) %>

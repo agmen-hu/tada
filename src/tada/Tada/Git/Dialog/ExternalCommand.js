@@ -19,10 +19,10 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
               return;
             }
 
-            this._renderRepository(repoName, { message: { text: "Requested external command finished." } });
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_INFO, text: "Requested external command finished." } });
           }).bind(this),
           error: (function(err) {
-            this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
           }).bind(this)
       });
     },
@@ -34,11 +34,11 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
 
       queue.refresh(function(err){
         if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-          this._renderRepository(repoName, { message: { error: { fromGit: true }, text: err } });
+          this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true,  text: err } });
           return queue.killQueue();
         }
 
-        this._renderRepository(repoName, { message: { text: "Requested external command finished." },  branch: repo.getCurrentBranch() });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_INFO, text: "Requested external command finished." },  branch: repo.getCurrentBranch() });
       }.bind(this), repoName/*, ['status', 'localRefList', 'remoteRefList']*/);
     }
   }

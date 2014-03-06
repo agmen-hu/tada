@@ -10,18 +10,19 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
     _processRepository: function(repoName)
     {
       if (!this.__pushIsNeeded(repoName)) {
-        this._renderRepository(repoName, { message: { text: "Push is not necessary.", error: true } });
+        this._renderRepository(repoName, { message: { text: "Push is not necessary.", type: this.__self.MESSAGE_ERROR } });
         return;
       }
       this.get('git.repository.command.queues').getQueue(repoName).push((function(err) {
         if (err) {
-          this._renderRepository(repoName, { message: { text: err, error: { fromGit: true } } });
+          this._renderRepository(repoName, { message: { text: err, type: this.__self.MESSAGE_ERROR, fromGit: true } });
           return;
         }
         var repo = this.get("git.project").getRepository(repoName);
         this.__updateModelAndContextAfterPush(repoName);
         this._renderRepository(repoName, {
           message: {
+            type: this.__self.MESSAGE_INFO,
             text: "Push was successful"
           },
           repo: repo,

@@ -56,7 +56,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
       dialog._processRepository('tada');
 
       dialog._renderRepository.args[0][0].should.equal("tada");
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -78,7 +78,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
       repo.setCurrentBranch.called.should.be.false;
 
       dialog._renderRepository.args[0][0].should.equal("tada");
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should switch to master the master when branch does not exists', function(){

@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       if (!this.remoteBranch) {
         this._renderRepository(repoName, {
           message: {
-            error: true,
+            type: this.__self.MESSAGE_ERROR,
             text: __("Remote branch: <value> does not exist.", { "<value>": this.arguments.branch.value })
           }
         });
@@ -27,7 +27,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       this.get('git.repository.command.queues').getQueue(repoName).deleteRemoteBranch(
         (function(err) {
           if (err) {
-            this._renderRepository(repoName, { message: { error: true, text: err } });
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: err } });
             return;
           }
           if (this.arguments.deleteLocal && this.hasLocalBranch) {
@@ -55,7 +55,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       if (this.repo.getLocalBranches().getEntity(this.remoteBranch.getLocalName()) == this.repo.getCurrentBranch()) {
         this._renderRepository(repoName, {
           message: {
-            error: true,
+            type: this.__self.MESSAGE_ERROR,
             text: __("Cannot delete local <value>  branch because you are currently on it.", { "<value>":  this.remoteBranch.getLocalName() })
           }
         });
@@ -65,7 +65,7 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
       this.get('git.repository.command.queues').getQueue(this.repo.getName()).deleteLocalBranch(
         (function(err) {
           if (err) {
-            var response = { message: { error: true, text: err } };
+            var response = { message: { type: this.__self.MESSAGE_ERROR, text: err } };
 
             if (err.indexOf("neither matches an existing ref") != -1) {
               response.links = [{
@@ -91,7 +91,8 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
     __appendAfterRemoval: function() {
       var response = {
         message: {
-          text: "Remove remote branch was successful.",
+          type: this.__self.MESSAGE_INFO,
+          text: "Remove remote branch was successful."
         }
       }
 

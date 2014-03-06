@@ -53,7 +53,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
       dialog._processRepository('tada');
 
       dialog._renderRepository.args[0][0].should.equal("tada");
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should create and checkout to the new branch when branch does not exists', function(){

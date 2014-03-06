@@ -36,7 +36,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
 
       if (repo.getFileStatus().isDirty()) {
         this._renderRepository(repoName, {
-          message: { error: true, text: 'Repo has local changes, please commit or stash them' },
+          message: { type: this.__self.MESSAGE_ERROR, text: 'Repo has local changes, please commit or stash them' },
           links: [{
             sentence: "Stash changes",
             arguments: { "in repo <value>": repoName },
@@ -54,7 +54,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, { message: { error: true, text: 'Cannot rebase a branch to itself' } });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Cannot rebase a branch to itself' } });
         return;
       }
 
@@ -71,10 +71,10 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
 
           if (response.message.text.indexOf("is up to date") !== -1) {
             response.titleLinks = [ this.__pushCurrentBranchLink(repoName) ];
+            response.message.type = this.__self.MESSAGE_INFO;
           } else {
-            response.message.error = {
-              fromGit: true
-            }
+            response.message.fromGit = true;
+            response.message.type = this.__self.MESSAGE_ERROR;
           }
 
           this._renderRepository(repoName, response);
@@ -92,9 +92,8 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
           this._renderRepository(repoName, {
             message: {
               text: err || "Rebase was successful",
-              error: err ? {
-                fromGit: true
-              } : null
+              type: err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
+              fromGit: err ? true : false,
             },
             branch: repo.getCurrentBranch(repoName),
             titleLinks: (!err && this.__decidePushActionVisibility(repo, branch)) ? [this.__pushCurrentBranchLink(repoName)] : null,
@@ -128,7 +127,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       if (!branch) {
-        this._renderRepository(repo.getName(), { message: { error: true, text: err } });
+        this._renderRepository(repo.getName(), { message: { type: this.__self.MESSAGE_ERROR, text: err } });
       } else {
         return branch;
       }

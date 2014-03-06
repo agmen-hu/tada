@@ -72,11 +72,11 @@ describeUnitTest('Tada.Git.Dialog.RestoreStash', function() {
       dialog._processRepository("tada");
       stash.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
 
       stash.args[0][0]();
       refresh.args[0][0]("OMG another one");
-      dialog._renderRepository.args[1][1].message.error.should.be.ok;
+      dialog._renderRepository.args[1][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
   });
 });

@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, { message: { error: true, text: __('Already on <value>', { "<value>": branchName }) } });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: __('Already on <value>', { "<value>": branchName }) } });
         return;
       }
 
@@ -31,7 +31,8 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         }
         this._renderRepository(repo.getName(), {
           message: {
-            error: data.err ? { fromGit: true } : null,
+            type: data.err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
+            fromGit: data.err ? true : false,
             text: data.err ? JSON.stringify(data.err) : (forcedToMaster ? "Branch does not exists. Switched to master." : "Switched branch.")
           },
           titleLinks: (!data.err && repo.getFileStatus().isDirty()) ? [{

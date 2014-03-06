@@ -51,7 +51,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Cannot delete foo branch, because you are on it!' } }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Cannot delete foo branch, because you are on it!' } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -60,7 +60,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { message: { error: true, text: 'Branch foo does not exist!' } }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Branch foo does not exist!' } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -69,14 +69,14 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
       dialog._processRepository('tada');
 
       dialog._renderRepository.args[0][0].should.equal("tada");
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
       (dialog._renderRepository.args[0][1].links || []).length.should.equal(0);
 
       deleteResponse.message = 'This random branch is not fully merged';
       dialog._processRepository('tada');
 
       dialog._renderRepository.args[1][0].should.equal("tada");
-      dialog._renderRepository.args[1][1].message.error.should.be.ok;
+      dialog._renderRepository.args[1][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
       dialog._renderRepository.args[1][1].links.length.should.be.ok;
     });
 

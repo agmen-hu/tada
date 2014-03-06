@@ -19,6 +19,7 @@ defineClass('Tada.Git.Dialog.ShowChanges', 'Tada.Git.Dialog.DataFromModel',
           autoExecute: true
         }] : [],
         message: (!repo.getFileStatus().isDirty() && !repo.getFileStatus().getUntracked().length) ? {
+          type: this.__self.MESSAGE_INFO,
           text: __("Repository is clean.")
         } : null,
         otherInfo: {

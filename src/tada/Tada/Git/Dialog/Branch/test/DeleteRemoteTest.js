@@ -135,14 +135,14 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
       dialog._processRepository("tada");
 
       queues.getQueue.calledWith("tada").should.not.be.ok;
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should render error if server called back with one', function() {
       dialog._processRepository("tada");
       remove.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should not try to delete the local branch when that is the current branch', function(){
@@ -151,7 +151,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
       dialog._processRepository("tada");
       remove.args[0][0]('Cannot delete local foobranch branch because you are currently on it');
 
-      dialog._renderRepository.args[0][1].message.error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     })
   });
   afterEach(function() {
