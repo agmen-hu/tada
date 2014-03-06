@@ -16,7 +16,8 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
         this._renderRepository(repoName, {
           message: {
             type: this.__self.MESSAGE_ERROR,
-            text: __("Remote branch: <value> does not exist.", { "<value>": this.arguments.branch.value })
+            text: "Remote branch: <value> does not exist.",
+            arguments: { "<value>": this.arguments.branch.value }
           }
         });
         return;
@@ -56,7 +57,8 @@ defineClass('Tada.Git.Dialog.Branch.DeleteRemote', 'Tada.Git.Dialog.AbstractDial
         this._renderRepository(repoName, {
           message: {
             type: this.__self.MESSAGE_ERROR,
-            text: __("Cannot delete local <value>  branch because you are currently on it.", { "<value>":  this.remoteBranch.getLocalName() })
+            text: "Cannot delete local <value>  branch because you are currently on it.",
+            arguments: { "<value>":  this.remoteBranch.getLocalName() }
           }
         });
         return;

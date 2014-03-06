@@ -24,7 +24,6 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
     contextForgetter;
 
   beforeEach(function() {
-    global.__ = function(s) { return s; };
     dialog = env.create('Tada.Git.Dialog.Branch.DeleteRemote', {
       arguments: {
         branch: { value: "origin/foobranch" },
@@ -153,8 +152,5 @@ describeUnitTest('Tada.Git.Dialog.Branch.DeleteRemote', function() {
 
       dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     })
-  });
-  afterEach(function() {
-    delete global.__;
   });
 });

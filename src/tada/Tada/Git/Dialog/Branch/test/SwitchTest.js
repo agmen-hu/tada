@@ -22,7 +22,6 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
     checkoutResponse;
 
   beforeEach(function() {
-    global.__ = function(string) { return string; }
     dialog = env.create('Tada.Git.Dialog.Branch.Switch', { arguments: {} });
     dialog.arguments.branch = { value: 'foo' };
     dialog._renderRepository = sinon.stub();
@@ -109,9 +108,5 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
 
       repo.setCurrentBranch.calledOnce.should.be.true;
     });
-  });
-
-  afterEach(function() {
-    delete global.__;
   });
 });

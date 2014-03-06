@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         branchName = this.arguments.branch.value;
 
       if (repo.getCurrentBranch().getName() == branchName) {
-        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: __('Already on <value>', { "<value>": branchName }) } });
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: 'Already on <value>', arguments: { "<value>": branchName } } });
         return;
       }
 

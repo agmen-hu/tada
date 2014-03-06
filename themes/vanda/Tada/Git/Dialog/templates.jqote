@@ -46,7 +46,7 @@
         <% if (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR && this.message.fromGit) { %>
           <div class="header"><%= __('This message arrived from git CLI:') %></div>
         <% } %>
-        <%= __(this.message.text) %>
+        <%= __(this.message.text, this.message.arguments) %>
       </div>
     </div> </div>
   <% } %>
