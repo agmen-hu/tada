@@ -1,5 +1,5 @@
 tada:
-  css: public-css-tada
+  css: tada
 git:
   guiCommand:
     command: git
