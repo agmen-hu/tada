@@ -1,0 +1,68 @@
+.git-repo {
+    float: left;
+    width: 470px;
+    word-wrap: break-word;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.git-repo-one-column {
+    width: 98%;
+}
+
+.git-repo h3 { margin-bottom: 5px; margin-top: 0;}
+
+.git-repo label { width: 90px; display: inline-block; }
+.git-repo select { width: 340px; }
+
+.git-branches { margin-bottom: 15px; }
+.git-current-branch-remotes { margin-top: -15px; margin-bottom: 15px; }
+
+.git-staged, .git-diff-line-added { color: darkgreen; }
+.git-unstaged, .git-unstaged a, .git-diff-line-removed { color: darkred; }
+.git-new { color: forestgreen; }
+.git-deleted { color: red; }
+
+.git-diff-line {
+  border-bottom: solid 1px #111;
+  font-size: 0.8em;
+  margin: 0 !important;
+  white-space: pre-wrap;
+}
+
+.git-diff-line-header {
+  background-color: #222;
+}
+
+.pre-whitespace { white-space: pre; }
+
+.git-branch.item {
+  padding: 5px;
+  border-bottom: 1px solid #555;
+}
+
+.git-branch.item.extended {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+ul.git-command-toolbox {
+  padding-left: 5px;
+}
+
+ul.git-command-toolbox li {
+	list-style: none;
+	display: inline;
+	padding-right: 10px;
+}
+
+.git-hidden {
+	display: none !important;
+}
+
+.content {
+	display: inline-block;
+	font-weight: bold;
+}
