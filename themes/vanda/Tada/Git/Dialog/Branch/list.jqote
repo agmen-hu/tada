@@ -38,7 +38,7 @@
             <div class="ui top attached label"><%= repoName %></div>
             <div class="ui list">
               <div class="item"><i class="ui icon">#</i><div class="content"><%= commit.getHash().substr(0, 8) %></div></div>
-              <div class="item"><i class="ui comment outline icon"></i><div class="content"><%= commit.getMessageSubject() %></div></div>
+              <div class="item"><i class="ui comment outline icon"></i><div class="content"><%= $('<div/>').text(commit.getMessageSubject()).html() %></div></div>
             </div>
             <ul class="git-command-toolbox">
               <li><%= __s("Switch to branch", { "branch <value>": localBranchName, "in repo <value>": repoName }, "Switch", true) %></li>

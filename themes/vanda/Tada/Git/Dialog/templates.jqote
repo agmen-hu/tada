@@ -173,9 +173,9 @@
     <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.getCreated().toLocaleString() %></div></div>
     <div class="item"><i class="ui icon">#</i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
     <div class="item"><i class="ui user icon"></i> <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></div>
-    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= this.getMessageSubject() %></div></div>
+    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= $('<div/>').text(this.getMessageSubject()).html() %></div></div>
     <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
-      <div class="item"><div class="content"><%= this.getMessageBody() %></div></div>
+      <div class="item"><div class="content pre-line"><%= $('<div/>').text(this.getMessageBody()).html() %></div></div>
     <% } %>
   </div>
 ]]>

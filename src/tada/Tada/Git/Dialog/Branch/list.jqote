@@ -37,7 +37,7 @@
             <div class="label"><%= repoName %></div>
             <ul>
               <li>Hash:<div class="content"><%= commit.getHash().substr(0, 8) %></div></li>
-              <li>Message:<div class="content"><%= commit.getMessageSubject() %></div></li>
+              <li>Message:<div class="content"><%= $('<div/>').text(commit.getMessageSubject()).html() %></div></li>
             </ul>
             <ul class="git-command-toolbox">
               <li><%= __s("Switch to branch", { "branch <value>": localBranchName, "in repo <value>": repoName }, "Switch", true) %></li>

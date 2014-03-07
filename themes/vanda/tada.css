@@ -422,3 +422,7 @@ input.human-text {
 .list-view .collapse-buttons .button.less {
   margin-left: 3.5em !important;
 }
+
+.pre-line {
+	white-space: pre-line;
+}

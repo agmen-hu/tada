@@ -152,9 +152,9 @@
     <li>Date: <div class="content"><%= this.getCreated().toLocaleString() %></div></li>
     <li>Hash: <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></li>
     <li>Author: <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></li>
-    <li>Message: <div class="content"><%= this.getMessageSubject() %></div></li>
+    <li>Message: <div class="content"><%= $('<div/>').text(this.getMessageSubject()).html() %></div></li>
     <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
-      <div class="content"><%= this.getMessageBody() %></div>
+      <div class="content pre-line"><%= $('<div/>').text(this.getMessageBody()).html() %></div>
     <% } %>
   </ul>
 ]]>

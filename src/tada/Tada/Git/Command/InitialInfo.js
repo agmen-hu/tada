@@ -92,7 +92,7 @@ defineClass('Tada.Git.Command.InitialInfo', 'Tada.Git.AbstractServerSideService'
     __getRefList: function(callback, options)
     {
       var
-        forEachRefArguments = $.extend({ "--python": undefined }, this.forEachRefArguments),
+        forEachRefArguments = $.extend({ "--perl": undefined }, this.forEachRefArguments),
         $this = this;
 
       forEachRefArguments[options.target] = undefined;

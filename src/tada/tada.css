@@ -66,3 +66,7 @@ ul.git-command-toolbox li {
 	display: inline-block;
 	font-weight: bold;
 }
+
+.pre-line {
+  white-space: pre-line;
+}
