@@ -1,0 +1,10 @@
+<script id="Consoloid-Ui-List-Factory-CollapsingElement" type="text/x-jqote-template">
+<![CDATA[
+  <div class="collapse-buttons">
+    <div class="more ui circular basic mini button"><i class="icon level down"></i>More</div>
+    <div class="less ui circular basic mini icon button"><i class="icon level up"></i></div>
+  </div>
+  <div class="collapse-content">
+  </div>
+]]>
+</script>

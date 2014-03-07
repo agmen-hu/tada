@@ -1,12 +1,15 @@
 <script id="Tada-Git-Dialog-AbstractDialog" type="text/x-jqote-template">
 <![CDATA[
-  <div class="repos">
+  <div class="<%= this.arguments.repo ? "one" : "three" %> column doubling ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
-    <div class="git-repo" data-repo-name="<%= this.requestedRepositories[i] %>">
-        Repository with name <%= this.requestedRepositories[i] %> is processing...
+    <div class="column" data-repo-name="<%= this.requestedRepositories[i] %>">
+      <div class="ui raised blue segment" >
+        <div class="ui inline active loader"></div>Repository with name <%= this.requestedRepositories[i] %> is processing...
+      </div>
     </div>
   <% } %>
   </div>
+
 ]]>
 </script>
 
@@ -25,47 +28,56 @@
 
 <script id="Tada-Git-Dialog-RepoInfo" type="text/x-jqote-template">
 <![CDATA[
-  <h3 class="label">
+<div class="ui raised <%= this.message ? (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR ? "red" : "green") : "blue" %> segment" >
+  <h3 class="ui top attached label">
     <%= this.name %>
     <% (this.titleLinks || []).forEach(function(link) { %>
       <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
     <% }); %>
   </h3>
   <% if (this.message) { %>
-    <div class="message">
+    <div class="ui list"><div class="item">
+      <% if (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR) { %>
+          <i class="ui circular inverted red warning icon"></i>
+      <% } else { %>
+          <i class="ui circular inverted green info letter icon"></i>
+      <% } %>
+      <div class="content">
         <% if (this.message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR && this.message.fromGit) { %>
           <div class="header"><%= __('This message arrived from git CLI:') %></div>
         <% } %>
         <%= __(this.message.text, this.message.arguments) %>
-    </div>
+      </div>
+    </div> </div>
   <% } %>
   <% if (this.branch) { %>
     <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.name }) %>
   <% } %>
-  <% if (this.otherInfo) { %>
-    <%= $(this.otherInfo.templateId).jqote(this.otherInfo.data) %>
+  <% if (this.embed) { %>
+    <%= $(this.embed.templateId).jqote(this.embed.data) %>
   <% } %>
   <% if (this.links && this.links.length != 0) { %>
-    <div class="repo-expression-links">
+    <div class="ui vertical buttons repo-expression-links">
       <% this.links.forEach(function(link) { %>
         <%= __s(link.sentence, link.arguments, link.referenceText, link.autoExecute) %>
       <% }); %>
     </div>
   <% } %>
+</div>
 ]]>
 </script>
 
 <script id="Tada-Git-Dialog-BranchStatus" type="text/x-jqote-template">
 <![CDATA[
-  <div class="branch-status">
-    <h4 class="label">Branch: <b><%= this.branch.getName() %></b></h4>
-    <div class="list">
+  <div class="ui segment branch-status">
+    <h4 class="ui top attached label"><i class="ui icon large fork code"></i> <b><%= this.branch.getName() %></b></h4>
+    <div class="ui list">
       <div class="item">
         <% if (this.branch instanceof getClass('Tada.Git.Entity.LocalBranch') && this.branch.getUpstream()) { %>
           <% if (!this.branch.isSyncedWithUpstream()) { %>
             <div class="float right"><%= __s("Rebase current branch", { "to branch <value>": this.branch.getUpstream().getName(), "in repo <value>": this.name }, "Rebase", true) %></div>
           <% } %>
-          Upstream:
+          <i class="ui external url icon"></i>
           <div class="content">
             <div class="header"><%= this.branch.getUpstream().getName() %></div>
             <% if (this.branch.isSyncedWithUpstream()) { %>
@@ -98,65 +110,74 @@
 <script id="Tada-Git-Dialog-ShowChangeRepo" type="text/x-jqote-template">
 <![CDATA[
   <% if (this.repo.getFileStatus().getStaged().length) { %>
-  <div class="label"><%= __("Staged") %></div>
-  <ul>
+  <div class="ui green label ribbon"><%= __("Staged") %></div>
+  <div class="ui list">
     <% for (var i=0,len=this.repo.getFileStatus().getStaged().length; i<len; i++) { %>
-      <li class="git-staged" title="<%= this.repo.getFileStatus().getStaged()[i].file %>">
-        <% if (this.singleRepo) { %>
-          <%= this.repo.getFileStatus().getStaged()[i].file %>
-        <% } else { %>
-          <%= ((this.repo.getFileStatus().getStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getStaged()[i].file.slice(-20) %>
-        <% } %>
-      </li>
+      <div class="item">
+        <i class="ui <%= this.repo.getFileStatus().getStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.repo.getFileStatus().getStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.repo.getFileStatus().getStaged()[i].file %>">
+          <% if (this.singleRepo) { %>
+            <%= this.repo.getFileStatus().getStaged()[i].file %>
+          <% } else { %>
+            <%= ((this.repo.getFileStatus().getStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getStaged()[i].file.slice(-20) %>
+          <% } %>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
 
   <% if (this.repo.getFileStatus().getNotStaged().length) { %>
-  <div class="label"><%= __("Unstaged") %></div>
-  <ul>
+  <div class="ui red label ribbon"><%= __("Unstaged") %></div>
+  <div class="ui list">
     <% for (var i=0,len=this.repo.getFileStatus().getNotStaged().length; i<len; i++) { %>
-      <li class="git-unstaged" title="<%= this.repo.getFileStatus().getNotStaged()[i].file %>">
-        <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.repo.name %> of <%= this.repo.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
-          <% if (this.singleRepo) { %>
-            <%= this.repo.getFileStatus().getNotStaged()[i].file %>
-          <% } else { %>
-            <%= ((this.repo.getFileStatus().getNotStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getNotStaged()[i].file.slice(-20) %>
-          <% } %>
-        </a>
-      </li>
+      <div class="item">
+        <i class="ui <%= this.repo.getFileStatus().getNotStaged()[i].status == "deleted" ? "remove" : "pencil" %> icon" title="<%= __(this.repo.getFileStatus().getNotStaged()[i].status) %>"></i>
+        <div class="content" title="<%= this.repo.getFileStatus().getNotStaged()[i].file %>">
+          <a href="#" class="expression-reference" data-text="show changes in tracked files in <%= this.repo.name %> of <%= this.repo.getFileStatus().getNotStaged()[i].file %>" data-exec="1">
+            <% if (this.singleRepo) { %>
+              <%= this.repo.getFileStatus().getNotStaged()[i].file %>
+            <% } else { %>
+              <%= ((this.repo.getFileStatus().getNotStaged()[i].file.length > 20) ? "…" : "") + this.repo.getFileStatus().getNotStaged()[i].file.slice(-20) %>
+            <% } %>
+          </a>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
 
   <% if (this.repo.getFileStatus().getUntracked().length) { %>
-  <div class="label"><%= __("Untracked") %></div>
-  <ul>
+  <div class="ui white label ribbon"><%= __("Untracked") %></div>
+  <div class="ui list">
     <% for (var i=0,len=this.repo.getFileStatus().getUntracked().length; i<len; i++) { %>
-      <li class="git-new" title="<%= this.repo.getFileStatus().getUntracked()[i].file %>">
-        <% if (this.singleRepo) { %>
-          <%= this.repo.getFileStatus().getUntracked()[i] %>
-        <% } else { %>
-          <%= ((this.repo.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.repo.getFileStatus().getUntracked()[i].slice(-20) %>
-        <% } %>
-      </li>
+      <div class="ui item">
+        <i class="ui add icon" title="<%= __("new") %>"></i>
+        <div class="content"title="<%= this.repo.getFileStatus().getUntracked()[i].file %>">
+          <% if (this.singleRepo) { %>
+            <%= this.repo.getFileStatus().getUntracked()[i] %>
+          <% } else { %>
+            <%= ((this.repo.getFileStatus().getUntracked()[i].length > 20) ? "…" : "") + this.repo.getFileStatus().getUntracked()[i].slice(-20) %>
+          <% } %>
+        </div>
+      </div>
     <% } %>
-  </ul>
+  </div>
   <% } %>
 ]]>
 </script>
 
 <script id="Tada-Git-Dialog-CommitStatus" type="text/x-jqote-template">
 <![CDATA[
-  <ul>
-    <li>Date: <div class="content"><%= this.getCreated().toLocaleString() %></div></li>
-    <li>Hash: <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></li>
-    <li>Author: <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></li>
-    <li>Message: <div class="content"><%= $('<div/>').text(this.getMessageSubject()).html() %></div></li>
+  <div class="list">
+    <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.getCreated().toLocaleString() %></div></div>
+    <div class="item"><i class="ui icon">#</i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
+    <div class="item"><i class="ui user icon"></i> <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></div>
+    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= $('<div/>').text(this.getMessageSubject()).html() %></div></div>
     <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
-      <div class="content pre-line"><%= $('<div/>').text(this.getMessageBody()).html() %></div>
+      <div class="item"><div class="content pre-line"><%= $('<div/>').text(this.getMessageBody()).html() %></div></div>
     <% } %>
-  </ul>
+  </div>
 ]]>
 </script>
 
@@ -173,6 +194,7 @@
 
 <script id="Tada-Git-Dialog-File-ChangesRepo" type="text/x-jqote-template">
 <![CDATA[
+<div class="ui raised blue segment">
   <% var htmlEntityEncode = function (str) {
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }; %>
@@ -185,6 +207,7 @@
       <%= (value[0] == 'd' || value[0] == 'i' || value[0] == '@' ) ? "git-diff-line-header" : "" %>
     "><%= htmlEntityEncode(value) %></p><% }); %>
   </pre>
+  </div>
 ]]>
 </script>
 
@@ -213,7 +236,7 @@
 <![CDATA[
 <div>
     <% if (this.removedBranches.length != 0) { %>
-      <div class="label"><%= __("Removed branches") %></div>
+      <div class="ui red label ribbon"><%= __("Removed branches") %></div>
       <ul>
       <% this.removedBranches.forEach(function(branch) { %>
         <li><%= branch %></li>
@@ -222,7 +245,7 @@
     <% } %>
     <% if (this.updatedBranches.length != 0) { %>
       <% var upstreamNameForCurrentBranch = this.repo.getCurrentBranch().getUpstream() ? this.repo.getCurrentBranch().getUpstream().getName() : ''; %>
-      <div class="label"><%= __("Updated branches") %></div>
+      <div class="ui white label ribbon"><%= __("Updated branches") %></div>
       <ul>
       <% this.updatedBranches.forEach((function(branch) { %>
         <li>
@@ -237,7 +260,7 @@
       </ul>
     <% } %>
     <% if (this.newBranches.length != 0) { %>
-      <div class="label"><%= __("New branches") %></div>
+      <div class="ui green label ribbon"><%= __("New branches") %></div>
       <ul>
       <% this.newBranches.forEach((function(branch) { %>
         <li>

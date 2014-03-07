@@ -9,30 +9,37 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
 
     _processRepository: function(repoName)
     {
+      this.get('git.command.external').callAsync(
+        'execOnRepo',
+        [ { repo: repoName, commandName: this.commandName } ],
+        {
+          success: (function() {
+            if (this.refreshIsNeeded) {
+              this.__refresh(repoName);
+              return;
+            }
+
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_INFO, text: "Requested external command finished." } });
+          }).bind(this),
+          error: (function(err) {
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
+          }).bind(this)
+      });
+    },
+
+    __refresh: function(repoName) {
       var
         repo = this.get('git.project').getRepository(repoName),
         queue = this.get('git.repository.command.queues').getQueue(repoName).createChildQueue();
 
-      queue
-        .runExternalCommand(function(err){
-          if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-            this._renderRepository(repoName, { error: err });
-            return queue.killQueue();
-          }
+      queue.refresh(function(err){
+        if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
+          this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true,  text: err } });
+          return queue.killQueue();
+        }
 
-          if (!this.refreshIsNeeded) {
-            this._renderRepository(repoName, {});
-            return queue.killQueue();
-          }
-        }.bind(this), repoName, this.commandName)
-        .refresh(function(err){
-          if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-            this._renderRepository(repoName, { error: err });
-            return queue.killQueue();
-          }
-
-          this._renderRepository(repoName, { repo: repo});
-        }.bind(this), repoName/*, ['status', 'localRefList', 'remoteRefList']*/);
+        this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_INFO, text: "Requested external command finished." },  branch: repo.getCurrentBranch() });
+      }.bind(this), repoName/*, ['status', 'localRefList', 'remoteRefList']*/);
     }
   }
 );

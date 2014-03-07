@@ -42,10 +42,8 @@ definitions:
           pattern: for repository <value>
           required: false
   git.show.change.summary:
-    cls: Tada.Git.Dialog.DataFromModel
+    cls: Tada.Git.Dialog.ShowChanges
     shared: false
-    options:
-      repositoryTemplateId: Tada-Git-Dialog-ShowChangeRepo
 
   git.update.version.control.info.sentence:
     tags: [ sentence ]
@@ -65,6 +63,7 @@ definitions:
     options:
       service: git.push.branch
       patterns:
+        - Push branch
         - Push branch <branch>
         - Push branch <branch> of <repo>
       arguments:
@@ -144,12 +143,13 @@ definitions:
     options:
       service: git.filechanges
       patterns:
+        - Show changes in tracked files
         - Show changes in tracked files in <repo>
         - Show changes in tracked files in <repo> of <file>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: name <value>
+          pattern: in repo <value>
           required: true
         file:
           type: string
@@ -161,7 +161,6 @@ definitions:
     options:
       remoteService: git.command.diff
       remoteMethod: getDiff
-      responseTemplateId: Tada-Git-Dialog-FileChanges
       repositoryTemplateId: Tada-Git-Dialog-File-ChangesRepo
 
   git.gui.sentence:
@@ -170,11 +169,12 @@ definitions:
     options:
       service: git.gui
       patterns:
+        - Run git gui
         - Run git gui from <repo>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repo <value>
+          pattern: from repo <value>
           required: true
   git.gui:
     cls: Tada.Git.Dialog.ExternalCommand
@@ -182,7 +182,7 @@ definitions:
     options:
       commandName: gitGui
       refreshIsNeeded: true
-      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+      repositoryTemplateId: Tada-Git-Dialog-RepoInfo
 
   git.gitk.sentence:
     tags: [ sentence ]
@@ -190,11 +190,12 @@ definitions:
     options:
       service: git.gitk
       patterns:
+        - Run gitk
         - Run gitk from <repo>
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repo <value>
+          pattern: from repo <value>
           required: true
   git.gitk:
     cls: Tada.Git.Dialog.ExternalCommand
@@ -202,7 +203,7 @@ definitions:
     options:
       commandName: gitk
       refreshIsNeeded: false
-      repositoryTemplateId: Tada-Git-Dialog-ExternalCommandRepo
+      repositoryTemplateId: Tada-Git-Dialog-RepoInfo
 
   branch.list.sentence:
     tags: [ "sentence" ]
@@ -276,6 +277,7 @@ definitions:
     options:
       service: git.switch.branch
       patterns:
+        - Switch to branch
         - Switch to branch <branch>
         - Switch to branch <branch> in <repo>
       arguments:
@@ -321,6 +323,7 @@ definitions:
     options:
       service: git.delete.branch
       patterns:
+        - Delete branch
         - Delete branch <branch>
         - Delete branch <branch> from <repo>
         - Remove branch <branch>
@@ -351,6 +354,7 @@ definitions:
     options:
       service: git.delete.remote.branch
       patterns:
+        - Delete remote branch
         - Delete remote branch <branch>
         - Delete remote branch <branch> from <repo>
         - Remove remote branch <branch>
@@ -381,12 +385,13 @@ definitions:
     options:
       service: git.rebase
       patterns:
+        - Rebase current branch
         - Rebase current branch to <branch>
         - Rebase current branch to <branch> in <repo>
       arguments:
         branch:
           type: Tada.Git.Context.Branch
-          pattern: branch <value>
+          pattern: to branch <value>
           required: true
         repo:
           type: Tada.Git.Context.Repository
@@ -439,6 +444,7 @@ definitions:
     options:
       service: git.restore.stash
       patterns:
+        - Restore changes from stash
         - Restore changes from stash in repository <repo>
         - Restore and drop stash in repository <repo>
       arguments:

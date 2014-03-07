@@ -65,5 +65,9 @@ defineClass('Tada.Git.Dialog.AbstractDialog', 'Consoloid.Ui.Dialog',
 
       this.get('console').animateMarginTopIfNecessary(0);
     }
+  },
+  {
+    MESSAGE_INFO: 1,
+    MESSAGE_ERROR: 2
   }
 );

@@ -49,9 +49,9 @@ describeUnitTest('Tada.Git.Dialog.ShowVersionControlSummary', function() {
       dialog._processRepository("tada");
     });
 
-    it("should append the from the project", function() {
+    it("should append the repo from the project", function() {
       project.getRepository.calledWith("tada").should.be.ok;
-      dialog.response.find().empty().jqoteapp.args[0][1].should.equal(repo);
+      dialog.response.find().empty().jqoteapp.args[0][1].repo.should.equal(repo);
     });
 
     it("should mention repos and current branches", function() {

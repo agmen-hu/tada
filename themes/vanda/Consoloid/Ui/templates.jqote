@@ -1,0 +1,43 @@
+<script id="Consoloid-Ui-Prompt" type="text/x-jqote-template">
+<![CDATA[
+  <div class="dialog">
+    <div class="request">
+      <div class="prompt ui input">
+      <i class="small comment icon"></i>
+      <input type="text" class="human-text" name="requested-words" value="" />
+      </div>
+      <div class="actions">
+        <ul>
+          <li><a id="prompt-mic" href="#"><i class="small unmute icon" alt="speech recognization"></i></a></li>
+          <li><a class="search" href="#"><i class="small vertically flipped reply mail icon" alt="send"></i></a></li>
+        </ul>
+      </div>
+      <div class="clear-both"></div>
+    </div>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-Ui-Expression" type="text/x-jqote-template">
+<![CDATA[
+  <div class="expression"><i class="small comment icon"></i><%= this._encodeTagBoundaries(this.text) %></div>
+  <div class="actions">
+    <ul>
+      <li><a class="remove" href="#"><i class="small trash icon"></i></a></li>
+      <% if (this.referenceText !== undefined) { %>
+        <li class="reference-text"><%= this._encodeTagBoundaries(this.referenceText) %></li>
+      <% } %>
+    </ul>
+  </div>
+  <div class="clear-both"></div>
+]]>
+</script>
+
+<script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
+<![CDATA[
+  <a href="<%= this.href %>" class="expression-reference ui basic mini down button <%= this.otherClasses %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+    <i class="comment icon"></i>
+    <%= this.linkText %>
+  </a>
+]]>
+</script>

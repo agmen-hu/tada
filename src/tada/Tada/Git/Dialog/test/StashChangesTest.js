@@ -24,6 +24,7 @@ describeUnitTest('Tada.Git.Dialog.StashChanges', function() {
         setStaged: sinon.stub(),
         setNotStaged: sinon.stub(),
       }),
+      getCurrentBranch: sinon.stub().returns("foo")
     }
     queues = {
       getQueue: sinon.stub().returns({
@@ -56,22 +57,22 @@ describeUnitTest('Tada.Git.Dialog.StashChanges', function() {
 
       dialog._renderRepository.calledWith("tada").should.be.ok;
       dialog._renderRepository.args[0][1].message.should.be.ok;
-      dialog._renderRepository.args[0][1].repo.should.equal(repo);
+      dialog._renderRepository.args[0][1].branch.should.equal("foo");
     });
 
     it('should not allow stash if there were no local changes', function() {
       repo.getFileStatus().isDirty.returns(false);
       dialog._processRepository("tada");
 
-      dialog._renderRepository.args[0][1].hasLocalChange.should.not.be.ok;
+      dialog._renderRepository.args[0][1].message.text.should.equal("There were no local changes to stash");
+      (dialog._renderRepository.args[0][1].links || []).length.should.equal(0);
     });
 
     it('should render error if server called back with one', function() {
       dialog._processRepository("tada");
       stash.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].error.should.be.ok;
-      (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
   });
 });

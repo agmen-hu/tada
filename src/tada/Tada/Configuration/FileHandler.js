@@ -37,13 +37,27 @@ defineClass('Tada.Configuration.FileHandler', 'Consoloid.Base.Object',
 
     __createConfig: function(path)
     {
-      var
-        content = this.fsModule.readFileSync(path, { encoding: 'utf8', flag: 'r' }),
-        config = this.jsYaml.load(content, { strict: true });
+      var config = this.__loadConfigFile(path);
+
+      if (this.fsModule.existsSync(path + ".local")) {
+        config = this.__mergeLocalConfigFile(path, config);
+      }
 
       config.tadaRoot = this.pathModule.normalize(this.pathModule.dirname(path));
 
       return this.create('Tada.Configuration.Factory',{}).createObject(config);
+    },
+
+    __loadConfigFile: function(path)
+    {
+      var content = this.fsModule.readFileSync(path, { encoding: 'utf8', flag: 'r' });
+      return this.jsYaml.load(content, { strict: true });
+    },
+
+    __mergeLocalConfigFile: function(path, config)
+    {
+      var localConfig = this.__loadConfigFile(path + ".local");
+      return $.extend(true, config, localConfig);
     },
 
     saveTo: function(root, config)

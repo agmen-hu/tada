@@ -1,0 +1,20 @@
+<script id="Consoloid-Ui-List-Scrollbar-Base" type="text/x-jqote-template">
+<![CDATA[
+  <div class="scrollbar-wrapper ui vertical buttons">
+    <button class="scrollbar-button-first-page ui basic button"><i class="double angle up icon"></i></button>
+    <button class="scrollbar-button-previous-page ui basic button"><i class="angle up icon"></i></button>
+    <div class="scrollbar-pagenumber"><%= Math.round(this.pageNumber) + 1 %></div>
+    <button class="scrollbar-button-next-page ui basic button"><i class="angle down icon"></i></button>
+    <button class="scrollbar-button-last-page ui basic button"><i class="double angle down icon"></i></button>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-Ui-List-BaseFilterWidget" type="text/x-jqote-template">
+<![CDATA[
+  <div class="list-filter ui raised segment">
+    <div class="clear-filters ui right corner label"><i class="ui trash icon"></i></div>
+    <div><div class="ui top attached label"><%= __("Currently filtering for:") %></div> <div class="filter-value"></div></div>
+  </div>
+]]>
+</script>

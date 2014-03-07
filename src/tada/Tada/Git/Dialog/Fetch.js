@@ -4,14 +4,14 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
     {
       this.__base($.extend({
         responseTemplateId: "Tada-Git-Dialog-Fetch",
-        repositoryTemplateId: "Tada-Git-Dialog-FetchRepo"
+        repositoryTemplateId: "Tada-Git-Dialog-RepoInfo"
       }, options));
     },
 
     _processRepository: function(repo)
     {
       if (this.get("git.project").getRepository(repo).getRemotes().getEntityCount() == 0) {
-        this._renderRepository(repo, { error: "Repository has no remotes to fetch from" });
+        this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, text: "Repository has no remotes to fetch from" } });
         return;
       }
 
@@ -21,16 +21,26 @@ defineClass('Tada.Git.Dialog.Fetch', 'Tada.Git.Dialog.AbstractDialog',
       queue
         .fetch(function(err){
           if(err) {
-            this._renderRepository(repo, { error: err });
+            this._renderRepository(repo, { message: { text: err, type: this.__self.MESSAGE_ERROR, fromGit: true } });
             return queue.killQueue();
           }
         }.bind(this), repo, this.arguments.prune ? this.arguments.prune.value : false)
         .refresh(function(err){
           if(err) {
-            this._renderRepository(repo, { error: err });
+            this._renderRepository(repo, { message: { text: err, type: this.__self.MESSAGE_ERROR, fromGit: true } });
             return queue.killQueue();
           }
-          this._renderRepository(repo, this.__getChanges(oldBrances, this.get("git.project").getRepository(repo)));
+          var changes = this.__getChanges(oldBrances, this.get("git.project").getRepository(repo));
+          this._renderRepository(repo, {
+            message: (changes.newBranches.length == 0 && changes.updatedBranches.length == 0 && changes.removedBranches.length == 0) ? {
+              text: "No changes",
+              type: this.__self.MESSAGE_INFO
+            } : null,
+            embed: {
+              templateId: "#Tada-Git-Dialog-FetchRepo",
+              data: changes
+            }
+          });
         }.bind(this), repo/*, ["remoteRefList"]*/);
     },
 

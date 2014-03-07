@@ -1,0 +1,428 @@
+.git-repo {
+    float: left;
+    width: 470px;
+    word-wrap: break-word;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.git-repo-one-column {
+    width: 98%;
+}
+
+.git-repo h3 { margin-bottom: 5px; margin-top: 0;}
+
+.git-repo label { width: 90px; display: inline-block; }
+.git-repo select { width: 340px; }
+
+.git-branches { margin-bottom: 15px; }
+.git-current-branch-remotes { margin-top: -15px; margin-bottom: 15px; }
+
+.git-staged, .git-diff-line-added { background-color: rgba(133, 153, 0, 0.35); }
+.git-unstaged, .git-unstaged a, .git-diff-line-removed { background-color: rgba(220, 50, 47, 0.35); }
+.git-new { color: forestgreen; }
+.git-deleted { color: red; }
+
+.git-diff-line {
+  border-bottom: solid 1px #002b36;
+  font-size: 0.8em;
+  margin: 0 !important;
+  white-space: pre-wrap;
+}
+
+.git-diff-line-header {
+  background-color: #002b36;
+  font-weight: bold;
+}
+
+.pre-whitespace { white-space: pre; }
+
+.git-branch.item {
+  padding: 5px;
+}
+
+.git-branch.item {
+  border-bottom: 1px solid rgba(64, 64, 64, 0.5);
+  box-shadow: inset 0px -2px 1px -1px rgba(16, 16, 16, 0.5);
+}
+
+.bottom.git-command-toolbox {
+  border-top: 1px solid rgba(64, 64, 64, 0.5);
+  box-shadow: 0px -2px 1px -1px rgba(16, 16, 16, 0.8);
+}
+
+.git-branch.item.extended {
+  padding-bottom: 10px;
+}
+
+.git-branch.item.extended h5 {
+  padding-top: 0.5em;
+  float: left;
+}
+
+ul.git-command-toolbox {
+  padding-top: 10px;
+  padding-left: 5px;
+  margin: 0px;
+}
+
+.git-branch.item.extended ul.git-command-toolbox {
+  padding-top: 0;
+}
+
+ul.git-command-toolbox li {
+  list-style: none;
+  display: inline;
+}
+
+ul.git-command-toolbox li a {
+  margin-bottom: 5px !important;
+}
+
+.git-hidden {
+	display: none !important;
+}
+
+a {
+  color: #839496 !important;
+}
+
+a:hover {
+  color: #268bd2 !important;
+}
+
+.ui.blue.segment {
+  border-color: #268bd2 !important;
+}
+
+.ui.red.segment {
+  border-color: #dc322f !important;
+}
+
+i.ui.inverted.red.icon,
+div.ui.red.ribbon {
+  background-color: #dc322f !important;
+  border-color: #bc121f !important;
+}
+
+.ui.green.segment {
+  border-color: #859900 !important;
+}
+
+i.ui.inverted.green.icon,
+div.ui.green.ribbon {
+  background-color: #859900 !important;
+  border-color: #657900 !important;
+}
+
+body,
+.dialogs-container {
+  background-color: #002b36 !important;
+  color: #839496;
+  border-color: #839496;
+}
+.ui.grid>.column {
+  font-size: 15px !important;
+}
+
+.ui.yellow.buttons .button:hover,
+.ui.yellow.button:hover,
+.ui.yellow.buttons .active.button,
+.ui.yellow.button.active {
+  background-color: #b58900 !important;
+}
+
+@media (min-width: 1000px) {
+  .dialog .response {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+}
+
+.dialog .response {
+  overflow-x: hidden;
+}
+
+.float.right {
+	float: right;
+}
+
+#prompt i {
+  float: left;
+  display: block;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#prompt,
+.request,
+.ui.mini.basic.button
+{
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
+  background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%);
+  opacity: 1;
+}
+
+#prompt,
+.request,
+.ui.mini.basic.button,
+.ui.mini.basic.button > .icon {
+  color: #073642!important;
+ }
+
+.ui.mini.basic.button:hover
+{
+  opacity: 1 !important;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93b1b1));
+  background: linear-gradient(to bottom, #eee8d5 0%, #93b1b1 100%);
+}
+
+.ui.mini.basic.button:active
+{
+  opacity: 1;
+  background-color: #eee8d5!important;
+  background-image: none;
+}
+
+#prompt,
+.request
+{
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
+}
+
+#prompt,
+.prompt > .icon,
+#prompt .dialog,
+.request,
+.actions a {
+  color: #073642 !important;
+  text-decoration: none;
+}
+
+.actions li {
+  margin-top: -0.2em !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.actions a:hover {
+  color: #268bd2;
+}
+
+#prompt .request {
+  padding-bottom: 0.1em;
+}
+
+input.human-text {
+	margin-top: -0.2em !important;
+  padding: 0.2em !important;
+}
+
+#prompt .prompt {
+  width: 80%;
+}
+
+#prompt .prompt input {
+  text-align: left;
+  width: 90%;
+}
+
+#prompt .actions,
+#prompt .actions ul,
+#prompt .actions li {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.clicked-prompt-mic {
+   display: inline-block;
+   border-radius: 10em;
+   background-color: #dc322f !important;
+   color: white !important;
+
+   padding: 0 !important;
+   width: auto !important;
+   height:  auto !important;
+   position: relative;
+   margin-bottom: 0 !important;
+   margin-left:  0 !important;
+   right: 0 !important;
+   bottom: 0 !important;
+
+   text-align: center;
+
+  animation: redPulse 2s infinite;
+
+  -webkit-animation: redPulse 2s infinite;
+}
+
+@keyframes redPulse {
+  from { box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+  50% { box-shadow: 0 0 0 10px rgba(220, 50, 47, 0.35); }
+  to { box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+}
+
+@-webkit-keyframes redPulse {
+  from { -webkit-box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+  50% { -webkit-box-shadow: 0 0 0 10px rgba(220, 50, 47, 0.35); }
+  to { -webkit-box-shadow: 0 0 0 rgba(220, 50, 47, 0.35); }
+}
+
+.clicked-prompt-mic i:before {
+   color: white !important;
+}
+
+
+.ui-autocomplete {
+  background-color: rgba(7, 54, 66, 0.8) !important;
+  border-color: #93a1a1;
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
+}
+
+#conv-0 .request {
+  display: none;
+}
+
+.repos .segment,
+.list-view .segment,
+.list-filter.segment {
+  background-color: rgba(7, 54, 66, 0.8) !important;
+}
+
+.list-filter.segment {
+	border: none !important;
+}
+
+.filter-value {
+	margin-top: 2em;
+}
+
+.repos .segment {
+  margin-bottom: 2em !important;
+}
+
+.repos i {
+  float: left;
+}
+
+.repos h3 a {
+  float: right;
+}
+
+.repo-expression-links {
+  width: 100%;
+}
+
+.repos .top.attached.label {
+  background-color: rgba(7, 54, 66, 1);
+  color: #839496;
+  font-size: 1.2em;
+  height: 2.5em;
+}
+
+.repos h4.top.attached.label,
+.list-filter .top.attached.label,
+.list-filter .corner.label {
+  background-color: rgba(10, 57, 69, 1);
+  color: #839496;
+  font-size: 1em;
+  height: 2.2em;
+  font-weight: normal;
+}
+
+.repos h4.top.attached.label i.icon {
+  padding-right: 1em;
+}
+
+.repos .list .item > .icon {
+  color: #657b83;
+}
+
+.repos .branch-status.list >.item > .content {
+  font-size: 1.2em !important;
+}
+
+.branch-status,
+.list-view .segment {
+  overflow: hidden;
+  font-size: 0.8em;
+}
+
+.scrollbar-wrapper {
+  border: none !important;
+  box-shadow: 0 1px 2px 1px rgba(0,0,0,.1);
+  background-color: rgba(7, 54, 66, 0.8) !important;
+  margin: 0.5em;
+}
+
+.scrollbar-wrapper, .scrollbar-wrapper * {
+  font-size: 15px !important;
+}
+
+.scrollbar-wrapper button.ui.basic.button {
+  padding: 1em 0.5em !important;
+  color: rgb(128, 128, 128);
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(238, 232, 213, 0.3)), color-stop(100%, rgba(7, 54, 66, 0.3)));
+  background: linear-gradient(to bottom, rgba(238, 232, 213, 0.3) 0%, rgba(7, 54, 66, 0.3) 100%);
+}
+
+.scrollbar-wrapper button.ui.basic.button .icon {
+  width: 1em !important;
+}
+
+.scrollbar-wrapper button.ui.basic.button:hover
+{
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93b1b1));
+  background: linear-gradient(to bottom, #eee8d5 0%, #93b1b1 100%);
+}
+
+.scrollbar-wrapper button.ui.basic.button:active
+{
+  background-color: #eee8d5!important;
+  background-image: none;
+}
+
+.scrollbar-wrapper button.ui.basic.button:disabled
+{
+  color: #586e75 !important;
+  background: none !important;
+}
+
+.scrollbar-wrapper button.ui.basic.button:disabled:hover
+{
+  background: none !important;
+}
+
+.scrollbar-wrapper button.ui.basic.button:disabled:active
+{
+  background: none !important;
+}
+
+.scrollbar-pagenumber {
+  padding: 1em 0;
+}
+
+.list-view .collapsed {
+  white-space: nowrap;
+}
+
+.list-view .collapse-buttons .button {
+  margin-top: 0.5em;
+  opacity: 0.5 !important;
+  padding: .6em !important;
+}
+
+.list-view .collapse-buttons .button .icon {
+  font-size: 0.8em;
+}
+
+.list-view .collapse-buttons .button.less {
+  margin-left: 3.5em !important;
+}
+
+.pre-line {
+	white-space: pre-line;
+}

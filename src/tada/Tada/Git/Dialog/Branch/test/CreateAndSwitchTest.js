@@ -9,6 +9,7 @@ require('../../../Entity/Project');
 require('../../../Entity/Repository');
 require('../../../Entity/Branch');
 require('../../../Entity/RemoteBranch');
+require('../../../Entity/RepositoryFileStatus');
 
 require('../Switch');
 require('../CreateAndSwitch');
@@ -30,6 +31,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
     repo.getName.returns('tada');
     repo.getLocalBranches.returns(env.mock('Consoloid.Entity.Repository'));
     repo.getCurrentBranch.returns(env.mock('Tada.Git.Entity.Branch'));
+    repo.getFileStatus.returns(env.mock('Tada.Git.Entity.RepositoryFileStatus'));
 
     var project = env.mock('Tada.Git.Entity.Project');
     project.getRepository.returns(repo);
@@ -49,8 +51,8 @@ describeUnitTest('Tada.Git.Dialog.Branch.CreateAndSwitch', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { error: 'Already on foo' }).should.be.true;
-      repo.setCurrentBranch.called.should.be.false;
+      dialog._renderRepository.args[0][0].should.equal("tada");
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it('should create and checkout to the new branch when branch does not exists', function(){

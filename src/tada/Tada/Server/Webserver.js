@@ -16,7 +16,43 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
 
       this.container.addSharedObject('tada_config', this.tadaConfig);
       this.config.server.port = this.tadaConfig.get('server/port');
-      this.config.resourceLoader.resourceDirectories.unshift(this.tadaConfig.get('tadaRoot'));
+
+      this.__addResourceDirectories();
+    },
+
+    __addResourceDirectories: function()
+    {
+      var theme = this.tadaConfig.get('theme') || "vanda";
+
+      this.__checkForThemeDirectory(theme);
+
+      this.tadaDirectories = [
+        this.tadaConfig.get('tadaRoot'),
+        this.tadaConfig.get('tadaRoot') + "/themes/" + theme,
+        __dirname + "/../../../../themes/" + theme
+      ];
+
+      this.tadaDirectories.forEach(function(directory) {
+        this.config.resourceLoader.resourceDirectories.unshift(directory);
+      }.bind(this));
+    },
+
+    __checkForThemeDirectory: function(theme)
+    {
+      var fs = require('fs');
+
+      if (!fs.existsSync(__dirname + "/../../../../themes/" + theme) && !fs.existsSync(this.tadaConfig.get('tadaRoot') + "/themes/" + theme)) {
+        throw new Error("Theme folder for \"" + theme + "\" theme does not exist.");
+      }
+    },
+
+    run: function()
+    {
+      this.__base();
+
+      this.tadaDirectories.forEach(function(directory) {
+        this.setAsStaticDirectory(directory);
+      }.bind(this));
     },
 
     __flushBootLogs: function()

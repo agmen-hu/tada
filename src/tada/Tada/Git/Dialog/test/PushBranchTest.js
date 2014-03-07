@@ -108,7 +108,7 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
       dialog._processRepository("tada");
 
       queues.getQueue.calledWith("tada").should.not.be.ok;
-      dialog._renderRepository.args[0][1].error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
     });
 
     it("should attempt to push to origin if no there was no upstream", function() {
@@ -153,12 +153,11 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
       repo.getRemoteBranches().getEntity().setCommits.args[0][0].should.not.equal(repo.getLocalBranches().getEntity().getCommits());
     });
 
-
    it('should render error if server called back with one', function() {
       dialog._processRepository("tada");
       push.args[0][0]("OMG an error");
 
-      dialog._renderRepository.args[0][1].error.should.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
       (dialog._renderRepository.args[0][1].repo == undefined).should.be.ok;
     });
   });

@@ -61,3 +61,12 @@ ul.git-command-toolbox li {
 .git-hidden {
 	display: none !important;
 }
+
+.content {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.pre-line {
+  white-space: pre-line;
+}

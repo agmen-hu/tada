@@ -12,15 +12,23 @@ describeUnitTest('Tada.Git.Dialog.UpdateVersionControlInfo', function() {
     dialog,
     refresh,
     project,
-    queues;
+    queues,
+    repo;
 
   beforeEach(function() {
     dialog = env.create('Tada.Git.Dialog.UpdateVersionControlInfo', {});
     dialog._renderRepository = sinon.stub();
 
+    var repo = {
+      getFileStatus: sinon.stub().returns({
+        isDirty: sinon.stub()
+      }),
+      getCurrentBranch: sinon.stub()
+    }
+
     refresh = sinon.stub();
     project = {
-      getRepository: sinon.stub()
+      getRepository: sinon.stub().returns(repo)
     }
     env.addServiceMock('git.project', project);
     queues = {

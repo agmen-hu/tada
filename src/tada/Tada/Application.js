@@ -3,7 +3,7 @@ defineClass('Tada.Application', 'Consoloid.Base.Object',
      __constructor: function(options)
     {
       this.__base($.extend({
-        css: 'public-css-tada'
+        css: 'tada'
       }, options));
 
       this.get('css_loader').load(this.css);
