@@ -58,13 +58,28 @@ defineClass('Tada.Git.Dialog.AbstractDialog', 'Consoloid.Ui.Dialog',
 
     _renderRepository: function(name, data)
     {
+      var baseHeight = this.node.height();
       data.name = name;
       this.response.find('div[data-repo-name="'+name+'"]')
         .empty()
         .jqoteapp(this.repositoryTemplate.get(), data);
-
       this.get('console').animateMarginTopIfNecessary(0);
-    }
+
+      this.__adjustConsoleScrollTop(baseHeight);
+    },
+
+    __adjustConsoleScrollTop: function(baseHeight)
+    {
+      if (this.get("console").getLastDialog() == this) {
+        var topOfDialog = $('body').height() - this.node.height();
+        var scrollTo = topOfDialog - (window.innerHeight - this.get('console').getVisibleDialogsHeight());
+
+        $('body,html').stop().animate({ scrollTop: scrollTo }, 400);
+      } else if (this.node.position().top + this.node.height() < $('body,html').scrollTop() + $(window).height()) {
+        var heightDifference = this.node.height() - baseHeight;
+        $('body,html').scrollTop($('body,html').scrollTop() + heightDifference);
+      }
+    },
   },
   {
     MESSAGE_INFO: 1,
