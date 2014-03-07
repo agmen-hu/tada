@@ -70,8 +70,12 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
           }
 
           if (response.message.text.indexOf("is up to date") !== -1) {
-            response.titleLinks = [ this.__pushCurrentBranchLink(repoName) ];
             response.message.type = this.__self.MESSAGE_INFO;
+
+            var localBranch = repo.getCurrentBranch();
+            if (localBranch.getUpstream() && localBranch.getUpstream().getLatestCommit().getHash() != localBranch.getLatestCommit().getHash()) {
+              response.titleLinks = [ this.__pushCurrentBranchLink(repoName) ];
+            }
           } else {
             response.message.fromGit = true;
             response.message.type = this.__self.MESSAGE_ERROR;
