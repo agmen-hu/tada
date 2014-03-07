@@ -35,7 +35,7 @@
 
 <script id="Consoloid-Ui-ExpressionReference" type="text/x-jqote-template">
 <![CDATA[
-  <a href="<%= this.href %>" class="expression-reference ui basic mini down button <%= this.otherClasses %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
+  <a href="<%= this.href %>" class="expression-reference ui basic mini down button <%= this.otherClasses ? this.otherClasses : "" %>" data-text="<%= this.startText %>" data-exec="<%= this.autoExecute %>">
     <i class="comment icon"></i>
     <%= this.linkText %>
   </a>

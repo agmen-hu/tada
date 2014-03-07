@@ -445,6 +445,16 @@ input.human-text {
 	padding-right: 3em !important;
 }
 
+.ambigous.column a {
+	text-align: left;
+	width: 90%;
+}
+
+.ambigous.column a i {
+  display: block;
+  float: left;
+}
+
 .volatile-container .dialog .response {
   overflow-x: initial;
 }
