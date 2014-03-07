@@ -192,8 +192,8 @@
 <![CDATA[
   <div class="list-dialog"></div>
   <ul class="bottom git-command-toolbox">
-    <li><%= __s("Create and switch to new branch", {}, null, true) %></li>
-    <li><%= __s("Create branch", {}, "Create new branch", true) %></li>
+    <li><%= __s("Create and switch to new branch <branch>", {}, "Create and switch to new branch") %></li>
+    <li><%= __s("Create branch <branch>", {}, "Create new branch") %></li>
   </ul>
 ]]>
 </script>
