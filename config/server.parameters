@@ -1,5 +1,6 @@
 include: ../node_modules/consoloid-server/server.parameters
 server:
+  host: 127.0.0.1
   cookie: tada
   logFormat: ~
 router:
