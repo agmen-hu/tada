@@ -48,8 +48,9 @@
   box-shadow: inset 0px -2px 1px -1px rgba(16, 16, 16, 0.5);
 }
 
+.volatile-container,
 .bottom.git-command-toolbox {
-  border-top: 1px solid rgba(64, 64, 64, 0.5);
+  border-top: 1px solid rgba(64, 64, 64, 0.5) !important;
   box-shadow: 0px -2px 1px -1px rgba(16, 16, 16, 0.8);
 }
 
@@ -118,9 +119,10 @@ div.ui.green.ribbon {
 }
 
 body,
+.consoloid .dialog,
 .dialogs-container {
   background-color: #002b36 !important;
-  color: #839496;
+  color: #839496 !important;
   border-color: #839496;
 }
 .ui.grid>.column {
@@ -145,6 +147,9 @@ body,
   overflow-x: hidden;
 }
 
+#prompt {
+	z-index: 20;
+}
 .float.right {
 	float: right;
 }
@@ -156,8 +161,8 @@ body,
   margin-right: 0.5em;
 }
 
-#prompt,
-.request,
+.dialogs > .dialog > .request,
+#prompt .request,
 .ui.mini.basic.button
 {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
@@ -165,8 +170,8 @@ body,
   opacity: 1;
 }
 
-#prompt,
-.request,
+.dialogs > .dialog > .request,
+#prompt .request,
 .ui.mini.basic.button,
 .ui.mini.basic.button > .icon {
   color: #073642!important;
@@ -186,8 +191,8 @@ body,
   background-image: none;
 }
 
-#prompt,
-.request
+.dialogs > .dialog > .request,
+#prompt .request
 {
   box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
 }
@@ -195,9 +200,19 @@ body,
 #prompt,
 .prompt > .icon,
 #prompt .dialog,
-.request,
-.actions a {
+.request .actions a {
   color: #073642 !important;
+}
+
+#prompt,
+.prompt > .icon,
+#prompt .dialog,
+.actions a {
+  text-decoration: none !important;
+}
+
+.volatile-container .request .actions a {
+  color: #839496 !important;
   text-decoration: none;
 }
 
@@ -207,8 +222,9 @@ body,
   padding-right: 0 !important;
 }
 
-.actions a:hover {
-  color: #268bd2;
+.actions a:hover,
+.volatile-container .request .actions a:hover {
+  color: #268bd2!important;
 }
 
 #prompt .request {
@@ -285,6 +301,7 @@ input.human-text {
   display: none;
 }
 
+.volatile-convos .dialog,
 .repos .segment,
 .list-view .segment,
 .list-filter.segment {
@@ -425,4 +442,183 @@ input.human-text {
 
 .pre-line {
 	white-space: pre-line;
+}
+
+.request .reference-text {
+	color: #586e75;
+	padding-right: 3em !important;
+}
+
+.volatile-container .dialog .response {
+  overflow-x: initial;
+}
+
+.volatile-container .dialog .request i.icon {
+  margin-top: -0.1em;
+  font-size: .6em;
+}
+
+.volatile-container .dialog .request {
+  background-color: rgba(10, 57, 69, 1);
+  padding-top: 0.1em;
+  padding-right: 0.3em;
+}
+
+.volatile-container .dialog .response {
+  padding-left: 0.3em;
+}
+
+.volatile-container .dialog .response div {
+  margin-bottom: 0.3em;
+}
+
+.volatile-container .dialog .response i.icon {
+	margin-top: -1em !important;
+	font-size: 1em !important;
+}
+
+.volatile-container .dialog {
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.volatile-container.closed .dialog {
+  height: 2.5em !important;
+}
+
+.volatile-convos .response .normal .message {
+	padding-left: 2.3em
+} 
+
+.volatile-container > .response > .actions {
+	font-size: 1.3em;
+}
+
+.volatile-container .expander {
+	padding-right: .4em;
+}
+
+.volatile-container .expander i.right {
+	margin-left: 0.2em !important; 
+}
+
+.volatile-container .expander i.down {
+  margin-left: -0.2em !important; 
+}
+
+
+.volatile-container > .response > .expander,
+.volatile-container > .response > .actions {
+  max-width: 3%;
+  z-index: 10; 
+  position: relative;
+}
+
+.volatile-convos .dialog {
+	width: 100% !important;
+}
+
+.volatile-convos {
+  width: 90% !important;
+}
+
+.actions ul {
+	padding: 0 !important;
+}
+
+.volatile-container > .response {
+	overflow-x: initial;
+}
+
+.volatile-convo-number {
+  padding-top: 1.1em !important;
+}
+
+.volatile-container .expander.pulse-error {
+  animation: tada-pulse-error 5s infinite !important;
+  -webkit-animation: tada-pulse-error 5s infinite !important;
+}
+
+@keyframes tada-pulse-error {
+  0% {
+    text-shadow: 0px 0px 1px #dc322f;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #dc322f;
+  }
+  100% {
+    text-shadow: 0px 0px 1px #dc322f;
+  }
+}
+
+@-webkit-keyframes tada-pulse-error {
+  0% {
+    text-shadow: 0px 0px 1px #dc322f;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #dc322f;
+  }
+  100% {
+    text-shadow: 0px 0px 1px #dc322f;
+  }
+}
+
+.volatile-container .expander.pulse-info {
+  animation: tada-pulse-info 5s infinite;
+  -webkit-animation: tada-pulse-info 5s infinite;
+}
+
+@keyframes tada-pulse-info {
+  0% {
+    text-shadow: 0px 0px 1px #859900;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #859900;
+  }
+  100% {
+    text-shadow: 0px 0px 1px #859900;
+  }
+}
+
+@-webkit-keyframes tada-pulse-info {
+  0% {
+    text-shadow: 0px 0px 1px #859900;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #859900;
+  }
+  100% {
+    text-shadow: 0px 0px 1px #859900;
+  }
+}
+
+.volatile-container .expander.pulse-both {
+  animation: tada-pulse-both 5s infinite;
+  -webkit-animation: tada-pulse-both 5s infinite;
+}
+
+@-webkit-keyframes tada-pulse-both {
+  0% {
+    text-shadow: 0px 0px 20px #859900;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #dc322f;
+  }
+  100% {
+    text-shadow: 0px 0px 20px #859900;
+  }
+}
+
+@keyframes tada-pulse-both {
+  0% {
+    text-shadow: 0px 0px 20px #859900;
+  }
+  50% {
+    text-shadow: 0px 0px 20px #dc322f;
+  }
+  100% {
+    text-shadow: 0px 0px 20px #859900;
+  }
 }
