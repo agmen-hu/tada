@@ -25,13 +25,18 @@ program
   .option('-v, --verbose', 'Verbose logging', null);
 
 program
+  .command('start [env]')
+  .description('Start tada server for this project')
+  .action(spawnServer);
+
+program
   .command('server [env]')
-  .description('start tada server for this project')
+  .description('Alias of "start" command')
   .action(spawnServer);
 
 program
   .command('server-foreground [env] [logfile]')
-  .description('start tada server for this project')
+  .description('Start tada server in foreground (for debugging)')
   .action(function(env, logfile) {
     new Tada.Server.Supervisor({ env: env || 'prod', logFile: logfile })
       .startServer();
@@ -39,7 +44,7 @@ program
 
 program
   .command('stop')
-  .description('stop tada server for this project')
+  .description('Stop tada server for this project')
   .action(function(env) {
     new Tada.Server.Supervisor({ env: 'prod' })
       .stopServer();
@@ -63,6 +68,12 @@ program
   .action(function(expression){
     program.help();
   });
+
+program.on('--help', function() {
+  console.log("  Executing tada without arguments is equal to 'tada start prod'.");
+  console.log("  For more information see: https://github.com/agmen-hu/tada");
+  console.log("");
+});
 
 program
   .parse(process.argv);
