@@ -69,7 +69,7 @@ definitions:
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repository <value>
+          pattern: in repository <value>
           required: false
         branch:
           type: Tada.Git.Context.LocalBranch
@@ -213,7 +213,7 @@ definitions:
       patterns:
         - List branches
         - List branches from <repo>
-        - List branches with matching <name>
+        - List branches with name like <name>
         -
           pattern: List remote branches
           fixedArguments:
@@ -225,11 +225,11 @@ definitions:
       arguments:
         repo:
           type: Tada.Git.Context.Repository
-          pattern: repo <value>
+          pattern: in repo <value>
           required: false
         name:
           type: string
-          pattern: name <value>
+          pattern: with name like <value>
           required: false
         local:
           type: boolean
@@ -302,8 +302,8 @@ definitions:
     options:
       service: git.create.and.switch.branch
       patterns:
-        - Create and switch branch <branch>
-        - Create and switch branch <branch> in <repo>
+        - Create and switch to branch <branch>
+        - Create and switch to branch <branch> in <repo>
       arguments:
         branch:
           type: string
