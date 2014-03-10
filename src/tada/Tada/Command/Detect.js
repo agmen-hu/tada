@@ -10,7 +10,9 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
         glob: options.glob || require('glob'),
         pathModule: options.pathModule || require('path'),
         configFactory: options.configFactory || this.create('Tada.Configuration.Factory', {}),
-        configFileHandler: options.configFileHandler || this.create('Tada.Configuration.FileHandler', {})
+        configFileHandler: options.configFileHandler || this.create('Tada.Configuration.FileHandler', {}),
+        fsModule: options.fsModule || require('fs'),
+        pathModule: options.pathModule || require('path')
       }, options));
     },
 
@@ -31,6 +33,7 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
         console.log('Existing tada project found in: ' + config.get('tadaRoot'));
         return config;
       } catch(e) {
+        this.newConfigFile = true;
         return this.configFactory.createObject({
           cwd: cwd,
           tadaRoot: this.pathModule.dirname(cwd + '/' + this.configFileHandler.getProjectPathPattern()),
@@ -99,8 +102,20 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
       var cwd = config.get('cwd');
       config.remove('cwd');
 
+      this.__createGitIgnoreFile(cwd);
+
       this.configFileHandler.saveTo(cwd, config);
       console.log('Configuration was written to ' + (cwd + '/' + this.configFileHandler.getProjectPathPattern()) + '.');
+    },
+
+    __createGitIgnoreFile: function(cwd)
+    {
+      if (!this.newConfigFile) {
+        return;
+      }
+
+      var configDir = cwd + '/' + this.pathModule.dirname(this.configFileHandler.getProjectPathPattern());
+      this.fsModule.writeFileSync(configDir + '/.gitignore', 'themes\n' + this.pathModule.basename(this.configFileHandler.getProjectPathPattern()) + '.local\n');
     }
   }
 )
