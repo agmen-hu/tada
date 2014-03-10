@@ -445,14 +445,20 @@ input.human-text {
 	padding-right: 3em !important;
 }
 
+.ambigous.column {
+	margin-top: 0 !important;
+	margin-bottom: 0.5rem !important;
+}
+
 .ambigous.column a {
 	text-align: left;
-	width: 90%;
+	width: 100%;
 }
 
 .ambigous.column a i {
   display: block;
   float: left;
+  font-size: 1.1em;
 }
 
 .volatile-container .dialog .response {
@@ -496,7 +502,7 @@ input.human-text {
 
 .volatile-convos .response .normal .message {
 	padding-left: 2.3em
-} 
+}
 
 .volatile-container > .response > .actions {
 	font-size: 1.3em;
@@ -507,18 +513,18 @@ input.human-text {
 }
 
 .volatile-container .expander i.right {
-	margin-left: 0.2em !important; 
+	margin-left: 0.2em !important;
 }
 
 .volatile-container .expander i.down {
-  margin-left: -0.2em !important; 
+  margin-left: -0.2em !important;
 }
 
 
 .volatile-container > .response > .expander,
 .volatile-container > .response > .actions {
   max-width: 3%;
-  z-index: 10; 
+  z-index: 10;
   position: relative;
 }
 

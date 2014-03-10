@@ -1,11 +1,12 @@
 <script id="Consoloid-Topic-AmbiguousityAvoider" type="text/x-jqote-template">
 <![CDATA[
   <p><%= __('This was ambiguous. Choose what you meant:') %></p>
+  <div class="ui doubling three column grid">
   <% $.each(this.arguments.options, function(name, option) { %>
-    <div class="ambigous column" style="width: 33%; float: left;">
+    <div class="ambigous column">
       <%= __s(option.expression.getTextWithArguments(option.arguments || {})) %>
     </div>
   <% }); %>
-  <div style="clear:both;" />
+  </div>
 ]]>
 </script>
