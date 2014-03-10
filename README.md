@@ -7,7 +7,7 @@ You should definitely try tada if you maintain multiple git repositories in your
 
 Install tada globally:
 ```Shell
-npm install -g tada
+sudo npm install -g tada
 ```
 
 Enter the project root directory that holds all your git repositories and run:
