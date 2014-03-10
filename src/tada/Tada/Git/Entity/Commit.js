@@ -56,7 +56,7 @@ defineClass('Tada.Git.Entity.Commit', 'Consoloid.Base.Object',
     setAuthor: function(value)
     {
       if (!(value instanceof getClass('Tada.Git.Entity.Author'))) {
-        throw new Error('Commit must has author with type Tada.Git.Entity.Author');
+        throw new Error('Commit must have author with type Tada.Git.Entity.Author');
       }
 
       this.author = value;
@@ -70,7 +70,7 @@ defineClass('Tada.Git.Entity.Commit', 'Consoloid.Base.Object',
     setBranches: function(value)
     {
       if (!(value instanceof getClass('Consoloid.Entity.Repository'))) {
-        throw new Error('Commit must has at least one branch with type Consoloid.Entity.Repository');
+        throw new Error('Commit must have at least one branch with type Consoloid.Entity.Repository');
       }
 
       this.branches = value;

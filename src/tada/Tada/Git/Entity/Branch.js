@@ -17,7 +17,7 @@ defineClass('Tada.Git.Entity.Branch', 'Consoloid.Entity.Mentionable',
     setCommits: function(commits)
     {
       if (!commits || !commits[0] || !(commits[0] instanceof getClass('Tada.Git.Entity.Commit'))) {
-        throw new Error('Branch must has at least one commit with type Tada.Git.Entity.Commit');
+        throw new Error('Branch must have at least one commit with type Tada.Git.Entity.Commit');
       }
 
       this.commits = commits;
