@@ -51,7 +51,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Cannot delete foo branch, because you are on it!' } }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Cannot delete <value> branch, because you are on it!', arguments: { '<value>': 'foo' } } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 
@@ -60,7 +60,7 @@ describeUnitTest('Tada.Git.Dialog.Branch.Delete', function() {
 
       dialog._processRepository('tada');
 
-      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Branch foo does not exist!' } }).should.be.true;
+      dialog._renderRepository.alwaysCalledWith('tada', { message: { type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR, text: 'Branch <value> does not exist!', arguments: { '<value>': 'foo' } } }).should.be.true;
       repo.setCurrentBranch.called.should.be.false;
     });
 

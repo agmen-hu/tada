@@ -76,14 +76,14 @@ describeUnitTest('Tada.Git.Command.InitialInfo', function() {
       repo.forEachRef.calledOnce.should.be.ok;
       ('refs/heads' in repo.forEachRef.args[0][0]).should.be.ok;
       ('refs/remotes' in repo.forEachRef.args[0][0]).should.not.be.ok;
-      ('--python' in repo.forEachRef.args[0][0]).should.be.ok;
+      ('--perl' in repo.forEachRef.args[0][0]).should.be.ok;
       repo.forEachRef.args[0][1](null, { foo: "bar-localref" });
 
       callNextAddedQueueItem();
       repo.forEachRef.calledTwice.should.be.ok;
       ('refs/heads' in repo.forEachRef.args[1][0]).should.not.be.ok;
       ('refs/remotes' in repo.forEachRef.args[1][0]).should.be.ok;
-      ('--python' in repo.forEachRef.args[1][0]).should.be.ok;
+      ('--perl' in repo.forEachRef.args[1][0]).should.be.ok;
 
       callback.called.should.not.be.ok;
 

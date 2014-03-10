@@ -124,6 +124,14 @@ describeUnitTest('Tada.Git.Dialog.Rebase', function() {
 
     it('should allow push if rebase error is that branch is up to date', function() {
       rebaseResponse = "Current branch foobar is up to date.";
+      var upstream = env.mock('Tada.Git.Entity.Branch');
+      upstream.getLatestCommit.returns({
+        getHash: sinon.stub().returns("foo")
+      })
+      repo.getCurrentBranch().getUpstream.returns(upstream);
+      repo.getCurrentBranch().getLatestCommit.returns({
+        getHash: sinon.stub().returns("bar")
+      })
 
       repo.hasRemoteBranch.returns(true);
       repo.getRemoteBranches().getEntity.returns(branch);

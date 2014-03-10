@@ -44,7 +44,8 @@ describeUnitTest('Tada.Git.Dialog.ShowVersionControlSummary', function() {
         get: sinon.stub()
       }
       env.addServiceMock('console', {
-        animateMarginTopIfNecessary: sinon.stub()
+        animateMarginTopIfNecessary: sinon.stub(),
+        getLastDialog: sinon.stub()
       });
       dialog._processRepository("tada");
     });
