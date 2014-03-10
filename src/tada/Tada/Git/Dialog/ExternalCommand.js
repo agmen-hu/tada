@@ -24,7 +24,8 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
           error: (function(err) {
             this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
           }).bind(this)
-      });
+      },
+      86400000);
     },
 
     __refresh: function(repoName) {
