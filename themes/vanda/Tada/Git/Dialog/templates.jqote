@@ -1,6 +1,21 @@
 <script id="Tada-Git-Dialog-AbstractDialog" type="text/x-jqote-template">
 <![CDATA[
-  <div class="<%= this.arguments.repo ? "one" : "three" %> column doubling ui grid repos">
+  <%
+    var columnClass;
+    if (this.arguments.repo) {
+      columnClass == "one";
+    } else {
+      if (window.innerWidth > 1600) {
+        columnClass = "five";
+      } else if (window.innerWidth > 1200) {
+        columnClass = "four";
+      } else {
+        columnClass = "three";
+      }
+      columnClass += " doubling";
+    }
+  %>
+  <div class="<%= columnClass %> column ui grid repos">
   <% for (var i=0,len=this.requestedRepositories.length; i<len; i++) { %>
     <div class="column" data-repo-name="<%= this.requestedRepositories[i] %>">
       <div class="ui raised blue segment" >

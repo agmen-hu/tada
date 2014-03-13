@@ -138,10 +138,16 @@ body,
 
 @media (min-width: 1000px) {
   .dialog .response {
-    max-width: 950px;
-    margin: 0 auto;
+    padding: 0 2em;
   }
 }
+
+@media (max-width: 1000px) {
+  .dialog .response {
+    padding: 0 1em;
+  }
+}
+
 
 .dialog .response {
   overflow-x: hidden;
