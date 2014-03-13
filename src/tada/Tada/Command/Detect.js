@@ -102,9 +102,9 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
       var cwd = config.get('cwd');
       config.remove('cwd');
 
+      this.configFileHandler.saveTo(cwd, config);
       this.__createGitIgnoreFile(cwd);
 
-      this.configFileHandler.saveTo(cwd, config);
       console.log('Configuration was written to ' + (cwd + '/' + this.configFileHandler.getProjectPathPattern()) + '.');
     },
 
