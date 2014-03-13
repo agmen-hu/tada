@@ -37,8 +37,8 @@ describeUnitTest('Tada.Git.Entity.Branch', function() {
 
   describe('#setCommits(commits)', function(){
     it('should throw when array does not contains commits', function(){
-      (function(){ branch.setCommits([]); }).should.throw('Branch must has at least one commit with type Tada.Git.Entity.Commit');
-      (function(){ branch.setCommits(['foo']); }).should.throw('Branch must has at least one commit with type Tada.Git.Entity.Commit');
+      (function(){ branch.setCommits([]); }).should.throw('Branch must have at least one commit with type Tada.Git.Entity.Commit');
+      (function(){ branch.setCommits(['foo']); }).should.throw('Branch must have at least one commit with type Tada.Git.Entity.Commit');
     });
 
     it('should set the commits', function(){
