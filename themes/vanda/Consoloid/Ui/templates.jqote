@@ -41,3 +41,27 @@
   </a>
 ]]>
 </script>
+
+<script id="Consoloid-Ui-ArgumentFixerDialogActive" type="text/x-jqote-template">
+<![CDATA[
+  <p><%= __('The arguments below are required for interpreting this sentence.') %></p>
+  <div class="ui raised argument fixer segment">
+    <div class="ui form" />
+    <a href="#" class="submit-button arguments-read ui basic mini down button"><%= __('Interpret sentence using arguments above') %></a>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-Ui-ArgumentFixerDialogDone" type="text/x-jqote-template">
+<![CDATA[
+  <p>
+    <%= __('Consoloid requested for missing arguments.') %>
+    <%= __('The following values were provided:') %>
+  </p>
+  <div class="ui argument fixer raised segment">
+  <% $.each(this.argumentsRead, function(name, value) { %>
+    <div><%= name %>: <%= value.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></div>
+  <% }); %>
+  </div>
+]]>
+</script>

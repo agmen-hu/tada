@@ -1,0 +1,31 @@
+<script id="Consoloid-Form-Text" type="text/x-jqote-template">
+<![CDATA[
+  <div class="column">
+    <% if (this.title !== undefined) { %>
+      <label for="<%= this.id %>"><%= __(this.title) %></label>
+    <% } %>
+    <input type="<%= this.type %>" id="<%= this.id %>" name="<%= this.id %>" value="<%= this.value ? this.value : '' %>" <%= (this.enabled)?'':'disabled="disabled"' %>/>
+  </div>
+  <div class="column">
+    <div class="error">
+      <% if (this.errorMessage !== undefined) { %>
+        <span><%= __(this.errorMessage) %></span>
+      <% } %>
+    </div>
+    <% if (this.description !== undefined) { %>
+      <div class="description"><div class="desc-text"><%= __(this.description) %></div></div>
+    <% } %>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-Form-FieldSet" type="text/x-jqote-template">
+<![CDATA[
+  <fieldset id="<%= this.id %>" name="<%=this.id %>">
+    <% if (this.title !== undefined) { %><legend><%= __(this.title) %></legend><% } %>
+    <% $.each(this.fields, function(name, field) { %>
+      <div class="fieldset-item ui two column doubling grid"" data-child="<%= name %>" />
+    <% }); %>
+  </fieldset>
+]]>
+</script>

@@ -309,9 +309,16 @@ input.human-text {
 
 .volatile-convos .dialog,
 .repos .segment,
+.form.segment,
+.argument.fixer.segment,
 .list-view .segment,
 .list-filter.segment {
   background-color: rgba(7, 54, 66, 0.8) !important;
+}
+
+.form.segment,
+.argument.fixer.segment {
+	margin-bottom: 1rem !important;
 }
 
 .list-filter.segment {
@@ -638,5 +645,59 @@ input.human-text {
   }
   100% {
     text-shadow: 0px 0px 20px #859900;
+  }
+}
+
+.argument.fixer .form fieldset {
+	border: none;
+}
+
+.argument.fixer .form .ui.grid>.column {
+	margin-top: 0 !important;
+}
+
+.argument.fixer .form .ui.grid>.column:first-child {
+  padding-right: 0 !important;
+}
+
+.form label {
+	display: block;
+  margin-bottom: 0.3em !important;
+}
+
+.form span.error {
+	display: block;
+	background-color: #dc322f;
+	border-radius: 5px;
+	padding: 0.5em 0.8em;
+	color: #EEE8D5;
+}
+
+.form span.error:before {
+  background-color: #dc322f;
+  background-image: none;
+  content: "";
+  height: 0.6em;
+  position: absolute;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transition: background 0.1s linear 0s;
+  width: 0.6em;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .form span.error:before {
+    margin-left: -1em;
+  }
+	.form span.error {
+    margin-top: 1.5em !important;
+	}
+}
+
+@media (max-width: 992px) {
+  .form span.error:before {
+    margin-top: -0.8em;
   }
 }
