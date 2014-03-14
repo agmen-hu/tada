@@ -24,7 +24,7 @@ defineClass('Tada.Git.Context.LocalBranch', 'Tada.Git.Context.Branch',
         return new Tada.Git.Context.LocalBranch({name:str, container:container});
       }
 
-      throw new Error('Repositories does not have any local branch with ' + str + 'name');
+      throw new Error(__('Repositories do not have any local branch called <str>', {'<str>': str}));
     }
   }
 );

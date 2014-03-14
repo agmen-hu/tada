@@ -8,7 +8,7 @@ defineClass('Tada.Git.Context.Remote', 'Consoloid.Context.Object',
         return new Tada.Git.Context.Remote({name:str, container:container});
       }
 
-      throw new Error('Repositories does not have any remote with ' + str + 'name');
+      throw new Error(__('Repositories do not have any remote called <str>', {'<str>': str}));
     }
   }
 );

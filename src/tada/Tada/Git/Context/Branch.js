@@ -10,7 +10,7 @@ defineClass('Tada.Git.Context.Branch', 'Consoloid.Context.Object',
         return new Tada.Git.Context.Branch({name:str, container:container});
       }
 
-      throw new Error('Repositories does not have any local or remote branch with ' + str + 'name');
+      throw new Error(__('Repositories do not have any local or remote branch called <str>', {'<str>': str}));
     }
   }
 );

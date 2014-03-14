@@ -8,7 +8,7 @@ defineClass('Tada.Git.Context.RemoteBranch', 'Tada.Git.Context.Branch',
         return new Tada.Git.Context.RemoteBranch({name:str, container:container});
       }
 
-      throw new Error('Repositories does not have any remote branch with ' + str + 'name');
+      throw new Error(__('Repositories do not have any remote branch called <str>', {'<str>': str}));
     }
   }
 );

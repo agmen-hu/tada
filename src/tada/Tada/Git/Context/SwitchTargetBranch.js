@@ -8,7 +8,7 @@ defineClass('Tada.Git.Context.SwitchTargetBranch', 'Consoloid.Context.Object',
         return new Tada.Git.Context.SwitchTargetBranch({name:str, container:container});
       }
 
-      throw new Error('Repositories does not have any branch with ' + str + 'name');
+      throw new Error(__('Repositories do not have any branch with called', {'<str>': str}));
     }
   }
 );
