@@ -2,6 +2,7 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 require('consoloid-console/Consoloid/Entity/Mentionable')
 require('../Entity/Project');
 require('../Entity/Repository');
+require('../Entity/Branch');
 require('../Entity/LocalBranch');
 require('../BranchSentenceArgumentValidator');
 
