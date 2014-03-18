@@ -1,0 +1,4 @@
+definitions:
+  hash:
+    cls: Tada.ClientSideHash
+    shared: true

@@ -66,7 +66,7 @@
     </div> </div>
   <% } %>
   <% if (this.branch) { %>
-    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.name }) %>
+    <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.name, container: this.container }) %>
   <% } %>
   <% if (this.embed) { %>
     <%= $(this.embed.templateId).jqote(this.embed.data) %>
@@ -115,7 +115,7 @@
         <div class="content>
           <div class="header">Last patch</div>
 
-          <%= $('#Tada-Git-Dialog-CommitStatus').jqote(this.branch.getLatestCommit()) %>
+          <%= $('#Tada-Git-Dialog-CommitStatus').jqote({ commit: this.branch.getLatestCommit(), container: this.container }) %>
         </div>
       </div>
   </div>
@@ -185,12 +185,12 @@
 <script id="Tada-Git-Dialog-CommitStatus" type="text/x-jqote-template">
 <![CDATA[
   <div class="list">
-    <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.getCreated().toLocaleString() %></div></div>
-    <div class="item"><i class="ui icon">#</i> <div class="content" title="<%= this.getHash() %>"><%= this.getHash().substring(0, 7) %></div></div>
-    <div class="item"><i class="ui user icon"></i> <a class="content" href="mailto:<%= this.getAuthor().getEmail() %>", title="<%= this.getAuthor().getEmail() %>"><%= this.getAuthor().getName() %></a></div>
-    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= $('<div/>').text(this.getMessageSubject()).html() %></div></div>
-    <% if (this.getMessageBody() && this.getMessageBody().length > 0) { %>
-      <div class="item"><div class="content pre-line"><%= $('<div/>').text(this.getMessageBody()).html() %></div></div>
+    <div class="item"><i class="ui calendar icon"></i> <div class="content"><%= this.commit.getCreated().toLocaleString() %></div></div>
+    <div class="item"><i class="ui icon">#</i> <div class="content" title="<%= this.commit.getHash() %>"><%= this.commit.getHash().substring(0, 7) %></div></div>
+    <div class="item"><i class="ui user icon"></i><img src="http://gravatar.com/avatar/<%= this.container.get('hash').emailHash(this.commit.getAuthor().getEmail()) %>" /> <a class="content" href="mailto:<%= this.commit.getAuthor().getEmail() %>", title="<%= this.commit.getAuthor().getEmail() %>"><%= this.commit.getAuthor().getName() %></a></div>
+    <div class="item"><i class="ui comment outline icon"></i> <div class="content"><%= $('<div/>').text(this.commit.getMessageSubject()).html() %></div></div>
+    <% if (this.commit.getMessageBody() && this.commit.getMessageBody().length > 0) { %>
+      <div class="item"><div class="content pre-line"><%= $('<div/>').text(this.commit.getMessageBody()).html() %></div></div>
     <% } %>
   </div>
 ]]>
@@ -269,7 +269,7 @@
           <% if (branch.getName() == upstreamNameForCurrentBranch) { %>
             <%= __s("Rebase current branch", { "to branch <value>": upstreamNameForCurrentBranch, "in repo <value>": this.repo.getName() }, "Rebase", true) %>
           <% } %>
-          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
+          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote({ commit: branch.getLatestCommit(), container: this.container }) %></div>
         </li>
       <% }).bind(this)); %>
       </ul>
@@ -281,7 +281,7 @@
         <li>
           <% branch = this.repo.getRemoteBranches().getEntity(branch); %>
           <%= branch.getName() %>
-          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote(branch.getLatestCommit()) %></div>
+          <div class="git-commit-info"><%= $('#Tada-Git-Dialog-CommitStatus').jqote({ commit: branch.getLatestCommit(), container: this.container }) %></div>
         </li>
       <% }).bind(this)); %>
       </ul>

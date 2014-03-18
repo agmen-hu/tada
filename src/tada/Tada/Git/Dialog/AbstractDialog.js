@@ -60,6 +60,7 @@ defineClass('Tada.Git.Dialog.AbstractDialog', 'Consoloid.Ui.Dialog',
     {
       var baseHeight = this.node.height();
       data.name = name;
+      data.container = this.container;
       this.response.find('div[data-repo-name="'+name+'"]')
         .empty()
         .jqoteapp(this.repositoryTemplate.get(), data);
