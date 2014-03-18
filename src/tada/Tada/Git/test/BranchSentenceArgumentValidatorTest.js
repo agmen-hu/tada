@@ -37,7 +37,9 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     it('should return the repository branchExistsLocallyOrAtSomeRemote method return value', function(){
       env.container.get('git.project').getRepository().branchExistsLocallyOrAtSomeRemote.returns(false);
 
-      validator.validateRepoAndBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}}).should.be.false;
+      (function() {
+        validator.validateRepoAndBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}});
+      }).should.throwError();
       env.container.get('git.project').getRepository.calledWith('foo').should.be.true;
       env.container.get('git.project').getRepository().branchExistsLocallyOrAtSomeRemote.alwaysCalledWith('master');
 
@@ -60,7 +62,9 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     it('should return false when repo does not have local branch', function(){
       env.container.get('git.project').getRepository().hasLocalBranch.returns(false);
 
-      validator.validateRepoAndLocalBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}}).should.be.false;
+      (function(){
+        validator.validateRepoAndLocalBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}});
+      }).should.throwError();
     });
   });
 
@@ -78,7 +82,9 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     it('should return false when repo does not have remote branch', function(){
       env.container.get('git.project').getRepository().hasRemoteBranch.returns(false);
 
-      validator.validateRepoAndRemoteBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}}).should.be.false;
+      (function() {
+        validator.validateRepoAndRemoteBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}})
+      }).should.throwError();
     });
   });
 
@@ -104,7 +110,9 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     it('should return false when repo does not have either remote nor local branch', function(){
       env.container.get('git.project').getRepository().hasLocalBranch.returns(false);
 
-      validator.validateRepoAndLocalOrRemoteBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}}).should.be.false;
+      (function() {
+        validator.validateRepoAndLocalOrRemoteBranch({repo: { entity: {}, value: 'foo'}, branch: {entity: {}, value: 'master'}})
+      }).should.throwError();
     });
   });
 
@@ -118,8 +126,9 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     it('should return wheter current branch has or has not upstream', function(){
       var branch = env.mock('Tada.Git.Entity.LocalBranch');
       env.container.get('git.project').getRepository().getCurrentBranch.returns(branch);
-
-      validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}}).should.be.false;
+      (function() {
+        validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}})
+      }).should.throwError();
 
       branch.getUpstream.returns('foo');
       validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}}).should.be.true;
