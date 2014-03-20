@@ -22,6 +22,12 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
       }
 
       this.get('git.repository.command.queues').getQueue(repoName).checkout(function(data){
+        if (typeof data == "string") {
+          data = {
+            err: data
+          }
+        }
+
         if (!data.err) {
           var branch = this._updateModel(repo, branchName);
         }
@@ -38,7 +44,7 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
             referenceText: "git gui",
             autoExecute: true
           }] : null,
-          branch: branch,
+          branch: !data.err ? branch : undefined,
         });
 
       }.bind(this), repoName, branchName, this.isNew);
