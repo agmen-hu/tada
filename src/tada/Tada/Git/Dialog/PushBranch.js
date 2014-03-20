@@ -15,7 +15,7 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
       }
       this.get('git.repository.command.queues').getQueue(repoName).push((function(err) {
         if (err) {
-          this._renderRepository(repoName, { message: { text: err, type: this.__self.MESSAGE_ERROR, fromGit: true } });
+          this._renderRepository(repoName, { message: { text: err, type: this.__self.MESSAGE_ERROR } });
           return;
         }
         var repo = this.get("git.project").getRepository(repoName);

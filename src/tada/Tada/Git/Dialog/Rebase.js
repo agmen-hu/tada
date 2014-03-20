@@ -77,7 +77,6 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
               response.titleLinks = [ this.__pushCurrentBranchLink(repoName) ];
             }
           } else {
-            response.message.fromGit = true;
             response.message.type = this.__self.MESSAGE_ERROR;
           }
 
@@ -97,7 +96,6 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
             message: {
               text: err || "Rebase was successful",
               type: err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
-              fromGit: err ? true : false,
             },
             branch: repo.getCurrentBranch(repoName),
             titleLinks: (!err && this.__decidePushActionVisibility(repo, branch)) ? [this.__pushCurrentBranchLink(repoName)] : null,

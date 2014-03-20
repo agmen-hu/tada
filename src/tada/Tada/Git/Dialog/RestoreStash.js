@@ -13,13 +13,13 @@ defineClass('Tada.Git.Dialog.RestoreStash', 'Tada.Git.Dialog.AbstractDialog',
       queue
         .stash(function(err) {
           if (err) {
-            this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
+            this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, text: err } });
             return queue.killQueue();
           }
         }.bind(this), repo, this.arguments.drop ? "pop" : "apply")
         .refresh(function(err) {
           if (err) {
-            this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
+            this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, text: err } });
             return queue.killQueue();
           }
           this._renderRepository(repo, {

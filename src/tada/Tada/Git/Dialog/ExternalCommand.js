@@ -22,7 +22,7 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
             this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_INFO, text: "Requested external command finished." } });
           }).bind(this),
           error: (function(err) {
-            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
+            this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, text: err } });
           }).bind(this)
       },
       86400000);
@@ -35,7 +35,7 @@ defineClass('Tada.Git.Dialog.ExternalCommand', 'Tada.Git.Dialog.AbstractDialog',
 
       queue.refresh(function(err){
         if ((typeof err == 'object' && Object.keys(err).length) || (typeof err == 'string' && err)) {
-          this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true,  text: err } });
+          this._renderRepository(repoName, { message: { type: this.__self.MESSAGE_ERROR,  text: err } });
           return queue.killQueue();
         }
 

@@ -33,7 +33,6 @@ defineClass('Tada.Git.Dialog.Branch.Delete', 'Tada.Git.Dialog.AbstractDialog',
         this._renderRepository(repo.getName(), {
           message: {
             type: err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
-            fromGit: err ? true : false,
             text: err ? JSON.stringify(err) : "Branch " + branchName + "  successfully deleted."
           },
           links: (err && JSON.stringify(err).indexOf("not fully merged") != -1) ? [{

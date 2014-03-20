@@ -18,7 +18,7 @@ defineClass('Tada.Git.Dialog.StashChanges', 'Tada.Git.Dialog.AbstractDialog',
       }
       this.get('git.repository.command.queues').getQueue(repo).stash((function(err) {
         if (err) {
-          this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, fromGit: true, text: err } });
+          this._renderRepository(repo, { message: { type: this.__self.MESSAGE_ERROR, text: err } });
           return;
         }
 

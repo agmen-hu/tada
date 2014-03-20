@@ -32,7 +32,6 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
         this._renderRepository(repo.getName(), {
           message: {
             type: data.err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
-            fromGit: data.err ? true : false,
             text: data.err ? JSON.stringify(data.err) : (forcedToMaster ? "Branch does not exists. Switched to master." : "Switched branch.")
           },
           titleLinks: (!data.err && repo.getFileStatus().isDirty()) ? [{

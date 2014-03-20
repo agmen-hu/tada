@@ -30,7 +30,6 @@ defineClass('Tada.Git.Dialog.Branch.CreateAndSwitch', 'Tada.Git.Dialog.Branch.Sw
         this._renderRepository(repo.getName(), {
           message: {
             type: data.err ? this.__self.MESSAGE_ERROR : this.__self.MESSAGE_INFO,
-            fromGit: data.err ? true : false,
             text: data.err ? JSON.stringify(data.err) :  "Switched branch."
           },
           titleLinks: (!data.err && repo.getFileStatus().isDirty()) ? [{
