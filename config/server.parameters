@@ -3,6 +3,10 @@ server:
   host: 127.0.0.1
   cookie: tada
   logFormat: ~
+  session:
+    expressOptions:
+      cookie:
+        maxAge: 2592000000
 router:
   cls: Tada.Server.Router
   port: 3500
