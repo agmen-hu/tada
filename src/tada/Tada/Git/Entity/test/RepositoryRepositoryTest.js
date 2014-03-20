@@ -74,6 +74,21 @@ describeUnitTest('Tada.Git.Entity.RepositoryRepository', function() {
       repo.getRemoteBranches().getEntity.alwaysCalledWith('origin/master').should.be.true;
     });
 
+    it('should add current branch from status to local branches if for-each-ref returned with empty local branch array', function() {
+      repository.updateEntity({
+        name: 'foo',
+        branches: [],
+        status: {
+          branch: {
+            name: 'foobranch',
+            status: []
+          }
+        }
+      });
+
+      repo.getLocalBranches().update.calledWith([{ name: 'foobranch', commits: [] }]).should.be.true;
+    });
+
     it('should update the currentBranch', function(){
       var branch = env.mock('Tada.Git.Entity.LocalBranch');
       repo.getLocalBranches().getEntity.returns(branch);
@@ -90,6 +105,20 @@ describeUnitTest('Tada.Git.Entity.RepositoryRepository', function() {
 
       repo.setCurrentBranch.alwaysCalledWith(branch).should.be.true;
       branch.setAheadFromUpstream.alwaysCalledWith(2).should.be.true;
+    });
+
+    it("should not update the currentBranch when there isn't any", function() {
+      repository.updateEntity({
+        name: 'foo',
+        status: {
+          branch: {
+            name: '',
+            status: []
+          }
+        }
+      });
+
+      repo.setCurrentBranch.called.should.not.be.ok;
     });
 
     it('should update the filestatus entity', function(){

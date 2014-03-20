@@ -20,7 +20,7 @@ defineClass('Tada.Git.Entity.RepositoryRepository', 'Consoloid.Entity.Repository
       }
 
       if (data.branches) {
-        entity.getLocalBranches().update(this.__mapBranches(entity, data.branches));
+        entity.getLocalBranches().update(this.__mapBranches(entity, data.branches, data.status));
       }
 
       if (data.status) {
@@ -52,10 +52,19 @@ defineClass('Tada.Git.Entity.RepositoryRepository', 'Consoloid.Entity.Repository
       });
     },
 
-    __mapBranches: function(entity, branches)
+    __mapBranches: function(entity, branches, status)
     {
+      if (branches.length == 0 && status) {
+        branches.push({
+          name: status.branch.name
+        })
+      }
+
       return branches.map(function(branch){
-        branch.commits = [ entity.getCommits().getEntity(branch.lastCommit) ];
+        branch.commits = [];
+        if (branch.lastCommit) {
+          branch.commits.push(entity.getCommits().getEntity(branch.lastCommit));
+        }
 
         if (branch.upstream) {
           branch.upstream = entity.getRemoteBranches().getEntity(branch.upstream);
@@ -69,7 +78,7 @@ defineClass('Tada.Git.Entity.RepositoryRepository', 'Consoloid.Entity.Repository
 
     __setCurrentBranch: function(entity, branchData)
     {
-      if (!branchData) {
+      if (!branchData || branchData.name.length == "") {
         return;
       }
 
