@@ -39,8 +39,9 @@
   <% if (this.branch) { %>
     <%= $('#Tada-Git-Dialog-BranchStatus').jqote({ branch: this.branch, name: this.name }) %>
   <% } %>
-  <% if (this.otherInfo) { %>
-    <%= $(this.otherInfo.templateId).jqote(this.otherInfo.data) %>
+  <% if (this.embed) { %>
+    <% this.embed.data.container = this.container; %>
+    <%= $(this.embed.templateId).jqote(this.embed.data) %>
   <% } %>
   <% if (this.links && this.links.length != 0) { %>
     <div class="repo-expression-links">
