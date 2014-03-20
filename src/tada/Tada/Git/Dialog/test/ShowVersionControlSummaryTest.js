@@ -15,12 +15,15 @@ describeUnitTest('Tada.Git.Dialog.ShowVersionControlSummary', function() {
   beforeEach(function() {
     repo = {
       getCurrentBranch: sinon.stub().returns({
+        getName: sinon.stub().returns("master"),
         mention: sinon.stub(),
-        getAheadFromUpstream: sinon.stub().returns(false)
+        getAheadFromUpstream: sinon.stub().returns(false),
+        getCommits: sinon.stub().returns(["foocomit"])
       }),
       getFileStatus: sinon.stub().returns({
         isDirty: sinon.stub().returns(false)
       }),
+      hasCurrentBranch: sinon.stub().returns(true),
       mention: sinon.stub()
     }
     project = {
@@ -72,6 +75,25 @@ describeUnitTest('Tada.Git.Dialog.ShowVersionControlSummary', function() {
       repo.getFileStatus().isDirty.returns(true);
       dialog._processRepository("tada");
       dialog.response.find().removeClass.calledOnce.should.be.ok;
+    });
+
+    it("should work if current branch does not have anny commit", function() {
+      repo.getCurrentBranch().getCommits.returns([]);
+      dialog._processRepository("tada");
+
+      (dialog.response.find().empty().jqoteapp.args[1][1].branch == undefined).should.be.ok;
+      dialog.response.find().empty().jqoteapp.args[1][1].message.should.be.ok;
+      (dialog.response.find().empty().jqoteapp.args[1][1].message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR).should.not.be.ok;
+    });
+
+    it("should work if repo has a detached head", function() {
+      repo.hasCurrentBranch.returns(false);
+      repo.getCurrentBranch.throws();
+      dialog._processRepository("tada");
+
+      (dialog.response.find().empty().jqoteapp.args[1][1].branch == undefined).should.be.ok;
+      dialog.response.find().empty().jqoteapp.args[1][1].message.should.be.ok;
+      (dialog.response.find().empty().jqoteapp.args[1][1].message.type == Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR).should.be.ok;
     });
   });
 

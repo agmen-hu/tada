@@ -23,7 +23,10 @@ describeUnitTest('Tada.Git.Dialog.UpdateVersionControlInfo', function() {
       getFileStatus: sinon.stub().returns({
         isDirty: sinon.stub()
       }),
-      getCurrentBranch: sinon.stub()
+      hasCurrentBranch: sinon.stub().returns(true),
+      getCurrentBranch: sinon.stub().returns({
+        getCommits: sinon.stub().returns("foocomit")
+      })
     }
 
     refresh = sinon.stub();
