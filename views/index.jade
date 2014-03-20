@@ -16,6 +16,7 @@ html
           (window.app = new Consoloid.Application.Application({
             server: {
               url: "#{baseUrl}",
+              cookie: "#{sessionCookie}",
               environment: "#{environment}"
             },
             dom: {

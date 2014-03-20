@@ -16,6 +16,7 @@ defineClass('Tada.Server.Webserver', 'Consoloid.Server.Webserver',
 
       this.container.addSharedObject('tada_config', this.tadaConfig);
       this.config.server.port = this.tadaConfig.get('server/port');
+      this.config.server.session.expressOptions.key = 'tada' + this.config.server.port;
 
       this.__addResourceDirectories();
     },
