@@ -2,6 +2,7 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 require('consoloid-console/Consoloid/Entity/Mentionable');
 require('../Branch');
 require('../Commit');
+require('../../Error/UserMessage');
 
 describeUnitTest('Tada.Git.Entity.Branch', function() {
   var
@@ -30,15 +31,22 @@ describeUnitTest('Tada.Git.Entity.Branch', function() {
       branch.getLatestCommit().should.be.eql(commit1);
     });
 
+    it('should throw Tada.Git.Error.UserMessage if there is no latest commit', function() {
+      branch = new Tada.Git.Entity.Branch({ name: 'foo', commits: [] });
+      (function() {
+        branch.getLatestCommit();
+      }).should.throwError(Tada.Git.Error.UserMessage);
+    });
+
     it('should have one for commits', function() {
       branch.getCommits().should.equal(branch.commits);
     })
   });
 
   describe('#setCommits(commits)', function(){
-    it('should throw when array does not contains commits', function(){
-      (function(){ branch.setCommits([]); }).should.throw('Branch must have at least one commit with type Tada.Git.Entity.Commit');
-      (function(){ branch.setCommits(['foo']); }).should.throw('Branch must have at least one commit with type Tada.Git.Entity.Commit');
+    it('should throw when array elements are not commits or there was no array added', function(){
+      (function(){ branch.setCommits(); }).should.throw();
+      (function(){ branch.setCommits(['foo']); }).should.throw();
     });
 
     it('should set the commits', function(){

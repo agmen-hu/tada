@@ -89,6 +89,10 @@ defineClass('Tada.Git.Entity.Repository', 'Consoloid.Entity.Mentionable',
 
     getCurrentBranch: function()
     {
+      if (!this.currentBranch) {
+        getClass("Tada.Git.Error.UserMessage");
+        throw new Tada.Git.Error.UserMessage({ message: "Repository is in detached head state." });
+      }
       return this.currentBranch;
     }
   },

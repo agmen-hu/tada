@@ -5,6 +5,7 @@ require('../Branch');
 require('../RemoteBranch');
 require('../Repository');
 require('../RepositoryFileStatus');
+require('../../Error/UserMessage');
 
 describeUnitTest('Tada.Git.Enttiy.Repository', function() {
   var
@@ -81,6 +82,14 @@ describeUnitTest('Tada.Git.Enttiy.Repository', function() {
 
       repository.getRemotes().hasEntity.returns(false);
       repository.hasRemote('foo').should.be.false;
+    });
+  });
+
+  describe("#getCurrentBranch()", function() {
+    it('should throw Tada.Git.Error.UserMessage if repository does not have a current branch', function() {
+      (function() {
+        repository.getCurrentBranch();
+      }).should.throwError(Tada.Git.Error.UserMessage);
     });
   });
 

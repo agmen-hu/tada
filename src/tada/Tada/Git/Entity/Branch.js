@@ -16,9 +16,15 @@ defineClass('Tada.Git.Entity.Branch', 'Consoloid.Entity.Mentionable',
 
     setCommits: function(commits)
     {
-      if (!commits || !commits[0] || !(commits[0] instanceof getClass('Tada.Git.Entity.Commit'))) {
-        throw new Error('Branch must have at least one commit with type Tada.Git.Entity.Commit');
+      if (!commits) {
+        throw new Error('setCommits method called without an array of commits');
       }
+
+      commits.forEach(function(commit) {
+        if (!(commit instanceof getClass('Tada.Git.Entity.Commit'))) {
+          throw new Error('Branch commits with type Tada.Git.Entity.Commit');
+        }
+      });
 
       this.commits = commits;
     },
@@ -30,6 +36,10 @@ defineClass('Tada.Git.Entity.Branch', 'Consoloid.Entity.Mentionable',
 
     getLatestCommit: function()
     {
+      if (!this.commits[0]) {
+        getClass("Tada.Git.Error.UserMessage");
+        throw new Tada.Git.Error.UserMessage({ message: "Branch does not have any commits." });
+      }
       return this.commits[0];
     }
   }
