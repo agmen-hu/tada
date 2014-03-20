@@ -20,7 +20,7 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     refresh: function(callback, repo, tasks)
     {
-      this.queue.add(callback, (this.__refresh).bind(this), { repo: repo, tasks: tasks });
+      this.queue.add(callback, (this.__refresh).bind(this), { arguments: { repo: repo, tasks: tasks }, exceptionCallback: callback });
       return this;
     },
 
@@ -28,14 +28,14 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.initial_info').callAsync(
         'getInfo',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
-              this.get("git.project").update(options.repo, data);
+              this.get("git.project").update(options.arguments.repo, data);
               callback();
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -56,9 +56,12 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     push: function(callback, repo, remote, branch)
     {
       this.queue.add(callback, (this.__push).bind(this), {
-        repo: repo,
-        remote: remote,
-        branch: branch
+        arguments: {
+          repo: repo,
+          remote: remote,
+          branch: branch
+        },
+        exceptionCallback: callback
       });
 
       return this;
@@ -68,13 +71,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.push').callAsync(
         'push',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
               callback(null, data);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -85,7 +88,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     fetch: function(callback, repo, prune)
     {
-      this.queue.add(callback, (this.__fetch).bind(this), { repo: repo, prune: prune });
+      this.queue.add(callback, (this.__fetch).bind(this), {
+        arguments: { repo: repo, prune: prune },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -93,13 +99,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.fetch').callAsync(
         'fetch',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
               callback(null, data);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -110,7 +116,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     createBranch: function(callback, repo, branch)
     {
-      this.queue.add(callback, (this.__createBranch).bind(this), { repo: repo, branch: branch });
+      this.queue.add(callback, (this.__createBranch).bind(this), {
+        arguments: { repo: repo, branch: branch },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -118,13 +127,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.create.branch').callAsync(
         'branch',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
               callback(null, data);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -135,7 +144,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     deleteRemoteBranch: function(callback, repo, remote, branch)
     {
-      this.queue.add(callback, (this.__deleteRemoteBranch).bind(this), { repo: repo, remote: remote, branch: branch });
+      this.queue.add(callback, (this.__deleteRemoteBranch).bind(this), {
+        arguments: { repo: repo, remote: remote, branch: branch },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -143,13 +155,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.delete.remote.branch').callAsync(
         'delete',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
               callback(null, data);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -160,7 +172,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     deleteLocalBranch: function(callback, repo, branch, unmerged)
     {
-      this.queue.add(callback, (this.__deleteLocalBranch).bind(this), { repo: repo, branch: branch, unmerged: unmerged });
+      this.queue.add(callback, (this.__deleteLocalBranch).bind(this), {
+        arguments: { repo: repo, branch: branch, unmerged: unmerged },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -168,13 +183,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.delete.branch').callAsync(
         'delete',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(err) {
             try {
               callback(err);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -185,7 +200,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     checkout: function(callback, repo, branch, create)
     {
-      this.queue.add(callback, (this.__checkout).bind(this), { repo: repo, branch: branch, create: create });
+      this.queue.add(callback, (this.__checkout).bind(this), {
+        arguments: { repo: repo, branch: branch, create: create },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -193,13 +211,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.checkout').callAsync(
         'checkout',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(err) {
             try {
               callback(err);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -210,7 +228,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     rebase: function(callback, repo, branch)
     {
-      this.queue.add(callback, (this.__rebase).bind(this), { repo: repo, branch: branch });
+      this.queue.add(callback, (this.__rebase).bind(this), {
+        arguments: { repo: repo, branch: branch },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -218,13 +239,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.rebase').callAsync(
         'rebase',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(err) {
             try {
               callback(err);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -235,7 +256,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     runExternalCommand: function(callback, repo, commandName)
     {
-      this.queue.add(callback, (this.__runExternalCommand).bind(this), { repo: repo, commandName: commandName });
+      this.queue.add(callback, (this.__runExternalCommand).bind(this), {
+        arguments: { repo: repo, commandName: commandName },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -243,13 +267,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.external').callAsync(
         'execOnRepo',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(err) {
             try {
               callback(err);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {
@@ -260,7 +284,10 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
 
     stash: function(callback, repo, option)
     {
-      this.queue.add(callback, (this.__stash).bind(this), { repo: repo, option: option });
+      this.queue.add(callback, (this.__stash).bind(this), {
+        arguments: { repo: repo, option: option },
+        exceptionCallback: callback
+      });
       return this;
     },
 
@@ -268,13 +295,13 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
     {
       this.get('git.command.stash').callAsync(
         'stash',
-        [ options ],
+        [ options.arguments ],
         {
           success: (function(data) {
             try {
               callback(null, data);
             } catch(error) {
-              this.__dealWithError(error, callback);
+              this.__dealWithError(error, options.exceptionCallback);
             }
           }).bind(this),
           error: function(err) {

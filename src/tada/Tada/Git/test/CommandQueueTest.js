@@ -50,8 +50,8 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      queue.add.args[0][2].tasks[0].should.equal("a task");
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      queue.add.args[0][2].arguments.tasks[0].should.equal("a task");
     });
 
     it("should attempt to get the initial info and refresh the model", function() {
@@ -129,9 +129,9 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      queue.add.args[0][2].branch.should.equal("master");
-      queue.add.args[0][2].remote.should.equal("origin");
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      queue.add.args[0][2].arguments.branch.should.equal("master");
+      queue.add.args[0][2].arguments.remote.should.equal("origin");
     });
 
     it("should attempt to push a branch", function() {
@@ -195,8 +195,8 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      (!queue.add.args[0][2].prune).should.be.ok;
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      (!queue.add.args[0][2].arguments.prune).should.be.ok;
     });
 
     it("should attempt to fetch a branch", function() {
@@ -214,7 +214,7 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
 
     it("should set prune if prune was set", function() {
       commandQueue.fetch(callback, "tada", true);
-      queue.add.args[0][2].prune.should.be.ok;
+      queue.add.args[0][2].arguments.prune.should.be.ok;
     });
 
     it("should callback with an error if the fetch call failed", function() {
@@ -264,8 +264,8 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      queue.add.args[0][2].branch.should.equal("foobranch");
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      queue.add.args[0][2].arguments.branch.should.equal("foobranch");
     });
 
     it("should attempt to create a branch", function() {
@@ -325,9 +325,9 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      queue.add.args[0][2].remote.should.equal("origin");
-      queue.add.args[0][2].branch.should.equal("foobranch");
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      queue.add.args[0][2].arguments.remote.should.equal("origin");
+      queue.add.args[0][2].arguments.branch.should.equal("foobranch");
     });
 
     it("should attempt to remove remote a branch", function() {
@@ -388,8 +388,8 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       queue.add.calledOnce.should.be.ok;
       queue.add.args[0][0].should.equal(callback);
       (queue.add.args[0][1] instanceof Function).should.be.ok;
-      queue.add.args[0][2].repo.should.equal("tada");
-      queue.add.args[0][2].option.should.equal("foooption");
+      queue.add.args[0][2].arguments.repo.should.equal("tada");
+      queue.add.args[0][2].arguments.option.should.equal("foooption");
     });
 
     it("should attempt to do the stash", function() {
