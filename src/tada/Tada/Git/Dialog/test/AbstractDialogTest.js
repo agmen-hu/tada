@@ -4,6 +4,7 @@ require('consoloid-console/Consoloid/Ui/Dialog');
 require('consoloid-framework/Consoloid/Test/UnitTest');
 
 require('../AbstractDialog');
+require('../../Error/UserMessage');
 
 describeUnitTest('Tada.Git.Dialog.AbstractDialog', function() {
   var
@@ -70,4 +71,17 @@ describeUnitTest('Tada.Git.Dialog.AbstractDialog', function() {
       repo.mention.calledOnce.should.be.ok;
     });
   });
+
+  describe("#__processRequestedRepositories()", function() {
+    it("Should render an error if error was thrown inside _processRepository", function() {
+      Dialog.arguments.repo = { value: 'tada' };
+      Dialog.setup();
+
+      Dialog._renderRepository = sinon.stub();
+      Dialog._processRepository = sinon.stub().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+      Dialog.__processRequestedRepositories();
+
+      Dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
+    });
+  })
 });

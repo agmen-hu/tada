@@ -31,13 +31,26 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            this.get("git.project").update(options.repo, data);
-            callback();
+            try {
+              this.get("git.project").update(options.repo, data);
+              callback();
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
           }
       });
+    },
+
+    __dealWithError: function(error, callback)
+    {
+      if (!(error instanceof getClass("Tada.Git.Error.UserMessage"))) {
+        throw(error);
+      }
+
+      callback(error.toString());
     },
 
     push: function(callback, repo, remote, branch)
@@ -58,7 +71,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            callback(null, data);
+            try {
+              callback(null, data);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -79,7 +96,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            callback(null, data);
+            try {
+              callback(null, data);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -100,7 +121,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            callback(null, data);
+            try {
+              callback(null, data);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -121,7 +146,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            callback(null, data);
+            try {
+              callback(null, data);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -142,7 +171,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(err) {
-            callback(err);
+            try {
+              callback(err);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -163,7 +196,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(err) {
-            callback(err);
+            try {
+              callback(err);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -184,7 +221,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(err) {
-            callback(err);
+            try {
+              callback(err);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -205,7 +246,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(err) {
-            callback(err);
+            try {
+              callback(err);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);
@@ -226,7 +271,11 @@ defineClass('Tada.Git.CommandQueue', 'Consoloid.Base.Object',
         [ options ],
         {
           success: (function(data) {
-            callback(null, data);
+            try {
+              callback(null, data);
+            } catch(error) {
+              this.__dealWithError(error, callback);
+            }
           }).bind(this),
           error: function(err) {
             callback(err);

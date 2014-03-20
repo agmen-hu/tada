@@ -47,7 +47,20 @@ defineClass('Tada.Git.Dialog.AbstractDialog', 'Consoloid.Ui.Dialog',
     __processRequestedRepositories: function()
     {
       this.requestedRepositories.forEach(function(name) {
-        this._processRepository(name);
+        try {
+          this._processRepository(name);
+        } catch(error) {
+          if (!(error instanceof getClass("Tada.Git.Error.UserMessage"))) {
+            throw(error);
+          }
+
+          this._renderRepository(name, {
+            message: {
+              text: error.toString(),
+              type: Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR
+            }
+          });
+        }
       }.bind(this));
     },
 

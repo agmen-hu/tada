@@ -1,4 +1,5 @@
 require('consoloid-framework/Consoloid/Test/UnitTest');
+require('../Error/UserMessage');
 require('../CommandQueue');
 
 describeUnitTest('Tada.Git.CommandQueue', function() {
@@ -84,6 +85,28 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
     });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown while updating project or calling callback", function() {
+      project.update.throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      commandQueue.refresh(callback, "tada");
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+      callback.calledWith("Rampamparam").should.be.ok;
+
+      project.update = sinon.stub();
+      callback = sinon.stub();
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      commandQueue.refresh(callback, "tada");
+      queue.add.args[1][1](
+        queue.add.args[1][0],
+        queue.add.args[1][2]
+      );
+      callback.calledWith("Rampamparam").should.be.ok;
+    });
   });
 
   describe("#push(callback, repo)", function() {
@@ -137,6 +160,18 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
 
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
+    });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown calling callback", function() {
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      commandQueue.push(callback, "tada", "origin", "master");
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+
+      callback.calledWith("Rampamparam").should.be.ok;
     });
   });
 
@@ -196,6 +231,18 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
     });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown calling callback", function() {
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      commandQueue.fetch(callback, "tada");
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+
+      callback.calledWith("Rampamparam").should.be.ok;
+    });
   });
 
   describe("#createBranch(callback, repo, branch)", function() {
@@ -245,6 +292,17 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
 
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
+    });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown calling callback", function() {
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+
+      callback.calledWith("Rampamparam").should.be.ok;
     });
   });
 
@@ -298,6 +356,17 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
     });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown calling callback", function() {
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+
+      callback.calledWith("Rampamparam").should.be.ok;
+    });
   });
 
   describe("#stash(callback, repo, option)", function() {
@@ -348,6 +417,17 @@ describeUnitTest('Tada.Git.CommandQueue', function() {
 
       callback.called.should.be.ok;
       callback.args[0][0].should.be.ok;
+    });
+
+    it("should call callback with the error message if Tada.Git.Error.UserMessage was thrown calling callback", function() {
+      callback.onFirstCall().throws(new Tada.Git.Error.UserMessage({ message: "Rampamparam" }));
+
+      queue.add.args[0][1](
+        queue.add.args[0][0],
+        queue.add.args[0][2]
+      );
+
+      callback.calledWith("Rampamparam").should.be.ok;
     });
   });
 
