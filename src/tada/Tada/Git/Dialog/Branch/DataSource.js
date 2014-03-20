@@ -48,7 +48,15 @@ defineClass('Tada.Git.Dialog.Branch.DataSource', 'Consoloid.Ui.List.DataSource.A
     {
       this.__sortRepos();
       this.data.sort(function(a, b){
-        return b[0].branch.getLatestCommit().getCreated().getTime() - a[0].branch.getLatestCommit().getCreated().getTime();
+        try {
+          return b[0].branch.getLatestCommit().getCreated().getTime() - a[0].branch.getLatestCommit().getCreated().getTime();
+        } catch(error) {
+          if (!(error instanceof getClass("Tada.Git.Error.UserMessage"))) {
+            throw(error);
+          }
+
+          return 1;
+        }
       }.bind(this));
     },
 
@@ -56,7 +64,15 @@ defineClass('Tada.Git.Dialog.Branch.DataSource', 'Consoloid.Ui.List.DataSource.A
     {
       this.data.forEach(function(entities){
         entities.sort(function(a, b){
-          return b.branch.getLatestCommit().getCreated().getTime() - a.branch.getLatestCommit().getCreated().getTime();
+          try {
+            return b.branch.getLatestCommit().getCreated().getTime() - a.branch.getLatestCommit().getCreated().getTime();
+          } catch(error) {
+            if (!(error instanceof getClass("Tada.Git.Error.UserMessage"))) {
+              throw(error);
+            }
+
+            return 1;
+          }
         });
       });
     },

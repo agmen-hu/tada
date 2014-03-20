@@ -10,6 +10,7 @@ require('../../../Entity/Commit');
 require('../../../Entity/Branch');
 require('../../../Entity/LocalBranch');
 require('../../../Entity/RemoteBranch');
+require('../../../Error/UserMessage');
 
 describeUnitTest('Tada.Git.Dialog.Branch.DataSource', function() {
   var
@@ -76,6 +77,15 @@ describeUnitTest('Tada.Git.Dialog.Branch.DataSource', function() {
       source = env.create('Tada.Git.Dialog.Branch.DataSource', {});
       source.data.should.have.length(1);
       source.data[0].should.be.eql([{ branch: branchA, repo: repoA}, { branch: branchA, repo: repoB} ]);
+    });
+
+    it("should be able to work with branches that don't have any commits", function() {
+      branchA.getLatestCommit.throws(new Tada.Git.Error.UserMessage({ message: "It could not deal with the error." }));
+      branchB.getLatestCommit.throws(new Tada.Git.Error.UserMessage({ message: "It could not deal with the error." }));
+      repoALocalBranches.push(branchA);
+      repoBLocalBranches.push(branchB);
+
+      source = env.create('Tada.Git.Dialog.Branch.DataSource', {});
     });
   });
 
