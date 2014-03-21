@@ -1,4 +1,4 @@
-defineClass('Tada.DialogLauncher', 'Consoloid.Interpreter.DialogLauncher',
+defineClass('Tada.Usage.DialogLauncher', 'Consoloid.Interpreter.DialogLauncher',
   {
     createGoogleAnalyticsObjectAndSendFirstPageView: function()
     {

@@ -2,7 +2,7 @@ include: ../node_modules/consoloid-console/console.parameters
 console:
   welcomeMessage: ''
   launcher:
-    cls: Tada.DialogLauncher
+    cls: Tada.Usage.DialogLauncher
     googleAnalyticsAccountId: "UA-45876249-2"
     googleAnalyticsOptions:
       cookieDomain: 'none'
