@@ -25,6 +25,12 @@ defineClass('Tada.Git.Dialog.Branch.Switch', 'Tada.Git.Dialog.AbstractDialog',
       }
 
       this.get('git.repository.command.queues').getQueue(repoName).checkout(function(data){
+        if (typeof data == "string") {
+          data = {
+            err: data
+          }
+        }
+
         if (!data.err) {
           var branch = this._updateModel(repo, branchName);
           repo = this.get('git.project').getRepository(repoName);
