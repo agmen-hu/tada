@@ -17,7 +17,6 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
             type: this.__self.MESSAGE_ERROR,
           },
           branch: repository.getLocalBranches().getEntity(this.arguments.branch.value),
-          links: this.__createLinks(repository)
         });
         return;
       }
@@ -30,7 +29,6 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
 
         this._renderRepository(repoName, {
           branch: this.__createBranchEntity(repository),
-          links: this.__createLinks(repository)
         });
 
       }).bind(this), repoName, this.arguments.branch.value);
@@ -44,24 +42,6 @@ defineClass('Tada.Git.Dialog.Branch.Create', 'Tada.Git.Dialog.AbstractDialog',
       });
       branch.mention();
       return branch;
-    },
-
-    __createLinks: function(repository)
-    {
-      var result = [];
-      this.__checkForRemotes(repository).forEach((function(remote) {
-        result.push({
-          sentence: "Add upstream",
-          arguments: {
-            "upstream <value>": remote.getName(),
-            "to <value>": this.arguments.branch.value
-          },
-          referenceText: "Add upstream: " + remote.getName(),
-          autoExecute: true
-        })
-      }).bind(this));
-
-      return result;
     },
 
     __checkForRemotes: function(repository)
