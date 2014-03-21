@@ -12,7 +12,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       };
 
       throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-        message: 'Repo called ' + arguments.repo.value + ' does not have branch called ' + arguments.branch.value,
+        message: __('Repo called <repo> does not have branch called <branch>', {"<repo>": arguments.repo.value, "<branch>": arguments.branch.value}),
         arguments: ['branch', 'repo']
       });
     },
@@ -45,7 +45,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       };
 
       throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-        message: 'Repo called ' + arguments.repo.value + ' does not have local or remote branch called ' + arguments.branch.value,
+        message: __('Repo called <repo> does not have local or remote branch called <branch>', {"<repo>": arguments.repo.value, "<branch>": arguments.branch.value}),
         arguments: ['branch', 'repo']
       });
     },
@@ -65,7 +65,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       };
 
       throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-        message: 'Repo called ' + arguments.repo.value + ' does not have local branch called ' + arguments.branch.value,
+        message: __('Repo called <repo> does not have local branch called <branch>', {"<repo>": arguments.repo.value, "<branch>": arguments.branch.value}),
         arguments: ['branch', 'repo']
       });
     },
@@ -85,7 +85,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       };
 
       throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-        message: 'Repo called ' + arguments.repo.value + ' does not have remote branch called ' + arguments.branch.value,
+        message: __('Repo called <repo> does not have remote branch called <branch>', {"<repo>": arguments.repo.value, "<branch>": arguments.branch.value}),
         arguments: ['branch', 'repo']
       });
     },
@@ -100,7 +100,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
 
       if (!repoEntity.hasCurrentBranch()) {
         throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-          message: 'Repo called ' + arguments.repo.value + ' is in detached head state',
+          message: __('Repo called <repo> is in detached head state', {"<repo>": arguments.repo.value}),
           arguments: ['repo']
         });
       }
@@ -110,7 +110,7 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       };
 
       throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
-        message: 'Current branch of repo called ' + arguments.repo.value + ' does not have an upstream',
+        message: __('Current branch of repo called <repo> does not have an upstream', {"<repo>": arguments.repo.value}),
         arguments: ['repo']
       });
     }

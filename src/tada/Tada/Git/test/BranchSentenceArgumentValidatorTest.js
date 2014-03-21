@@ -25,6 +25,7 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
     };
 
   beforeEach(function() {
+    global.__ = function(text) { return text; }
     validator = env.create('Tada.Git.BranchSentenceArgumentValidator', {});
 
     var project = env.mock('Tada.Git.Entity.Project');
@@ -146,4 +147,8 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
       }).should.throwError(/detached/);
     })
   });
+
+  afterEach(function() {
+    delete global.__;
+  })
 });
