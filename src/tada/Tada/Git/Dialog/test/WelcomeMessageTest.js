@@ -15,14 +15,16 @@ describeUnitTest('Tada.Git.Dialog.WelcomeMessage', function() {
     queues;
 
   beforeEach(function() {
+    tada = { getConfig: sinon.stub().returns({}) };
+    env.addServiceMock('tada', tada);
+
+    env.addServiceMock('dialogLauncher', { createGoogleAnalyticsObjectAndSendFirstPageView: sinon.stub() });
+
     dialog = env.create('Tada.Git.Dialog.WelcomeMessage', {});
     sinon.stub(dialog.template, 'get', function(){});
     sinon.stub(dialog.responseTemplate, 'get', function(){});
     sinon.stub(dialog, '_animateDialogShowup', function(){});
     sinon.stub(dialog, '_bindEventListeners', function(){});
-
-    tada = { getConfig: sinon.stub().returns({}) };
-    env.addServiceMock('tada', tada);
 
     consoleService = { createNewDialog: sinon.stub() };
     env.addServiceMock('console', consoleService);

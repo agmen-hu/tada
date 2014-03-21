@@ -122,9 +122,16 @@ body,
 .consoloid .dialog,
 .dialogs-container {
   background-color: #002b36 !important;
-  color: #839496 !important;
   border-color: #839496;
 }
+
+body,
+.consoloid .dialog,
+.dialogs-container,
+.ui.message {
+  color: #839496 !important;
+}
+
 .ui.grid>.column {
   font-size: 15px !important;
 }
@@ -312,7 +319,8 @@ input.human-text {
 .form.segment,
 .argument.fixer.segment,
 .list-view .segment,
-.list-filter.segment {
+.list-filter.segment,
+.ui.message {
   background-color: rgba(7, 54, 66, 0.8) !important;
 }
 

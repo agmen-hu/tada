@@ -4,3 +4,14 @@
   <div style="white-space: pre"><%= this.config %></div>
 ]]>
 </script>
+
+
+<script id="Tada-Dialog-WelcomeMessage" type="text/x-jqote-template">
+<![CDATA[
+  <% if (this.showAnalyticsInfo) { %>
+    <h3><%= __("Note: Tada collects anonymous usage statistics.") %></h3>
+    <p><%= __("For more information on what Tada collects and how to disable it <tag>click here</tag>.", {"<tag>": '<a href="https://github.com/agmen-hu/tada/wiki/Usage statistics" target="_blank">', "</tag>":"</a>"}) %></p>
+  <% } %>
+  <%= this.create('Consoloid.Widget.JQoteTemplate', {id: 'Tada-Git-Dialog-ShowVersionControlSummary', container: this.container }).get().jqote(this) %>
+]]>
+</script>
