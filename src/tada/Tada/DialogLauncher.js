@@ -15,30 +15,33 @@ defineClass('Tada.DialogLauncher', 'Consoloid.Interpreter.DialogLauncher',
     __startDialog: function(options)
     {
       if (global.googleAnalytics) {
-        this.__analyticsAction('send', 'pageview', encodeURIComponent(options.sentence.getExpressions()[0].getText()));
+        var action = encodeURIComponent(options.sentence.getExpressions()[0].getText())
+        this.__analyticsAction('send', 'pageview', action);
+        this.__analyticsAction('send', 'event', 'inputSource', action, this.nextInputSource || "keyboard");
+        this.__sendNotClearEventIfNeeded(options);
 
-        if (
-            options.sentence.service == "default_ambiguousity_avoider_dialog" ||
-            options.sentence.service == "default_fallback_dialog"
-            ) {
-          this.__sendAnalyticsEvent(options);
-        }
+        this.nextInputSource = "keyboard";
       }
 
       this.__base(options);
     },
 
-    __sendAnalyticsEvent: function(options)
+    __sendNotClearEventIfNeeded: function(options)
     {
-      var
-        action = options.sentence.service.split("_")[1];
-      this.__analyticsAction(
-          'send',
-          'event',
-          'notClearSentence',
-          action,
-          action + ": " + options.arguments.text
-        );
+      if (
+          options.sentence.service == "default_ambiguousity_avoider_dialog" ||
+          options.sentence.service == "default_fallback_dialog"
+          ) {
+        var
+          action = options.sentence.service.split("_")[1];
+        this.__analyticsAction(
+            'send',
+            'event',
+            'notClearSentence',
+            action,
+            action + ": " + options.arguments.text
+          );
+      }
     },
 
     __analyticsAction: function()
@@ -47,6 +50,15 @@ defineClass('Tada.DialogLauncher', 'Consoloid.Interpreter.DialogLauncher',
         arguments: arguments,
       });
       googleAnalytics.apply(global, arguments);
+    },
+
+    setNextInputSource: function(inputSource)
+    {
+      if (["keyboard", "mic", "expression-reference"].indexOf(inputSource) == -1) {
+        throw new Error("Invalid input type f usage statistics event, inputSource=" + inputSource);
+      }
+
+      this.nextInputSource = inputSource;
     }
   }
 );
