@@ -97,6 +97,14 @@ defineClass('Tada.Git.BranchSentenceArgumentValidator', 'Consoloid.Base.Object',
       }
 
       var repoEntity = this.get('git.project').getRepository(arguments.repo.value);
+
+      if (!repoEntity.hasCurrentBranch()) {
+        throw new (getClass('Consoloid.Interpreter.InvalidArgumentsError'))({
+          message: 'Repo called ' + arguments.repo.value + ' is in detached head state',
+          arguments: ['repo']
+        });
+      }
+
       if (repoEntity.getCurrentBranch().getUpstream()) {
         return true;
       };

@@ -1,5 +1,6 @@
 require('consoloid-framework/Consoloid/Test/UnitTest');
 require('consoloid-console/Consoloid/Entity/Mentionable')
+require("consoloid-console/Consoloid/Interpreter/InvalidArgumentsError");
 require('../Entity/Project');
 require('../Entity/Repository');
 require('../Entity/Branch');
@@ -125,6 +126,7 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
 
     it('should return wheter current branch has or has not upstream', function(){
       var branch = env.mock('Tada.Git.Entity.LocalBranch');
+      env.container.get('git.project').getRepository().hasCurrentBranch.returns(true);
       env.container.get('git.project').getRepository().getCurrentBranch.returns(branch);
       (function() {
         validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}})
@@ -133,5 +135,15 @@ describeUnitTest('Tada.Git.BranchSentenceArgumentValidator', function() {
       branch.getUpstream.returns('foo');
       validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}}).should.be.true;
     });
+
+    it('should throw error referencing detached head if repository has no current branch', function() {
+      var branch = env.mock('Tada.Git.Entity.LocalBranch');
+      env.container.get('git.project').getRepository().hasCurrentBranch.returns(false);
+      env.container.get('git.project').getRepository().getCurrentBranch.throws();
+
+      (function() {
+        validator.validateRepoCurrentBranchHasUpstream({repo: {entity: 'foo'}})
+      }).should.throwError(/detached/);
+    })
   });
 });
