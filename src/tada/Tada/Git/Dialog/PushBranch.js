@@ -9,6 +9,10 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
 
     _processRepository: function(repoName)
     {
+      if (!this.__repoHasBranch(repoName)) {
+        this._renderRepository(repoName, { message: { text: "Repository does not have this branch.", type: this.__self.MESSAGE_ERROR } });
+        return;
+      }
       if (!this.__pushIsNeeded(repoName)) {
         this._renderRepository(repoName, { message: { text: "Push is not necessary.", type: this.__self.MESSAGE_ERROR } });
         return;
@@ -35,6 +39,11 @@ defineClass('Tada.Git.Dialog.PushBranch', 'Tada.Git.Dialog.AbstractDialog',
           branch: repo.getCurrentBranch()
         });
       }).bind(this), repoName, this.__getTargetRemote(repoName), this.__getTargetBranch(repoName));
+    },
+
+    __repoHasBranch: function(repoName)
+    {
+      return this.get("git.project").getRepository(repoName).getLocalBranches().hasEntity(this.__getTargetBranch(repoName));
     },
 
     __pushIsNeeded: function(repoName)

@@ -33,7 +33,8 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
             getName: sinon.stub().returns("not_origin/master")
           }),
           mention: sinon.stub()
-        })
+        }),
+        hasEntity: sinon.stub().returns(true)
       }),
       getRemoteBranches: sinon.stub().returns({
         hasEntity: sinon.stub().returns(true),
@@ -104,6 +105,16 @@ describeUnitTest('Tada.Git.Dialog.PushBranch', function() {
 
     it("should not allow push if there is no point according to the mode", function() {
       repo.getLocalBranches().getEntity().getUpstream().getLatestCommit.returns(repo.getLocalBranches().getEntity().getLatestCommit());
+
+      dialog._processRepository("tada");
+
+      queues.getQueue.calledWith("tada").should.not.be.ok;
+      dialog._renderRepository.args[0][1].message.type.should.equal(Tada.Git.Dialog.AbstractDialog.MESSAGE_ERROR);
+    });
+
+    it("should not allow push if it does not have branch named in the arguments", function() {
+      repo.getLocalBranches().getEntity.throws();
+      repo.getLocalBranches().hasEntity.returns(false);
 
       dialog._processRepository("tada");
 
