@@ -39,7 +39,8 @@ defineClass('Tada.Command.Detect', 'Consoloid.Base.Object',
           tadaRoot: this.pathModule.dirname(cwd + '/' + this.configFileHandler.getProjectPathPattern()),
           server: {
             name: this.pathModule.basename(cwd)
-          }
+          },
+          usageStatisticsEnabled: true
         });
       }
     },
