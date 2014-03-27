@@ -1,4 +1,6 @@
 include: server.parameters
+server:
+  host: false
 log:
   server:
     levelName: debug
