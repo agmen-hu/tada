@@ -18,8 +18,7 @@ defineClass('Tada.Git.Dialog.Rebase', 'Tada.Git.Dialog.AbstractDialog',
     {
       this.toUpstream = true;
       this.handleArguments(args, expression);
-      this.setup(args, expression);
-      this.render();
+      this.startWithoutExpression();
     },
 
     _processRepository: function(repoName)
