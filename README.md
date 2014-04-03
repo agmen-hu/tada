@@ -1,5 +1,5 @@
 # Introduction
-[![Travis CI Badge](https://travis-ci.org/agmen-hu/tada.png)](https://travis-ci.org/agmen-hu/tada "Travis CI") [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/agmen-hu/tada/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Travis CI Badge](https://api.travis-ci.org/agmen-hu/tada.svg?branch=master)](https://travis-ci.org/agmen-hu/tada "Travis CI") [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/agmen-hu/tada/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Tada is a git client that supports multiple git repositories simultaneously. You can fetch patches
 from all repositories, or push branches in one step.
