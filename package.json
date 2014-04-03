@@ -1,14 +1,14 @@
 {
   "name": "tada",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "dependencies": {
-    "glob": "*",
-    "js-yaml": "*",
+    "glob": "3.2.9",
+    "js-yaml": "3.0.2",
     "consoloid-framework": "*",
     "consoloid-console": "*",
     "consoloid-server": "*",
     "consoloid-os": "*",
-    "commander": "*",
+    "commander": "2.2.0",
     "gitty": "git://github.com/agmen-hu/gitty#version_3"
   },
   "description": "Modern user interface for multiple version control repository projects",
