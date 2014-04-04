@@ -29,18 +29,16 @@ defineClass('Tada.Usage.DialogLauncher', 'Consoloid.Interpreter.DialogLauncher',
     __sendNotClearEventIfNeeded: function(options)
     {
       if (
-          options.sentence.service == "default_ambiguousity_avoider_dialog" ||
-          options.sentence.service == "default_fallback_dialog"
+          options.sentence.service == this.get(this.ambiguousityAvoiderSentence).service ||
+          options.sentence.service == this.get(this.fallbackSentence).service
           ) {
-        var
-          action = options.sentence.service.split("_")[1];
         this.__analyticsAction(
-            'send',
-            'event',
-            'notClearSentence',
-            action,
-            action + ": " + options.arguments.text
-          );
+          'send',
+          'event',
+          'notClearSentence',
+          options.sentence.service,
+          options.sentence.service + ": " + options.arguments.text
+        );
       }
     },
 
