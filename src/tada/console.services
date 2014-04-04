@@ -1,0 +1,11 @@
+services:
+  speech_prompt_button:
+    cls: Tada.Usage.PromptInputButton
+    options:
+      recognizer: "@speech_recognizer"
+      prompt: "@prompt"
+      grammerFixer: "@speech_grammer_fixer"
+  sentence_reference_listener:
+    cls: Tada.Usage.ExpressionReferenceListener
+    tags: [ "console-bootstrap" ]
+    shared: true
