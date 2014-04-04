@@ -1,4 +1,4 @@
-services:
+definitions:
   speech_prompt_button:
     cls: Tada.Usage.PromptInputButton
     options:
