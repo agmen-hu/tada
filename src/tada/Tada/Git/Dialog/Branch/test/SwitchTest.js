@@ -42,6 +42,8 @@ describeUnitTest('Tada.Git.Dialog.Branch.Switch', function() {
       checkout: function(cb) { cb(checkoutResponse); }
     })});
 
+    env.addServiceMock('tada', {getConfig: sinon.stub().returns(null)});
+
     repo.branchExistsLocallyOrAtSomeRemote.returns(true);
 
     repo.getLocalBranches().hasEntity.returns(true);
